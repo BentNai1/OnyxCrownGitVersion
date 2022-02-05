@@ -350,6 +350,7 @@ MonoBehaviour:
   numPress: 0
   offset: {x: 0, y: -10, z: 4}
   capturePoint: {fileID: 0}
+  playerSocket: {fileID: 0}
   speedFromEnemy: 0
   playerCharacterController: {fileID: 6846333225365824402}
   isStruggling: 0
@@ -481,8 +482,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8107818004545071263}
-  m_LocalRotation: {x: 0.094108514, y: -0.7008164, z: 0.094108514, w: 0.7008164}
-  m_LocalPosition: {x: 10, y: 5, z: 0}
+  m_LocalRotation: {x: -0.09410854, y: 0.7008162, z: -0.094108485, w: -0.70081663}
+  m_LocalPosition: {x: 10.000003, y: 5.000001, z: -0.0000047683716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3246219231685345654}
@@ -518,7 +519,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.165725, y: 1}
+    m_SensorSize: {x: 1.1580311, y: 1}
     Iso: 200
     ShutterSpeed: 0.005
     Aperture: 16
@@ -544,7 +545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8107818005398980821}
   m_Layer: 0
-  m_Name: Player+cameras
+  m_Name: Player Rotation Folder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
