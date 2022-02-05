@@ -307,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
         playerPlusCamera.transform.RotateAround(this.transform.position, Vector3.up, rotateLeftDegreeASec * Time.deltaTime);
     }
 
-    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform, float degreesRotateTo = 0)
+    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform, float degreesRotateTo = 0, float rotateSpeed = 5)
     {
 
         //rotation
@@ -326,7 +326,7 @@ public class PlayerMovement : MonoBehaviour
 
         //rotate cincemachine camera to specified point
 
-        cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo);
+        cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo, rotateSpeed);
 
         //lock movement type until player lets off input
 

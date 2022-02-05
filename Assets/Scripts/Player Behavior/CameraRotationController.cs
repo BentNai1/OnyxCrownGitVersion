@@ -15,6 +15,11 @@ public class CameraRotationController : MonoBehaviour
 
     private float startingRotation;
 
+    private float targetRotation;
+    private float rotationSpeed;
+
+    private bool rotating;
+
     [HideInInspector]
     public float currentRotationFromOrigin;
 
@@ -35,15 +40,30 @@ public class CameraRotationController : MonoBehaviour
         print("Starting player Cinemachine rotation value: " + startingRotation);
     }
 
-    public void RotateClockwiseAmountOfDegrees(float DegreesToRotate)
+    void Update()
     {
-        orbitalTransposer.m_XAxis.Value += DegreesToRotate;
-        setPublicRotationValue();
+        if (rotating == true)
+        {
+            RotationIncrement();
+        }
     }
 
-    public void RotateClockwiseToPointFromStartRotation(float DegreesToRotateTo)
+    public void RotateClockwiseToPointFromStartRotation(float DegreesToRotateTo, float rotateSpeedMultiplier = 1)
     {
-        orbitalTransposer.m_XAxis.Value = startingRotation + DegreesToRotateTo;
+        //orbitalTransposer.m_XAxis.Value = startingRotation + DegreesToRotateTo;
+        //setPublicRotationValue();
+        if(rotateSpeedMultiplier == 0)
+        {
+            rotateSpeedMultiplier = 1;
+        }
+        targetRotation = startingRotation + DegreesToRotateTo;
+        rotationSpeed = rotateSpeedMultiplier;
+        rotating = true;
+    }
+
+    private void RotationIncrement()
+    {
+        orbitalTransposer.m_XAxis.Value = Mathf.Lerp(orbitalTransposer.m_XAxis.Value, targetRotation, rotationSpeed * Time.deltaTime);
         setPublicRotationValue();
     }
 
@@ -51,6 +71,5 @@ public class CameraRotationController : MonoBehaviour
     {
         //get rotation normalized 0-360 degrees
         currentRotationFromOrigin = ((((orbitalTransposer.m_XAxis.Value + 360) % 360)-((startingRotation + 360) % 360)) + 360) % 360;
-        print("Current rotation from origin: " + currentRotationFromOrigin);
     }
 }
