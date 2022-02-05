@@ -14,7 +14,11 @@ public class CameraRotationController : MonoBehaviour
     private CinemachineOrbitalTransposer orbitalTransposer;
 
     private float startingRotation;
-    // Start is called before the first frame update
+
+    [HideInInspector]
+    public float currentRotationFromOrigin;
+
+
     void Start()
     {
         cinemachingBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
@@ -31,19 +35,22 @@ public class CameraRotationController : MonoBehaviour
         print("Starting player Cinemachine rotation value: " + startingRotation);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void RotateClockwiseAmountOfDegrees(float DegreesToRotate)
     {
         orbitalTransposer.m_XAxis.Value += DegreesToRotate;
+        setPublicRotationValue();
     }
 
     public void RotateClockwiseToPointFromStartRotation(float DegreesToRotateTo)
     {
         orbitalTransposer.m_XAxis.Value = startingRotation + DegreesToRotateTo;
+        setPublicRotationValue();
+    }
+
+    private void setPublicRotationValue()
+    {
+        //get rotation normalized 0-360 degrees
+        currentRotationFromOrigin = ((((orbitalTransposer.m_XAxis.Value + 360) % 360)-((startingRotation + 360) % 360)) + 360) % 360;
+        print("Current rotation from origin: " + currentRotationFromOrigin);
     }
 }
