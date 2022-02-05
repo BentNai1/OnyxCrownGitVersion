@@ -203,7 +203,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualNextTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualNextTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualNextTransform, degreesRotateCameraNextWaypoint);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, nextWaypoint);
         }
     }
@@ -212,7 +212,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualPreviousTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualPreviousTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualPreviousTransform, degreesRotateCameraPreviousWaypoint);
             playerMovementScript.SetPreviousAndNextWaypoints(previousWayPoint, this.gameObject);
         }
     }
@@ -221,7 +221,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualAltUpTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualAltUpTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualAltUpTransform, degreesRotateCameraUpWaypoint);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, altWayPointUp);
         }
     }
@@ -230,7 +230,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualAltDownTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualAltDownTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualAltDownTransform, degreesRotateCameraDownWaypoint);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, altWayPointDown);
         }
     }

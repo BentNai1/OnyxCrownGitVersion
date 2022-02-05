@@ -263,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
         playerPlusCamera.transform.RotateAround(this.transform.position, Vector3.up, rotateLeftDegreeASec * Time.deltaTime);
     }
 
-    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform)
+    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform, float degreesRotateTo = 0)
     {
 
         //rotation
@@ -279,6 +279,10 @@ public class PlayerMovement : MonoBehaviour
         //update vert correction target
 
         vertCorrectionTarget = relativeWaypoint.x;
+
+        //rotate cincemachine camera to specified point
+
+        cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo);
 
     }
 

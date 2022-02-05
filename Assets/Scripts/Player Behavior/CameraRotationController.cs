@@ -13,7 +13,7 @@ public class CameraRotationController : MonoBehaviour
 
     private CinemachineOrbitalTransposer orbitalTransposer;
 
-
+    private float startingRotation;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +26,9 @@ public class CameraRotationController : MonoBehaviour
         cinemachingVirtualCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
 
         orbitalTransposer = cinemachingVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+
+        startingRotation = orbitalTransposer.m_XAxis.Value;
+        print("Starting player Cinemachine rotation value: " + startingRotation);
     }
 
     // Update is called once per frame
@@ -37,5 +40,10 @@ public class CameraRotationController : MonoBehaviour
     public void RotateClockwiseAmountOfDegrees(float DegreesToRotate)
     {
         orbitalTransposer.m_XAxis.Value += DegreesToRotate;
+    }
+
+    public void RotateClockwiseToPointFromStartRotation(float DegreesToRotateTo)
+    {
+        orbitalTransposer.m_XAxis.Value = startingRotation + DegreesToRotateTo;
     }
 }
