@@ -137,8 +137,16 @@ public class Corrupted_Script : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "LyreTrigger")
         {
+            Debug.Log("Lyre Collider Worked"); //Being read but speed is not changing
+            agent.speed = 0;
+        }
+
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("I grabbed them");
+
             PlayerMovement playerScript = other.gameObject.GetComponent<PlayerMovement>();
             playerScript.isGrabbed = true;
             
@@ -154,12 +162,8 @@ public class Corrupted_Script : MonoBehaviour
             isHoldingPlayer = true;
         }
 
-        if(other.gameObject.tag == "lyreCollider")
-        {
-            //-------------------------------------might wanna just completley imobolize them having trouble getting the speed value i want and its pretty small ~N
-            //speed = 1;
-        }
     }
+
 
     //when Corrupted is no longer colliding with lyre collider sphere
     /**void OnCollisionExit(Collision other)
