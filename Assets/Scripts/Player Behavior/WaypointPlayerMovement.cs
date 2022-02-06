@@ -11,7 +11,9 @@ public class WaypointPlayerMovement : MonoBehaviour
     [HideInInspector] public WaypointPlayerMovement nextWaypointScript;
 
     [SerializeField] private float degreesRotateCameraNextWaypoint;
+    [Tooltip ("A value of 0 defaults to 1")] [SerializeField] private float rotateSpeedNext;
     [SerializeField] private float degreesRotateCameraPreviousWaypoint;
+    [Tooltip("A value of 0 defaults to 1")] [SerializeField] private float rotateSpeedPrevious;
 
     [SerializeField] private float effectingDistance;
 
@@ -32,7 +34,9 @@ public class WaypointPlayerMovement : MonoBehaviour
     private float timer;
 
     [SerializeField] private float degreesRotateCameraUpWaypoint;
+    [Tooltip("A value of 0 defaults to 1")] [SerializeField] private float rotateSpeedUp;
     [SerializeField] private float degreesRotateCameraDownWaypoint;
+    [Tooltip("A value of 0 defaults to 1")] [SerializeField] private float rotateSpeedDown;
 
 
 
@@ -203,7 +207,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualNextTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualNextTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualNextTransform, degreesRotateCameraNextWaypoint, rotateSpeedNext);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, nextWaypoint);
         }
     }
@@ -212,7 +216,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualPreviousTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualPreviousTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualPreviousTransform, degreesRotateCameraPreviousWaypoint, rotateSpeedPrevious);
             playerMovementScript.SetPreviousAndNextWaypoints(previousWayPoint, this.gameObject);
         }
     }
@@ -221,7 +225,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualAltUpTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualAltUpTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualAltUpTransform, degreesRotateCameraUpWaypoint, rotateSpeedUp);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, altWayPointUp);
         }
     }
@@ -230,7 +234,7 @@ public class WaypointPlayerMovement : MonoBehaviour
     {
         if (virtualAltDownTransform != null)
         {
-            playerMovementScript.SetRotationAndTargetCorrection(virtualAltDownTransform);
+            playerMovementScript.SetRotationAndTargetCorrection(virtualAltDownTransform, degreesRotateCameraDownWaypoint, rotateSpeedDown);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, altWayPointDown);
         }
     }

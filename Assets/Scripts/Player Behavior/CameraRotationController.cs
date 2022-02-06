@@ -13,8 +13,17 @@ public class CameraRotationController : MonoBehaviour
 
     private CinemachineOrbitalTransposer orbitalTransposer;
 
+    private float startingRotation;
 
-    // Start is called before the first frame update
+    private float targetRotation;
+    private float rotationSpeed;
+
+    private bool rotating;
+
+    [HideInInspector]
+    public float currentRotationFromOrigin;
+
+
     void Start()
     {
         cinemachingBrain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
@@ -26,16 +35,41 @@ public class CameraRotationController : MonoBehaviour
         cinemachingVirtualCamera = gameObject.GetComponent<CinemachineVirtualCamera>();
 
         orbitalTransposer = cinemachingVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+
+        startingRotation = orbitalTransposer.m_XAxis.Value;
+        print("Starting player Cinemachine rotation value: " + startingRotation);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (rotating == true)
+        {
+            RotationIncrement();
+        }
     }
 
-    public void RotateClockwiseAmountOfDegrees(float DegreesToRotate)
+    public void RotateClockwiseToPointFromStartRotation(float DegreesToRotateTo, float rotateSpeedMultiplier = 1)
     {
-        orbitalTransposer.m_XAxis.Value += DegreesToRotate;
+        //orbitalTransposer.m_XAxis.Value = startingRotation + DegreesToRotateTo;
+        //setPublicRotationValue();
+        if(rotateSpeedMultiplier == 0)
+        {
+            rotateSpeedMultiplier = 1;
+        }
+        targetRotation = startingRotation + DegreesToRotateTo;
+        rotationSpeed = rotateSpeedMultiplier;
+        rotating = true;
+    }
+
+    private void RotationIncrement()
+    {
+        orbitalTransposer.m_XAxis.Value = Mathf.Lerp(orbitalTransposer.m_XAxis.Value, targetRotation, rotationSpeed * Time.deltaTime);
+        setPublicRotationValue();
+    }
+
+    private void setPublicRotationValue()
+    {
+        //get rotation normalized 0-360 degrees
+        currentRotationFromOrigin = ((((orbitalTransposer.m_XAxis.Value + 360) % 360)-((startingRotation + 360) % 360)) + 360) % 360;
     }
 }

@@ -49,6 +49,18 @@ public class PlayerMovement : MonoBehaviour
     private bool vertMovementWasActive = true;
     private float vertCorrectionTarget;
 
+    private float xAxisInput;
+    private float yAxisInput;
+
+    private enum inputRotationAngle
+    {
+        DownDefaultCamera, RightCamera, OpositeCamera, LeftCamera
+    }
+
+    private bool rotationEventHappened;
+
+    private inputRotationAngle lastUsedAngle;
+
     [HideInInspector]
     public bool isGrabbed;
 
@@ -102,8 +114,40 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         //..............................................Get input
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+
+        //if a rotation event happens, lock control scheme until player lets off of the input
+        if (rotationEventHappened)
+        {
+            if(Mathf.Abs(xAxisInput) >= 0.2 || Mathf.Abs(yAxisInput) >= 0.2)
+            {
+                GetInputCameraAngle(lastUsedAngle);
+            }
+            else
+            {
+                rotationEventHappened = false;
+            }
+        }
+        else
+        {
+            //input changes based on cinemachine rotation
+            if (cameraRotationController.currentRotationFromOrigin > 45 && cameraRotationController.currentRotationFromOrigin <= 135)
+            {
+                GetInputCameraAngle(inputRotationAngle.RightCamera);
+            }
+            else if (cameraRotationController.currentRotationFromOrigin > 135 && cameraRotationController.currentRotationFromOrigin <= 225)
+            {
+                GetInputCameraAngle(inputRotationAngle.OpositeCamera);
+            }
+            else if (cameraRotationController.currentRotationFromOrigin > 225 && cameraRotationController.currentRotationFromOrigin <= 315)
+            {
+                GetInputCameraAngle(inputRotationAngle.LeftCamera);
+            }
+            else
+            {
+                GetInputCameraAngle(inputRotationAngle.DownDefaultCamera);
+            }
+        }
+
         float mathY = 0f;
 
         //..............................................Vertical Movement
@@ -152,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
             //creates a location to move to relative to 
             //direction player is facing
 
-            Vector3 newLocation = transform.forward * x + transform.right * mathY * -1;
+            Vector3 newLocation = transform.forward *  xAxisInput  + transform.right * mathY * -1;
 
             Debug.DrawLine(transform.position, (newLocation*2 + transform.position), Color.cyan);
 
@@ -160,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
 
             //..............................................Rotate model
             //only rotate if movement happened
-            if (x > .01 || mathY > .01 || x < -.01 || mathY < -.01)
+            if ( xAxisInput  > .01 || mathY > .01 ||  xAxisInput  < -.01 || mathY < -.01)
             {
                 modelRotation.SetLookRotation(newLocation);
                 playerModel.rotation = modelRotation;
@@ -192,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
                 float result = Vector3.Dot(forward, toOther);
 
                 //Change player rotation if player backing up on waypoint without fully leaving
-                if (result >= 0.5 && x <= -0.1)
+                if (result >= 0.5 &&  xAxisInput  <= -0.1)
                 {
                     WaypointPlayerMovement waypointScript = backwardWaypoint.GetComponent<WaypointPlayerMovement>();
                     waypointScript.GoToBackwardRotation();
@@ -208,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
                 float result = Vector3.Dot(forward, toOther);
 
                 //Change player rotation if player backing up on waypoint without fully leaving
-                if (result <= -0.5 && x >= 0.1)
+                if (result <= -0.5 &&  xAxisInput  >= 0.1)
                 {
                     WaypointPlayerMovement waypointScript = forwardWaypoint.GetComponent<WaypointPlayerMovement>();
                     waypointScript.GoToForwardRotation();
@@ -219,14 +263,14 @@ public class PlayerMovement : MonoBehaviour
 
             //..............................................Alt Paths
             #region Alt Paths
-            if(showUpPromptUI && y > 0.2)
+            if(showUpPromptUI && yAxisInput > 0.2)
             {
                 currentActiveWaypoint.GoToAltUpRotation();
                 upPrompt.enabled = false;
                 downPrompt.enabled = false;
             }
 
-            if(showDownPromptUI && y < -0.2)
+            if(showDownPromptUI && yAxisInput < -0.2)
             {
                 currentActiveWaypoint.GoToAltDownRotation();
                 upPrompt.enabled = false;
@@ -263,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
         playerPlusCamera.transform.RotateAround(this.transform.position, Vector3.up, rotateLeftDegreeASec * Time.deltaTime);
     }
 
-    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform)
+    public void SetRotationAndTargetCorrection(Transform targetWaypointTransform, float degreesRotateTo = 0, float rotateSpeed = 5)
     {
 
         //rotation
@@ -280,6 +324,14 @@ public class PlayerMovement : MonoBehaviour
 
         vertCorrectionTarget = relativeWaypoint.x;
 
+        //rotate cincemachine camera to specified point
+
+        cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo, rotateSpeed);
+
+        //lock movement type until player lets off input
+
+        rotationEventHappened = true;
+
     }
 
     public void SetPreviousAndNextWaypoints(GameObject recievedPreviousWaypoint, GameObject recievedNextWaypoint)
@@ -287,4 +339,37 @@ public class PlayerMovement : MonoBehaviour
         backwardWaypoint = recievedPreviousWaypoint;
         forwardWaypoint = recievedNextWaypoint;
     }
+
+    #region getinputs
+
+    private void GetInputCameraAngle(inputRotationAngle cameraAngle = inputRotationAngle.DownDefaultCamera)
+    {
+        if(cameraAngle == inputRotationAngle.RightCamera)
+        {
+            yAxisInput = Input.GetAxis("Horizontal");
+            xAxisInput = Input.GetAxis("Vertical");
+            lastUsedAngle = inputRotationAngle.RightCamera;
+        }
+        if (cameraAngle == inputRotationAngle.OpositeCamera)
+        {
+            xAxisInput = Input.GetAxis("Horizontal") * -1;
+            yAxisInput = Input.GetAxis("Vertical") * -1;
+            lastUsedAngle = inputRotationAngle.OpositeCamera;
+        }
+        if (cameraAngle == inputRotationAngle.LeftCamera)
+        {
+            yAxisInput = Input.GetAxis("Horizontal") * -1;
+            xAxisInput = Input.GetAxis("Vertical") * -1;
+            lastUsedAngle = inputRotationAngle.LeftCamera;
+        }
+        if (cameraAngle == inputRotationAngle.DownDefaultCamera)
+        {
+            xAxisInput = Input.GetAxis("Horizontal");
+            yAxisInput = Input.GetAxis("Vertical");
+            lastUsedAngle = inputRotationAngle.DownDefaultCamera;
+        }
+
+    }
+
+    #endregion
 }
