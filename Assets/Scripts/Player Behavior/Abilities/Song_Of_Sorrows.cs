@@ -14,14 +14,15 @@ public class Song_Of_Sorrows : MonoBehaviour
     bool isCooling = false;
 
     [SerializeField]
-    private float manaDrain = 24;
+    private float manaDrain = 4;
 
     [SerializeField]
     private float abilityDuration = 3;
 
     [SerializeField]
-    private float coolDownDuration = 10;
+    private float coolDownDuration = 8;
 
+    //Creates sphere collider for ability
     private void Awake()
     {
         lyreBounds = Collider.GetComponent<SphereCollider>();
@@ -32,27 +33,34 @@ public class Song_Of_Sorrows : MonoBehaviour
         lyreBounds.enabled = false;
     }
 
+    
     void Update()
     {
-    
-        if (Input.GetButtonDown("Fire1") && !isCooling && GetComponent<Player_Mana>().ConsumeMana(manaDrain))
+        if (Input.GetButtonDown("Fire1") && !isCooling /**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain))**/)
         {
+            Debug.Log("Tab Pressed"); //Tested and being read
+
             lyreBounds.enabled = true;
+            Debug.Log("Sphere created"); //Tested and being read, sphere created
             Lyre();
         }
     }
 
+    //Activates Lyre Ability
     public void Lyre()
     {
+        Debug.Log("Im active!!"); //Tested and being read
+
         isCooling = true;
 
         coroutine = coolDownDelay();
         StartCoroutine(coroutine);
 
-        HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, coolDownDuration);
+        //HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, coolDownDuration);
        
     }
 
+    //Makes it so you can't just spam the ability
     private IEnumerator coolDownDelay()
     {
         yield return new WaitForSeconds(abilityDuration);
@@ -62,4 +70,5 @@ public class Song_Of_Sorrows : MonoBehaviour
        
         isCooling = false;
     }
+
 }

@@ -31,7 +31,7 @@ public class Of_The_Shadows : MonoBehaviour
 
         if (Input.GetButtonDown("Fire3") && !isCooling /**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain)**/)
         {
-            Debug.Log("TAB!");
+            Debug.Log("Left Shift Pressed!");
 
             if (/**gameObject.name.Equals ("Eggs") && **/GetComponent<Player_Health>().playerCurrentHealth > 0)
             {
