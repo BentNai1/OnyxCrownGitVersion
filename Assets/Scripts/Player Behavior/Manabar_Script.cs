@@ -9,6 +9,7 @@ public class Manabar_Script : MonoBehaviour
     private float currentMana;
     private float maxMana;
     private float displayMana;
+    [HideInInspector]
     public Player_Mana Player;
 
     private IEnumerator coroutine;
@@ -16,6 +17,8 @@ public class Manabar_Script : MonoBehaviour
 
     private void Start()
     {
+        Player = GameObject.FindWithTag("Player").GetComponent<Player_Mana>();
+
         //Find
         ManaBar = GetComponent<Image>();
         Player = FindObjectOfType<Player_Mana>();

@@ -9,16 +9,17 @@ public class Healthbar_Script : MonoBehaviour
     private float currentHealth;
     private float maxHealth;
     private float displayHealth;
+    [HideInInspector]
     public Player_Health Player;
-    public Player_Mana Mana;
     public GameOver GameOverScript;
 
     private void Start()
     {
+        Player = GameObject.FindWithTag("Player").GetComponent<Player_Health>();
+
         //Find
         HealthBar = GetComponent<Image>();
         Player = FindObjectOfType<Player_Health>();
-        Mana = FindObjectOfType<Player_Mana>();
         maxHealth = Player.playerMaxHealth;
         displayHealth = maxHealth;
         print("Player start: " + maxHealth);
