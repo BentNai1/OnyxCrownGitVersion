@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951555489}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2, y: -0.48, z: 1.71}
+  m_LocalPosition: {x: 0, y: -0.48, z: 1.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7407349947016789445}
@@ -259,11 +259,9 @@ MonoBehaviour:
   points: []
   speed: 15
   playerspeed: 100
-  timer: 0
-  sightRange: 10
-  playerInSightRange: 0
+  sightRange: 25
   attackRange: 10
-  playerInAttackRange: 0
+  grabBreakoutStun: 2
 --- !u!1001 &7414273759136475862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -289,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 178768775616676418, guid: caf6289ec4be1ea4a9865f73d2e24bc1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 178768775616676418, guid: caf6289ec4be1ea4a9865f73d2e24bc1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -297,7 +295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 178768775616676418, guid: caf6289ec4be1ea4a9865f73d2e24bc1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 178768775616676418, guid: caf6289ec4be1ea4a9865f73d2e24bc1, type: 3}
       propertyPath: m_LocalRotation.z

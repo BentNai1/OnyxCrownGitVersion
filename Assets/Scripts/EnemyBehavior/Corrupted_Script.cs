@@ -7,11 +7,11 @@ public class Corrupted_Script : MonoBehaviour
 {
     public bool isHoldingPlayer;
 
-    public NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
     public GameObject capturePoint;
     public GameObject playerSocket;
 
-    public Transform player;
+    [HideInInspector] public Transform player;
     
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -25,15 +25,18 @@ public class Corrupted_Script : MonoBehaviour
     int current;
     public float speed;
     public float playerspeed;
-    public float timer;
+
+    private float timer;
 
     //state of corrupted
 
     public float sightRange;
-    public bool playerInSightRange;
+    private bool playerInSightRange;
 
     public float attackRange;
-    public bool playerInAttackRange;
+    private bool playerInAttackRange;
+
+    [SerializeField] private float grabBreakoutStun = 3;
 
 
     void Start()
@@ -50,7 +53,7 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Update()
     {
-        //timer -= Time.deltaTime;
+        if (timer > 0)  timer -= Time.deltaTime;
 
         if (isHoldingPlayer == false)
         {
@@ -59,16 +62,17 @@ public class Corrupted_Script : MonoBehaviour
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
             if (!playerInSightRange) Patroling();
-            if (playerInSightRange && player.GetComponent<CrouchToHide_Script>().hiding == false) ChasePlayer();
+
+            //only chase player if in range, not hiding, and not stunned
+            if (playerInSightRange && player.GetComponent<CrouchToHide_Script>().hiding == false && timer <= 0) ChasePlayer();
+
             //if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
         if(isHoldingPlayer == true)
         {
-            transform.LookAt(capturePoint.transform.position + transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
-            player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
+            TakePlayerToEgg();
         }
             
         
@@ -124,42 +128,53 @@ public class Corrupted_Script : MonoBehaviour
                  walkPointSet = true;
          }
 
+        private void TakePlayerToEgg()
+        {
+            //transform.LookAt(capturePoint.transform.position + transform.position);
+            //transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
+
+            agent.SetDestination(capturePoint.transform.position - (playerSocket.transform.position - transform.position));
+
+            player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
+        }
+
          private void ChasePlayer()
          {
              agent.speed = 10;
+
              agent.SetDestination(player.position);
-             transform.LookAt(player.position + transform.position);
+             //transform.LookAt(player.position + transform.position);
          }
 
          private void AttackPlayer()
          {
          }
 
+    public void StunThisEnemy()
+    {
+        timer = grabBreakoutStun;
+        isHoldingPlayer = false;
+
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "LyreTrigger")
         {
-            Debug.Log("Lyre Collider Worked"); //Being read but speed is not changing
-            agent.speed = 0;
+            Debug.Log("Lyre Collider stunned corrupted"); //Being read but speed is not changing
+
+            StunThisEnemy();
         }
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && timer <= 0)
         {
-            Debug.Log("I grabbed them");
-
-            PlayerMovement playerScript = other.gameObject.GetComponent<PlayerMovement>();
-            playerScript.isGrabbed = true;
-            
-
             Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
-            struggleScript.isStruggling = true;
-
-
-            struggleScript.capturePoint = this.gameObject;
-            
-            struggleScript.speedFromEnemy = speed;
+ 
+            struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
 
             isHoldingPlayer = true;
+
+            Debug.Log("Corrupted grabbed the player.");
         }
 
     }
