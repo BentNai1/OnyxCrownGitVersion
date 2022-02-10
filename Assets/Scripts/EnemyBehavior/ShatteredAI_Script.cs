@@ -111,7 +111,8 @@ public class ShatteredAI_Script : MonoBehaviour
         if (playerInAttackRange && !alreadyAttacked)
         {
             //Damage
-            Player.GetComponent<Player_Health>().DealDamageToPlayer(1);
+            Player.GetComponent<Player_Health>().DealDamageToPlayer(0);
+            print("Damaged player!");
 
             if (dieOnAttack)
             {

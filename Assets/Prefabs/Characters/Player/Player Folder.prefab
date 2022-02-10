@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6666253495432045724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252278509764981971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d380afdd4ddfb3b488592e4c52751799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invis: {fileID: 5231144697092776631}
+  manaDrain: 24
+  abilityDuration: 4
 --- !u!114 &6666253495432045725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,21 +32,19 @@ MonoBehaviour:
   manaDrain: 24
   abilityDuration: 3
   coolDownDuration: 10
---- !u!114 &6666253495432045724
+--- !u!114 &3133328069764888636
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252278509764981971}
+  m_GameObject: {fileID: 3172658088797749209}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d380afdd4ddfb3b488592e4c52751799, type: 3}
+  m_Script: {fileID: 11500000, guid: d8c32a32e18067444a33ed322da19af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invis: {fileID: 5231144697092776631}
-  manaDrain: 24
-  abilityDuration: 4
+  currentRotationFromOrigin: 0
 --- !u!1 &6666253495923824570
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.3186529
+      value: 2.165725
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -262,7 +275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818005398980820, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8107818005398980821, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_RootOrder
@@ -351,6 +364,11 @@ Transform:
 --- !u!1 &9002782112242526645 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2338217706418290419, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+  m_PrefabInstance: {fileID: 6666253496219850566}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3172658088797749209 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8107818004545071263, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
   m_PrefabInstance: {fileID: 6666253496219850566}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6666253496263492915
