@@ -8,10 +8,7 @@ public class Struggle : MonoBehaviour
     public int numPress;
     public Vector3 offset = new Vector3( 20, 20, 20);
 
-    public GameObject capturePoint;
     public GameObject playerSocket;
-
-    public float speedFromEnemy;
 
     public CharacterController playerCharacterController;
 
@@ -24,6 +21,8 @@ public class Struggle : MonoBehaviour
 
     public float mash;
     public bool pressed;
+
+    private Corrupted_Script enemyHoldingPlayer;
 
     
 
@@ -48,7 +47,6 @@ public class Struggle : MonoBehaviour
 
             if(Input.GetButtonDown("Jump") && !pressed)
             {
-                mashDelay += 1f;
                 pressed = true;
                 mash += .5f;
             }
@@ -62,8 +60,18 @@ public class Struggle : MonoBehaviour
             {
                 isStruggling = false;
                 playerScript2.isGrabbed = false;
-
+                Debug.Log("Player finished struggling, can move again");
+                enemyHoldingPlayer.StunThisEnemy();
+                mash = 0;
             }
         }
+    }
+
+    public void StartStruggling (Corrupted_Script EnemyHoldingThePlayer)
+    {
+        isStruggling = true;
+        enemyHoldingPlayer = EnemyHoldingThePlayer;
+        //turn off normal player movement
+        playerScript2.isGrabbed = true;
     }
 }

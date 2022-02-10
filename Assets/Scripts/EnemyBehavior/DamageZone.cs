@@ -29,7 +29,7 @@ public class DamageZone : MonoBehaviour
             timer -= Time.deltaTime;
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         //print("Collission Detected");
         if (other.gameObject.tag == "Player" && timer <= 0)

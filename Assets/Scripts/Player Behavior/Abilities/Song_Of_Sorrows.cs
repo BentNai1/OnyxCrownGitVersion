@@ -22,6 +22,9 @@ public class Song_Of_Sorrows : MonoBehaviour
     [SerializeField]
     private float coolDownDuration = 8;
 
+    [SerializeField]
+    private float stunDuration = 3;
+
     //Creates sphere collider for ability
     private void Awake()
     {
@@ -49,7 +52,7 @@ public class Song_Of_Sorrows : MonoBehaviour
     //Activates Lyre Ability
     public void Lyre()
     {
-        Debug.Log("Im active!!"); //Tested and being read
+        Debug.Log("Lyre Active!"); //Tested and being read
 
         isCooling = true;
 

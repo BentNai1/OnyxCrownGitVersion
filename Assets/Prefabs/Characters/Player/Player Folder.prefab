@@ -32,6 +32,7 @@ MonoBehaviour:
   manaDrain: 24
   abilityDuration: 3
   coolDownDuration: 10
+  stunDuration: 3
 --- !u!114 &3133328069764888636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +91,7 @@ GameObject:
   - component: {fileID: 6666253496790827626}
   m_Layer: 0
   m_Name: LyreCollider
-  m_TagString: tagTrigger
+  m_TagString: LyreTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
