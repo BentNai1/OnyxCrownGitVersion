@@ -33,19 +33,6 @@ MonoBehaviour:
   abilityDuration: 3
   coolDownDuration: 10
   stunDuration: 3
---- !u!114 &3133328069764888636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3172658088797749209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8c32a32e18067444a33ed322da19af5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentRotationFromOrigin: 0
 --- !u!1 &6666253495923824570
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,12 +218,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.165725
+      value: 1.6994818
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -373,11 +356,6 @@ Transform:
 --- !u!1 &9002782112242526645 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2338217706418290419, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
-  m_PrefabInstance: {fileID: 6666253496219850566}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3172658088797749209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8107818004545071263, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
   m_PrefabInstance: {fileID: 6666253496219850566}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6666253496263492915
