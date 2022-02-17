@@ -320,6 +320,7 @@ MonoBehaviour:
   manaDrain: 24
   abilityDuration: 3
   coolDownDuration: 10
+  stunDuration: 3
 --- !u!114 &510828319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,9 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numPress: 0
   offset: {x: 0, y: -10, z: 4}
-  capturePoint: {fileID: 0}
   playerSocket: {fileID: 0}
-  speedFromEnemy: 0
   playerCharacterController: {fileID: 6846333225365824402}
   isStruggling: 0
   mashDelay: 0.5
@@ -468,6 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8107818004545071257}
   - component: {fileID: 8107818004545071256}
+  - component: {fileID: 5876738938166250733}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -535,6 +535,19 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 3246219231685345654}
+--- !u!114 &5876738938166250733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8107818004545071263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c32a32e18067444a33ed322da19af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRotationFromOrigin: 0
 --- !u!1 &8107818005398980820
 GameObject:
   m_ObjectHideFlags: 0
