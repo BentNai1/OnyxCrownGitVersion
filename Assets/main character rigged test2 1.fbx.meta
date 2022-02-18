@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4e7dae75dd9636a4ebdf3e9b9bc7a2be
+guid: c1719390e971fc54291579a97236c98b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -7,11 +7,17 @@ ModelImporter:
       74: 6589755540219670814
     second: Armature|Crouch
   - first:
+      74: 873266580911482080
+    second: Armature|CrouchWalk
+  - first:
       74: -8945691123924629249
     second: Armature|Idle
   - first:
       74: -4150113613677933124
     second: Armature|IdleCroush
+  - first:
+      74: 1339765689143217642
+    second: Armature|StandUp
   - first:
       74: 8349542763059015795
     second: Armature|Walk
