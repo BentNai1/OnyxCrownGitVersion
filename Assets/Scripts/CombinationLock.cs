@@ -7,7 +7,7 @@ public class CombinationLock : MonoBehaviour
     private int[] result, answer;
 
     [SerializeField]
-    public GameObject gate, combinationLock, lockCam;
+    public GameObject gate, combinationLock;
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class CombinationLock : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            lockCam.SetActive(true);
+            combinationLock.SetActive(true);
         }
     }
 
@@ -56,7 +56,7 @@ public class CombinationLock : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            lockCam.SetActive(false);
+            combinationLock.SetActive(false);
         }
     }
 
