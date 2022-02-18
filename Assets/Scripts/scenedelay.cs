@@ -9,7 +9,7 @@ public class scenedelay : MonoBehaviour
 	float secondsLeft = 0;
 	void Start()
 	{
-		StartCoroutine(DelayLoadLevel(50));
+		StartCoroutine(DelayLoadLevel(46));
 	}
 	IEnumerator DelayLoadLevel(float seconds)
 	{
