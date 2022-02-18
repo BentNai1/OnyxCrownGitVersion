@@ -6,9 +6,12 @@ public class CombinationLock : MonoBehaviour
 {
     private int[] result, answer;
 
+    [SerializeField]
+    public GameObject gate, combinationLock, lockCam;
+
     void Start()
     {
-        result = new int[] { 5, 5, 5, 5};
+        result = new int[] { 1, 1, 1, 1};
         answer = new int[] { 1, 2, 3, 4 };
         CombinationRotate.Rotated += CheckResults;
     }
@@ -37,6 +40,23 @@ public class CombinationLock : MonoBehaviour
         if (result[0] == answer[0] && result[1] == answer[1] && result[2] == answer[2] && result[3] == answer[3])
         {
             Debug.Log("Gate Opened!");
+            // gate.SetActive(false);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            lockCam.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            lockCam.SetActive(false);
         }
     }
 
