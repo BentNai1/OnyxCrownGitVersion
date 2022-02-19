@@ -12,7 +12,7 @@ public class CombinationRotate : MonoBehaviour
     private void Start()
     {
         coroutineAllowed = true;
-        numShown = 9;
+        numShown = 1;
     }
     //Gets the input of the mouse for each wheel
     private void OnMouseDown()
