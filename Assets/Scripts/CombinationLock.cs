@@ -7,15 +7,19 @@ public class CombinationLock : MonoBehaviour
     private int[] result, answer;
 
     [SerializeField]
-    public GameObject gate, combinationLock;
+    public GameObject gate, lockCam;
 
     void Start()
     {
-        result = new int[] { 1, 1, 1, 1};
+        lockCam.SetActive(false);
+
+        result = new int[] { 9, 9, 9, 9};
         answer = new int[] { 1, 2, 3, 4 };
         CombinationRotate.Rotated += CheckResults;
     }
 
+    /**Check Results will check each wheel on a switch function based on the wheel name and put it in the place holder int array "result"
+     * and then will check that against the "answer" int array.**/
     private void CheckResults(string wheelname, int number)
     {
         switch (wheelname)
@@ -44,11 +48,13 @@ public class CombinationLock : MonoBehaviour
         }
     }
 
+    /**Detecting the collision of the player with the trigger that is around the lock, which will activate the viewport on the canvas of the lock
+     * for the player to interact with**/
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            combinationLock.SetActive(true);
+            lockCam.SetActive(true);
         }
     }
 
@@ -56,7 +62,7 @@ public class CombinationLock : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            combinationLock.SetActive(false);
+            lockCam.SetActive(false);
         }
     }
 

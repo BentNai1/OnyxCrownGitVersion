@@ -12,9 +12,9 @@ public class CombinationRotate : MonoBehaviour
     private void Start()
     {
         coroutineAllowed = true;
-        numShown = 5;
+        numShown = 9;
     }
-
+    //Gets the input of the mouse for each wheel
     private void OnMouseDown()
     {
         if(coroutineAllowed)
@@ -23,6 +23,8 @@ public class CombinationRotate : MonoBehaviour
         }
     }
 
+    /**Coroutine that will rotate the wheel 30 degrees, and makes it so that the player cannot spam spin the wheel.
+     * Sends the positional value gotten from the rotation to the CombinationLock script to check the values.**/
     private IEnumerator RotateWheel()
     {
         coroutineAllowed = false;
