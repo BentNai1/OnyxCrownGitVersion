@@ -26,7 +26,7 @@ public class CombinationLock : MonoBehaviour
     {
         switch (wheelname)
         {
-            case "Wheel1":
+            case "wheel1":
                 result[0] = number;
                 break;
 
