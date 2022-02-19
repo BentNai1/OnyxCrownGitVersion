@@ -46,7 +46,7 @@ public class CombinationLock : MonoBehaviour
         if (result[0] == lockAnswer[0] && result[1] == lockAnswer[1] && result[2] == lockAnswer[2] && result[3] == lockAnswer[3])
         {
             Debug.Log("Gate Opened!");
-            // gate.SetActive(false);
+            gate.SetActive(false);
             Destroy(combLock);
         }
     }
