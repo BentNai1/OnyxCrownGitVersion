@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class CombinationLock : MonoBehaviour
 {
-    private int[] result, answer;
+    private int[] result;
 
     [SerializeField]
-    public GameObject gate, lockCam;
+    public GameObject gate, lockCam, combLock;
+    [SerializeField]
+    private int[] lockAnswer;
 
     void Start()
     {
         lockCam.SetActive(false);
 
         result = new int[] { 9, 9, 9, 9};
-        answer = new int[] { 1, 2, 3, 4 };
+        lockAnswer = new int[] { 1, 1, 1, 1};
         CombinationRotate.Rotated += CheckResults;
     }
 
@@ -41,10 +43,11 @@ public class CombinationLock : MonoBehaviour
                 break;
         }
 
-        if (result[0] == answer[0] && result[1] == answer[1] && result[2] == answer[2] && result[3] == answer[3])
+        if (result[0] == lockAnswer[0] && result[1] == lockAnswer[1] && result[2] == lockAnswer[2] && result[3] == lockAnswer[3])
         {
             Debug.Log("Gate Opened!");
             // gate.SetActive(false);
+            Destroy(combLock);
         }
     }
 
