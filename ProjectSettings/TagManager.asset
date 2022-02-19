@@ -15,6 +15,7 @@ TagManager:
   - LevelLoader
   - LyreTrigger
   - Cover
+  - Lock
   layers:
   - Default
   - TransparentFX
