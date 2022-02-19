@@ -15,7 +15,7 @@ public class CombinationRotate : MonoBehaviour
         numShown = 9;
     }
     //Gets the input of the mouse for each wheel
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         if(coroutineAllowed)
         {
