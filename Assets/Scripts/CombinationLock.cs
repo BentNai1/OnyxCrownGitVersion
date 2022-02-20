@@ -16,7 +16,7 @@ public class CombinationLock : MonoBehaviour
         lockCam.SetActive(false);
 
         result = new int[] { 9, 9, 9, 9};
-        lockAnswer = new int[] { 1, 1, 1, 1};
+        //lockAnswer = new int[] { 1, 1, 1, 1};
         CombinationRotate.Rotated += CheckResults;
     }
 
