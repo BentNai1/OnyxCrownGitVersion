@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1719390e971fc54291579a97236c98b
+guid: 2bfb03284e1a331439949d2d69e681b5
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -15,6 +15,12 @@ ModelImporter:
   - first:
       74: -4150113613677933124
     second: Armature|IdleCroush
+  - first:
+      74: 303629385622670350
+    second: Armature|Kings Spectacle
+  - first:
+      74: -5445504515496768970
+    second: Armature|LyreAbility
   - first:
       74: 1339765689143217642
     second: Armature|StandUp
