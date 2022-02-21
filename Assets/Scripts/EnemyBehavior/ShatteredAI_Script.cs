@@ -40,6 +40,8 @@ public class ShatteredAI_Script : MonoBehaviour
 
     //Attacking
     [Header("Attacking")]
+    [Tooltip("Attack damage")]
+    public float damage;
     [Tooltip("The character model that appears when attacking")]
     public GameObject selfModel;
     [HideInInspector]
@@ -111,7 +113,7 @@ public class ShatteredAI_Script : MonoBehaviour
         if (playerInAttackRange && !alreadyAttacked)
         {
             //Damage
-            Player.GetComponent<Player_Health>().DealDamageToPlayer(0);
+            Player.GetComponent<Player_Health>().DealDamageToPlayer(damage);
             print("Damaged player!");
 
             if (dieOnAttack)
