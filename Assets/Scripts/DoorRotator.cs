@@ -11,5 +11,18 @@ public class DoorRotator : MonoBehaviour
         {
             door.SetActive(false);
         }
+        // else
+        // {
+        //     door.SetActive(true);
+        // }
     }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            door.SetActive(true);
+        }
+    }
+
 }

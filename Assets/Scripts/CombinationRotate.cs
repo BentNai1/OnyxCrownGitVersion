@@ -31,7 +31,8 @@ public class CombinationRotate : MonoBehaviour
 
         for(int i = 0; i <= 11; i++)
         {
-            transform.Rotate(0f, 0f, -3f);
+            //Yess it have to be that long to keep it rotating accuratley
+            transform.Rotate(0f, 0f, -3.333333333333333f);
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -41,8 +42,9 @@ public class CombinationRotate : MonoBehaviour
 
         if(numShown > 9)
         {
-            numShown = 0;
+            numShown = 1;
         }
+        Debug.Log(numShown);
 
         Rotated(name, numShown);
     }

@@ -10,11 +10,13 @@ public class Player_Health : MonoBehaviour
     //................................................VARIABLES
     [Tooltip("Recommend 3")]
     [SerializeField] public float playerMaxHealth;
-    
+    [SerializeField] private int regenRate = 1;//how fast we regenerate health
+    private bool canRegen = false;
+
     [Tooltip("This variable can be used by outside scripts")]
     public float playerCurrentHealth;
 
-    private float privateCurrentHealth;
+    //private float playerCurrentHealth;
 
     [HideInInspector]
     public bool isFullHealth = true;
@@ -29,13 +31,17 @@ public class Player_Health : MonoBehaviour
     [SerializeField] private Image hurtImage = null;
     [SerializeField] private float hurtTimer = 0.1f;
 
+    [SerializeField] private float healCooldown = 3.0f;
+    [SerializeField] private float maxHealCooldown = 3.0f;
+    [SerializeField] private bool startCooldown = false; 
+
 
     //................................................START
     void Start()
     {
         //set healths to max on start
-        privateCurrentHealth = playerMaxHealth;
-        playerCurrentHealth = privateCurrentHealth;
+        playerCurrentHealth = playerMaxHealth;
+        playerCurrentHealth = playerCurrentHealth;
     }
 
     //DEBUG damage self
@@ -51,8 +57,36 @@ public class Player_Health : MonoBehaviour
         }
         
         //Check if full health
-        if (privateCurrentHealth == playerMaxHealth) isFullHealth = true;
+        if (playerCurrentHealth == playerMaxHealth) isFullHealth = true;
         else isFullHealth = false;
+
+        //cooldown to start regen
+        if (startCooldown)
+        {
+            healCooldown -= Time.deltaTime;
+            if (healCooldown <= 0)
+            {
+                canRegen = true;
+                startCooldown = false;
+            }
+
+        }
+                //regenerate health
+            if (canRegen)
+            {
+                if (playerCurrentHealth <= playerMaxHealth -0.01)
+                {
+                    playerCurrentHealth += Time.deltaTime * regenRate;
+                    UpdateHealth();
+                }
+                else
+                {
+                    playerCurrentHealth = playerMaxHealth;
+                    healCooldown = maxHealCooldown;
+                    canRegen = false;
+                }
+            }
+
     }
 
     //Blood splatter flashes when taking damage
@@ -86,37 +120,39 @@ public class Player_Health : MonoBehaviour
         }
 
         //deal damage if positive number
-        if(privateCurrentHealth > 0 && amount > 0)
+        if(playerCurrentHealth > 0 && amount > 0)
         {
-            privateCurrentHealth -= amount;
-            print(amount + " damage taken! Player now has " + privateCurrentHealth + " health remaining out of " + playerMaxHealth);
+            playerCurrentHealth -= amount;
+            print(amount + " damage taken! Player now has " + playerCurrentHealth + " health remaining out of " + playerMaxHealth);
 
+
+            canRegen = false;
             StartCoroutine(HurtFlash());
             UpdateHealth();
-          
-
+            healCooldown = maxHealCooldown;
+            startCooldown = true;
 
         }
 
         //heal if negative number
-        else if (privateCurrentHealth < playerMaxHealth && amount <= 0)
+        else if (playerCurrentHealth < playerMaxHealth && amount <= 0)
         {
-            if (amount < privateCurrentHealth - playerMaxHealth)
+            if (amount < playerCurrentHealth - playerMaxHealth)
             {
                 print(amount + "(inverted) is too much healing! Value reduced.");
-                amount = amount + (playerMaxHealth - privateCurrentHealth);
+                amount = amount + (playerMaxHealth - playerCurrentHealth);
             }
-            privateCurrentHealth -= amount;
-            print(amount + "(inverted) healing received! Player now has " + privateCurrentHealth + " health remaining out of " + playerMaxHealth + "(did you mean to use HealDamageOnPlayer?)");
+            playerCurrentHealth -= amount;
+            print(amount + "(inverted) healing received! Player now has " + playerCurrentHealth + " health remaining out of " + playerMaxHealth + "(did you mean to use HealDamageOnPlayer?)");
         }
 
         else
         {
-            print("Error! Cannot apply damage to player. Player has " + privateCurrentHealth + " health out of " + playerMaxHealth + ", and the value of " + amount + " cannot be applied!");
+            print("Error! Cannot apply damage to player. Player has " + playerCurrentHealth + " health out of " + playerMaxHealth + ", and the value of " + amount + " cannot be applied!");
         }
 
         //set externally accessible variable to internal variable
-        playerCurrentHealth = privateCurrentHealth;
+        //playerCurrentHealth = playerCurrentHealth;
     }
 
     //................................................HEAL FUNCTION
@@ -129,32 +165,32 @@ public class Player_Health : MonoBehaviour
         }
 
         //heal if positive number
-        if (privateCurrentHealth < playerMaxHealth && amount > 0)
+        if (playerCurrentHealth < playerMaxHealth && amount > 0)
         {
-            if(amount > playerMaxHealth-privateCurrentHealth)
+            if(amount > playerMaxHealth-playerCurrentHealth)
             {
                 print(amount + " is too much healing! Value reduced.");
-                amount = amount - (playerMaxHealth - privateCurrentHealth);
+                amount = amount - (playerMaxHealth - playerCurrentHealth);
             }
-            privateCurrentHealth += amount;
-            print(amount + " healing received! Player now has " + privateCurrentHealth + " health remaining out of " + playerMaxHealth);
+            playerCurrentHealth += amount;
+            print(amount + " healing received! Player now has " + playerCurrentHealth + " health remaining out of " + playerMaxHealth);
 
         }
 
         //damage if negative number
-        else if (privateCurrentHealth > 0 && amount <= 0)
+        else if (playerCurrentHealth > 0 && amount <= 0)
         {
-            privateCurrentHealth += amount;
-            print(amount + "(inverted) damage taken! Player now has " + privateCurrentHealth + " health remaining out of " + playerMaxHealth + "(did you mean to use DealDamageToPlayer?)");
+            playerCurrentHealth += amount;
+            print(amount + "(inverted) damage taken! Player now has " + playerCurrentHealth + " health remaining out of " + playerMaxHealth + "(did you mean to use DealDamageToPlayer?)");
         }
 
         else
         {
-            print("Error! Cannot apply healing to player. Player has " + privateCurrentHealth + " health out of " + playerMaxHealth + ", and the value of " + amount + " cannot be applied!");
+            print("Error! Cannot apply healing to player. Player has " + playerCurrentHealth + " health out of " + playerMaxHealth + ", and the value of " + amount + " cannot be applied!");
         }
 
         //set externally accessible variable to internal variable
-        playerCurrentHealth = privateCurrentHealth;
+        //playerCurrentHealth = playerCurrentHealth;
     }
 }
 
