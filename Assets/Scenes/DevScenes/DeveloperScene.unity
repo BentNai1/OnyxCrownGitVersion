@@ -231,10 +231,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 587560205688507337}
     - target: {fileID: 252278509764981961, guid: 70c6a3c19a3202043be2b40ce80e263e, type: 3}
-      propertyPath: healCooldown
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 252278509764981961, guid: 70c6a3c19a3202043be2b40ce80e263e, type: 3}
       propertyPath: playerMaxHealth
       value: 10
       objectReference: {fileID: 0}
@@ -3279,7 +3275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918472205000961100, guid: 02777642627a2aa499e604e04af9d2ed, type: 3}
       propertyPath: damage
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6918472205000961103, guid: 02777642627a2aa499e604e04af9d2ed, type: 3}
       propertyPath: m_RootOrder
@@ -3867,7 +3863,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439649120}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 857bb90f319d052469b9a8608506aaf8, type: 3}
   m_Name: 
