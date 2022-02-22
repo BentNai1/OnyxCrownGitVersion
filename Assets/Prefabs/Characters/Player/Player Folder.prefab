@@ -185,6 +185,22 @@ PrefabInstance:
       propertyPath: bloodSplatterImage
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Height
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6846333225365824403, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: moveSpeed
       value: 25
