@@ -5,9 +5,11 @@ using UnityEngine;
 public class CrouchToHide_Script : MonoBehaviour
 {
     public GameObject PlayerPivot;
-    public PlayerMovement Player;
+    public PlayerMovement playerMoveScript;
     public GameObject boxCol;
     public bool hiding;
+
+    public P_Animation playerAnimation;
 
     public bool levelCrouch;
     public bool toggleCrouch;
@@ -53,13 +55,16 @@ public class CrouchToHide_Script : MonoBehaviour
         //Update player scale to reflect 'crouching'. Replace this with animation changes.
         if (crouching)
         {
-            PlayerPivot.transform.localScale = new Vector3(1, 0.5f, 1);
-            GetComponent<PlayerMovement>().moveSpeed = playerSpeed * crouchSpeedMultiplier;
+            //PlayerPivot.transform.localScale = new Vector3(1, 0.5f, 1);
+            playerMoveScript.moveSpeed = playerSpeed * crouchSpeedMultiplier;
+
+            //animation script has a timer to turn off animation when input no longer detected
+            playerAnimation.PlayerAnimation(P_Animation.playerAnimationState.crouch);
         }
         else
         {
-            PlayerPivot.transform.localScale = Vector3.one;
-            GetComponent<PlayerMovement>().moveSpeed = playerSpeed;
+            //PlayerPivot.transform.localScale = Vector3.one;
+            playerMoveScript.moveSpeed = playerSpeed;
         }
     }
 
