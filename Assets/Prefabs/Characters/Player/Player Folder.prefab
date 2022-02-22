@@ -185,6 +185,22 @@ PrefabInstance:
       propertyPath: bloodSplatterImage
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Height
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6846333225365824402, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: m_StepOffset
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6846333225365824403, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: moveSpeed
       value: 25
@@ -231,7 +247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.1559407
+      value: 2.165725
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,23 +259,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00004863739
+      value: -0.0000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7008158
+      value: -0.70081663
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.094108395
+      value: -0.09410854
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70081705
+      value: 0.7008162
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.09410856
+      value: -0.094108485
       objectReference: {fileID: 0}
     - target: {fileID: 8107818005398980820, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Name
