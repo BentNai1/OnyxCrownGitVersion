@@ -81,6 +81,7 @@ MonoBehaviour:
   orbMax: 20
   shrinkRate: 0.5
   orbMin: 0.1
+  damage: 0
   selfModel: {fileID: 646191593991557800}
   Player: {fileID: 0}
   timeBetweenAttacks: 10
@@ -424,6 +425,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4690216786593985670, guid: e2cfda5059830294e946a54d672276c8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690216786593985670, guid: e2cfda5059830294e946a54d672276c8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
@@ -433,6 +438,14 @@ PrefabInstance:
       objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5311633817841130461, guid: e2cfda5059830294e946a54d672276c8, type: 3}
       propertyPath: UVModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311633817841130461, guid: e2cfda5059830294e946a54d672276c8, type: 3}
+      propertyPath: NoiseModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5311633817841130461, guid: e2cfda5059830294e946a54d672276c8, type: 3}
+      propertyPath: TrailModule.enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7394084895773568866, guid: e2cfda5059830294e946a54d672276c8, type: 3}
