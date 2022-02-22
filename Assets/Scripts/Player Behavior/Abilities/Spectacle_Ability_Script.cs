@@ -10,8 +10,10 @@ public class Spectacle_Ability_Script : MonoBehaviour
     bool isCooling = false;
     private IEnumerator coroutine;
 
-    [SerializeField]
-    private float manaDrain = 31;
+    //OBSOLETE
+    //[SerializeField]
+    //private float manaDrain = 31;
+
     [SerializeField]
     private float abilityDuration = 3;
     [SerializeField]
@@ -30,7 +32,7 @@ public class Spectacle_Ability_Script : MonoBehaviour
     void Update()
     {
         //Input
-        if (Input.GetButtonDown("Fire2") && !isCooling && GetComponent<Player_Mana>().ConsumeMana(manaDrain))
+        if (Input.GetButtonDown("Fire2") && !isCooling /* OBSOLETE: && GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
         {
             //Collider.GetComponent<EnemyTagger_Script>().spectacleOn = true;
             specBounds.enabled = true;
@@ -45,7 +47,7 @@ public class Spectacle_Ability_Script : MonoBehaviour
 
         isCooling = true;
         
-        coroutine = cooldownDelay();
+        coroutine = CooldownDelay();
         StartCoroutine(coroutine);
 
         //Calls to the Cooldown bar on the UI to begin animating with given durations
@@ -53,7 +55,7 @@ public class Spectacle_Ability_Script : MonoBehaviour
     }
 
     //Timing of the ability
-    private IEnumerator cooldownDelay()
+    private IEnumerator CooldownDelay()
     {
         yield return new WaitForSeconds(abilityDuration);
         //Collider.GetComponent<EnemyTagger_Script>().spectacleOn = false;
