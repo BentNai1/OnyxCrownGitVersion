@@ -52,19 +52,20 @@ public class CrouchToHide_Script : MonoBehaviour
                 hiding = false;
             }
 
-        //Update player scale to reflect 'crouching'. Replace this with animation changes.
+        //Update player scale to reflect 'crouching'.
         if (crouching)
         {
             //PlayerPivot.transform.localScale = new Vector3(1, 0.5f, 1);
             playerMoveScript.moveSpeed = playerSpeed * crouchSpeedMultiplier;
 
-            //animation script has a timer to turn off animation when input no longer detected
             playerAnimation.PlayerAnimation(P_Animation.playerAnimationState.crouch);
         }
         else
         {
             //PlayerPivot.transform.localScale = Vector3.one;
             playerMoveScript.moveSpeed = playerSpeed;
+
+            playerAnimation.PlayerAnimation(P_Animation.playerAnimationState.uncrouch);
         }
     }
 
