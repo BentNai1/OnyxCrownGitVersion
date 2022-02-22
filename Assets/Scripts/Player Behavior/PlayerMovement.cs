@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform playerModel;
     public SpriteRenderer upPrompt;
     public SpriteRenderer downPrompt;
+    public P_Animation playerAnimationScript;
 
     [Header("- Movement")]
     public float moveSpeed;
@@ -35,9 +36,11 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("The ground checker only looks at objects tagged with the 'Ground' layer (to keep it from checking itself). Any terrain you want the player to walk on should have the 'Ground' layer on them.")]
     public Transform groundCheck;
 
+    /** Jump - depreciated
     public float jumpStrength;
-
     public AudioSource JumpSound;
+    **/
+
 
     [Header("- Abilities")]
     public Dash dashScript;
@@ -208,9 +211,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 modelRotation.SetLookRotation(newLocation);
                 playerModel.rotation = modelRotation;
+
+                //play movement animation
+                playerAnimationScript.PlayerAnimation(P_Animation.playerAnimationState.walk);
+            }
+            else
+            {
+                //idle if not moving
+                playerAnimationScript.PlayerAnimation(P_Animation.playerAnimationState.idle);
             }
 
-            //..............................................Jump
+            /**..............................................Jump - depreciated
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 Jump();
@@ -218,7 +229,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     JumpSound.Play();
                 }
-            }
+            } **/
             #endregion
             //..............................................Waypoint boounds check
             #region Waypoint Bounds
@@ -297,10 +308,11 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+        /** Jump - Depreciated
     public void Jump()
     {
         fallVelocity.y = Mathf.Sqrt(jumpStrength * -2f * gravity);
-    }
+    } **/
 
     private void RotateCamera(float rotateLeftDegreeASec)
     {
