@@ -149,6 +149,14 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 709968755542070758, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: playerAnimation
+      value: 
+      objectReference: {fileID: 3876720546262356462}
+    - target: {fileID: 709968755542070758, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: playerMoveScript
+      value: 
+      objectReference: {fileID: 252278509764981973}
     - target: {fileID: 834341607497114480, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_FollowOffset.y
       value: 10
@@ -271,23 +279,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 2.165725
+      value: 2.1213872
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.000003
+      value: 19.999975
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.000001
+      value: 9.999998
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0000047683716
+      value: -0.00005531311
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.70081663
+      value: -0.70081687
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -295,11 +303,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7008162
+      value: 0.700816
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.094108485
+      value: -0.09410842
       objectReference: {fileID: 0}
     - target: {fileID: 8107818005398980820, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Name
@@ -400,6 +408,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6846333225365824404, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
   m_PrefabInstance: {fileID: 6666253496219850566}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &252278509764981973 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6846333225365824403, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+  m_PrefabInstance: {fileID: 6666253496219850566}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252278509764981971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5b04110b2277447b51305acf33f84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &252278510545614419 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6846333226129744149, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
@@ -410,6 +429,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2338217706418290419, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
   m_PrefabInstance: {fileID: 6666253496219850566}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3876720546262356462 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7588471846078432936, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+  m_PrefabInstance: {fileID: 6666253496219850566}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28fa027376929b44ca4a22b2dab64eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6666253496263492915
 PrefabInstance:
   m_ObjectHideFlags: 0
