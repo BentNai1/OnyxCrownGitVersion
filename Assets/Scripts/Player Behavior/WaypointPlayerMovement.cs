@@ -65,7 +65,7 @@ public class WaypointPlayerMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Handles.Label(transform.position, this.gameObject.name);
+        // Handles.Label(transform.position, this.gameObject.name);
 
         //get rotation of waypoint, and apply inspector-based rotation value to help with visualization
         
