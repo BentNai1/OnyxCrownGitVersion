@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEditor;
 
 public class Corrupted_Script : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class Corrupted_Script : MonoBehaviour
 
     [SerializeField] private float grabBreakoutStun = 3;
 
+
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, "ERROR, no egg targeted for return");
+    }
 
     void Start()
     {
