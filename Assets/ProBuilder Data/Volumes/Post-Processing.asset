@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa3b8214f75b354e9ba2caadd022259, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   m_AdvancedMode: 0
   quality:
     m_OverrideState: 1
@@ -197,12 +197,12 @@ MonoBehaviour:
     showEyeDropper: 1
   hueShift:
     m_OverrideState: 0
-    m_Value: 10
+    m_Value: -34
     min: -180
     max: 180
   saturation:
     m_OverrideState: 1
-    m_Value: -39
+    m_Value: 10
     min: -100
     max: 100
 --- !u!114 &2049152616140336416

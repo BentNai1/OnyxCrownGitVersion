@@ -444,7 +444,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8a32912b76a1e9489e3af9bd897d43a, type: 2}
   beforeTransparentCustomPostProcesses: []
   beforeTAACustomPostProcesses: []
-  beforePostProcessCustomPostProcesses: []
+  beforePostProcessCustomPostProcesses:
+  - ToonShadingPP, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   afterPostProcessCustomPostProcesses: []
   virtualTexturingSettings:
     streamingCpuCacheSizeInMegaBytes: 256
