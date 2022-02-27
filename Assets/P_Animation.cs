@@ -14,6 +14,10 @@ public class P_Animation : MonoBehaviour
     private bool crouchBool;
     private bool walkingBool;
 
+    [SerializeField] private float playerAnimationMultiplier = 1.0f;
+
+    private float animationSpeedFromPlayerSpeed;
+
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
@@ -33,14 +37,14 @@ public class P_Animation : MonoBehaviour
         {
             playerAnimator.SetBool("isWalking", false);
             walkingBool = false;
-            Debug.Log("IdleAnim");
+            playerAnimator.speed = 1f;
         }
         //walk
         if (anim == playerAnimationState.walk && walkingBool == false)
         {
             playerAnimator.SetBool("isWalking", true);
             walkingBool = true;
-            Debug.Log("WalkAnim");
+            playerAnimator.speed = animationSpeedFromPlayerSpeed;
         }
 
         //crouch
@@ -48,13 +52,31 @@ public class P_Animation : MonoBehaviour
         {
             playerAnimator.SetBool("isCrouching", true);
             crouchBool = true;
-            Debug.Log("CrouchAnim");
         }
         //uncrouch
         if (anim == playerAnimationState.uncrouch && crouchBool == true)
         {
             playerAnimator.SetBool("isCrouching", false );
             crouchBool = false;
+        }
+    }
+
+
+    //to change walk animation speed based on player input
+    public void changeMovementAnimSpeed(float speedInput)
+    {
+        Debug.Log(speedInput);
+
+        if (Mathf.Abs(speedInput*playerAnimationMultiplier-animationSpeedFromPlayerSpeed) >= 0.02f )
+        {
+            animationSpeedFromPlayerSpeed = speedInput;
+
+            Debug.Log("animationSpeedFromPlayerSpeed: " + animationSpeedFromPlayerSpeed);
+
+            if(walkingBool == true)
+            {
+                playerAnimator.speed = animationSpeedFromPlayerSpeed;
+            }
         }
     }
 }

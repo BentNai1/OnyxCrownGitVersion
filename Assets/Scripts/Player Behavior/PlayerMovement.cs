@@ -205,6 +205,9 @@ public class PlayerMovement : MonoBehaviour
 
             controller.Move(newLocation * moveSpeed * Time.deltaTime);
 
+            //Send animation script the current speed, so it can change the player animation walk to match
+            playerAnimationScript.changeMovementAnimSpeed(Mathf.Abs(mathY)+Mathf.Abs(xAxisInput));
+
             //..............................................Rotate model
             //only rotate if movement happened
             if ( xAxisInput  > .01 || mathY > .01 ||  xAxisInput  < -.01 || mathY < -.01)
