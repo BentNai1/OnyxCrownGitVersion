@@ -42,7 +42,10 @@ public class Corrupted_Script : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Handles.Label(transform.position, "ERROR, no egg targeted for return");
+        if (capturePoint == null)
+        {
+            Handles.Label(transform.position, "ERROR, no egg targeted for return");
+        }
     }
 
     void Start()

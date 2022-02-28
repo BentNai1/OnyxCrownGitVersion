@@ -65,13 +65,9 @@ public class P_Animation : MonoBehaviour
     //to change walk animation speed based on player input
     public void changeMovementAnimSpeed(float speedInput)
     {
-        Debug.Log(speedInput);
-
         if (Mathf.Abs(speedInput*playerAnimationMultiplier-animationSpeedFromPlayerSpeed) >= 0.02f )
         {
             animationSpeedFromPlayerSpeed = speedInput;
-
-            Debug.Log("animationSpeedFromPlayerSpeed: " + animationSpeedFromPlayerSpeed);
 
             if(walkingBool == true)
             {
