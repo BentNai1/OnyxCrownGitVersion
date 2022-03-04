@@ -38,10 +38,15 @@ public class WaypointPlayerMovement : MonoBehaviour
     [SerializeField] private float degreesRotateCameraDownWaypoint;
     [Tooltip("A value of 0 defaults to 1")] [SerializeField] private float rotateSpeedDown;
 
+    [Header("Debug")]
+    public bool printoutHiddenVariables;
+
 
 
     #endregion
 
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (nextWaypoint != null)
@@ -65,16 +70,13 @@ public class WaypointPlayerMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Handles.Label(transform.position, this.gameObject.name);
+        //Gizmo labels; may cause build problems, comment out if needed
 
-        //get rotation of waypoint, and apply inspector-based rotation value to help with visualization
-        
-        //Vector3 nextCameraPosition
-
-        //Gizmos.DrawWireSphere((Vector3.Lerp(transform.position, ), new Vector3(1, 1, 1));
+        Handles.Label(transform.position, this.gameObject.name);
 
     }
 
+#endif
 
     void Start()
     {
@@ -107,12 +109,26 @@ public class WaypointPlayerMovement : MonoBehaviour
         {
             virtualAltUpTransform.position = transform.position;
             virtualAltUpTransform.LookAt(altWayPointUp.transform.position);
+
+            //if alt waypoint has no regular prev waypoint, make this it
+            WaypointPlayerMovement upPointScript = altWayPointUp.GetComponent<WaypointPlayerMovement>();
+            if (upPointScript.previousWayPoint == null)
+            {
+                upPointScript.previousWayPoint = this.gameObject;
+            }
         }
 
         if (altWayPointDown != null)
         {
             virtualAltDownTransform.position = transform.position;
             virtualAltDownTransform.LookAt(altWayPointDown.transform.position);
+
+            //if alt waypoint has no regular prev waypoint, make this it
+            WaypointPlayerMovement downPointScript = altWayPointDown.GetComponent<WaypointPlayerMovement>();
+            if (downPointScript.previousWayPoint == null)
+            {
+                downPointScript.previousWayPoint = this.gameObject;
+            }
         }
 
         //debugging virtuals
@@ -249,6 +265,12 @@ public class WaypointPlayerMovement : MonoBehaviour
             timer -= Time.deltaTime;
         }
         #endregion
+
+        if (printoutHiddenVariables == true)
+        {
+            print(previousWayPoint.ToString() + previousWayPoint.name + "___");
+            printoutHiddenVariables = false;
+        }
     }
 
 

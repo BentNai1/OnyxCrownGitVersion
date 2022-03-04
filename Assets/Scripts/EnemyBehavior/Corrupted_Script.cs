@@ -39,7 +39,7 @@ public class Corrupted_Script : MonoBehaviour
 
     [SerializeField] private float grabBreakoutStun = 3;
 
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (capturePoint == null)
@@ -47,6 +47,7 @@ public class Corrupted_Script : MonoBehaviour
             Handles.Label(transform.position, "ERROR, no egg targeted for return");
         }
     }
+#endif
 
     void Start()
     {
