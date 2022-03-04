@@ -57,3 +57,5 @@
 # Crashlytics generated file
 **/crashlytics-build.properties
 UserSettings/EditorUserSettings.asset
+ProjectSettings/HDRPProjectSettings.asset
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
