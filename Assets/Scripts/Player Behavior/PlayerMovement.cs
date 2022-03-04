@@ -132,7 +132,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            //input changes based on cinemachine rotation
+            //Get input, but input changes based on cinemachine rotation
+
+            //decide which angle input to use
+            inputRotationAngle angleName = GetAngleDefinition(cameraRotationController.currentRotationFromOrigin);
+
+            //get input based on that found angle
+            GetInputCameraAngle(angleName);
+
+
+
+            /**
             if (cameraRotationController.currentRotationFromOrigin > 45 && cameraRotationController.currentRotationFromOrigin <= 135)
             {
                 GetInputCameraAngle(inputRotationAngle.RightCamera);
@@ -149,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 GetInputCameraAngle(inputRotationAngle.DownDefaultCamera);
             }
+            **/
         }
 
         float mathY = 0f;
@@ -343,6 +354,9 @@ public class PlayerMovement : MonoBehaviour
 
         cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo, rotateSpeed);
 
+        //calculate movement type of new camera angle and set it as the saved angle
+        lastUsedAngle = GetAngleDefinition(cameraRotationController.currentRotationFromOrigin);
+
         //lock movement type until player lets off input
 
         rotationEventHappened = true;
@@ -357,6 +371,33 @@ public class PlayerMovement : MonoBehaviour
 
     #region getinputs
 
+    //calculates which input type should be used based on the cinemachine camera angle
+    private inputRotationAngle GetAngleDefinition(float cameraRotation)
+    {
+
+        inputRotationAngle returnAngle;
+
+        if (cameraRotationController.currentRotationFromOrigin > 45 && cameraRotationController.currentRotationFromOrigin <= 135)
+        {
+            returnAngle = inputRotationAngle.RightCamera;
+        }
+        else if (cameraRotationController.currentRotationFromOrigin > 135 && cameraRotationController.currentRotationFromOrigin <= 225)
+        {
+            returnAngle = inputRotationAngle.OpositeCamera;
+        }
+        else if (cameraRotationController.currentRotationFromOrigin > 225 && cameraRotationController.currentRotationFromOrigin <= 315)
+        {
+            returnAngle = inputRotationAngle.LeftCamera;
+        }
+        else
+        {
+            returnAngle = inputRotationAngle.DownDefaultCamera;
+        }
+
+        return returnAngle;
+    }
+
+    //Get camera angle inputs from input type calculated
     private void GetInputCameraAngle(inputRotationAngle cameraAngle = inputRotationAngle.DownDefaultCamera)
     {
         if(cameraAngle == inputRotationAngle.RightCamera)
