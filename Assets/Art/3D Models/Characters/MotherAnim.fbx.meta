@@ -1,9 +1,37 @@
 fileFormatVersion: 2
-guid: b626ba4d5be6cc94abda2c535de524d1
+guid: b41ef15fefd182045b4f835b9068cb75
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
-  externalObjects: {}
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mask
+    second: {fileID: 2100000, guid: d3f76568ad0857b45a0fc5a338ef69ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MotherLow_lambert4SG1
+    second: {fileID: 2100000, guid: 3279c4ef2e1d0c948a83593e578c401a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eggShell
+    second: {fileID: 2100000, guid: 0c38d72fdbb471b48ae37223b4eaa62a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: 7f4a7527134f64e46a8a6449cfcdf55c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tail
+    second: {fileID: 2100000, guid: a8af27a75c261594ea13991fbe5fa661, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

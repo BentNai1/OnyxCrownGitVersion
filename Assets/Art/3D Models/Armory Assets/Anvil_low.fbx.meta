@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: b626ba4d5be6cc94abda2c535de524d1
+guid: 9b28b821a6c37194abaf71b103d7e24d
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AnvilMat
+    second: {fileID: 2100000, guid: 9cd4fd8d25976254198f9150c188da8f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -22,7 +27,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 1
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
