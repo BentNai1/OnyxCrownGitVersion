@@ -66,6 +66,9 @@ public class WaypointPlayerMovement : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, altWayPointDown.transform.position);
         }
+
+        if (nextWaypoint == null)
+            Gizmos.DrawIcon(transform.position, "StopIcon.png", true);
     }
 
     private void OnDrawGizmosSelected()
@@ -218,23 +221,31 @@ public class WaypointPlayerMovement : MonoBehaviour
     }
 
     //set player rotation and tell player what it's current and next waypoints are
+    //for forward/backward, check that this isn't an end of line, if it is, prevent player from going past.
     #region set rotation functions
     public void GoToForwardRotation()
     {
-        if (virtualNextTransform != null)
+        if (virtualNextTransform != null && nextWaypoint != null)
         {
             playerMovementScript.SetRotationAndTargetCorrection(virtualNextTransform, degreesRotateCameraNextWaypoint, rotateSpeedNext);
             playerMovementScript.SetPreviousAndNextWaypoints(this.gameObject, nextWaypoint);
         }
+
+        if (nextWaypoint == null)
+            playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, true);
+
     }
 
     public void GoToBackwardRotation()
     {
-        if (virtualPreviousTransform != null)
+        if (virtualPreviousTransform != null && previousWayPoint != null)
         {
             playerMovementScript.SetRotationAndTargetCorrection(virtualPreviousTransform, degreesRotateCameraPreviousWaypoint, rotateSpeedPrevious);
             playerMovementScript.SetPreviousAndNextWaypoints(previousWayPoint, this.gameObject);
         }
+
+        if (previousWayPoint == null)
+            playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.backward, true);
     }
 
     public void GoToAltUpRotation()
@@ -288,6 +299,9 @@ public class WaypointPlayerMovement : MonoBehaviour
         }
         #endregion
 
+        //if end of a line, return full player movement
+        if (nextWaypoint == null || previousWayPoint == null)
+            playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, false);
         
 
         //turn off rotating (future feature)

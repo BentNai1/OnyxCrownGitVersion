@@ -93,6 +93,14 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public float degreesRotatedFromOrigin = 0;
 
     private CameraRotationController cameraRotationController;
+
+    //used to prevent moving past waypoints at end of lines
+    public enum mainPathDirection
+    {
+        forward, backward
+    }
+    private bool disableForwardMove;
+    private bool disableBackwardMove;
     #endregion
 
     private void Start()
@@ -121,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         //if a rotation event happens, lock control scheme until player lets off of the input
         if (rotationEventHappened)
         {
-            if(Mathf.Abs(xAxisInput) >= 0.2 || Mathf.Abs(yAxisInput) >= 0.2)
+            if(Mathf.Abs(xAxisInput) >= 0.5 || Mathf.Abs(yAxisInput) >= 0.5)
             {
                 GetInputCameraAngle(lastUsedAngle);
             }
@@ -167,11 +175,13 @@ public class PlayerMovement : MonoBehaviour
         //..............................................Vertical Movement
         #region Vertical Movement
         //..............................................Get vertMove Change
+        /*
         if (Input.GetKeyDown("p"))
         {
             Debug.Log("Vertical correction changed - THIS IS A DEVELOPMENT FEATURE, NOT FOR MAIN GAME.");
             verticalMovement = !verticalMovement;
         }
+        */
 
         //..............................................Check and replace(?) vertical movement
 
@@ -207,6 +217,12 @@ public class PlayerMovement : MonoBehaviour
         //If player is not grabbed they can move, and if they are grabbed disable movement
         if (isGrabbed == false)
         {
+            //if player is at end of a line, set movement towards it to zero.
+            if (disableForwardMove && xAxisInput > 0)
+                xAxisInput = 0;
+            if (disableBackwardMove && xAxisInput < 0)
+                xAxisInput = 0;
+
             //creates a location to move to relative to 
             //direction player is facing
 
@@ -293,6 +309,10 @@ public class PlayerMovement : MonoBehaviour
                 currentActiveWaypoint.GoToAltUpRotation();
                 upPrompt.enabled = false;
                 downPrompt.enabled = false;
+
+                //Temporarily change camera angle input so player can continue pushing up to move along path
+                rotationEventHappened = true;
+                lastUsedAngle = inputRotationAngle.RightCamera;
             }
 
             if(showDownPromptUI && yAxisInput < -0.2)
@@ -300,6 +320,10 @@ public class PlayerMovement : MonoBehaviour
                 currentActiveWaypoint.GoToAltDownRotation();
                 upPrompt.enabled = false;
                 downPrompt.enabled = false;
+
+                //Temporarily change camera angle input so player can continue pushing down to move along path
+                rotationEventHappened = true;
+                lastUsedAngle = inputRotationAngle.LeftCamera;
             }
             #endregion
         }
@@ -355,7 +379,7 @@ public class PlayerMovement : MonoBehaviour
         cameraRotationController.RotateClockwiseToPointFromStartRotation(degreesRotateTo, rotateSpeed);
 
         //calculate movement type of new camera angle and set it as the saved angle
-        lastUsedAngle = GetAngleDefinition(cameraRotationController.currentRotationFromOrigin);
+        //lastUsedAngle = GetAngleDefinition(cameraRotationController.currentRotationFromOrigin);
 
         //lock movement type until player lets off input
 
@@ -363,10 +387,30 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    //waypoints tell this script where to go next
     public void SetPreviousAndNextWaypoints(GameObject recievedPreviousWaypoint, GameObject recievedNextWaypoint)
     {
         backwardWaypoint = recievedPreviousWaypoint;
         forwardWaypoint = recievedNextWaypoint;
+    }
+
+
+    //waypoints tell this script to stop moving forward if at end of line
+    public void PreventMovement(mainPathDirection direction, bool enabled)
+    {
+        if (enabled)
+        {
+            if (direction == mainPathDirection.forward)
+                disableForwardMove = true;
+
+            if (direction == mainPathDirection.backward)
+                disableBackwardMove = true;
+        }
+        else
+        {
+            disableBackwardMove = false;
+            disableForwardMove = false;
+        }    
     }
 
     #region getinputs
