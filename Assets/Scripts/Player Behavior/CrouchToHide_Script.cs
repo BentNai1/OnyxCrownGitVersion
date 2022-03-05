@@ -42,15 +42,10 @@ public class CrouchToHide_Script : MonoBehaviour
             crouching = false;
         }
         
-            if (boxCol.GetComponent<TriggerEnter>().colliding == true && crouching)
-            {
-                print("Hiding!");
-                hiding = true;
-            }
-            if (boxCol.GetComponent<TriggerEnter>().colliding == false && hiding)
-            {
-                hiding = false;
-            }
+        if (boxCol.GetComponent<TriggerEnter>().colliding == true && crouching)
+        {
+            hiding = true;
+        }
 
         //Update player scale to reflect 'crouching'.
         if (crouching)
@@ -67,6 +62,8 @@ public class CrouchToHide_Script : MonoBehaviour
 
             playerAnimation.PlayerAnimation(P_Animation.playerAnimationState.uncrouch);
         }
+
+        if (!crouching) hiding = false;
     }
 
     //If levelCrouch is true, the level can force the character to crouch
@@ -83,6 +80,12 @@ public class CrouchToHide_Script : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (hiding)
+        {
+            hiding = false;
+            print("unhiding!");
+        }
+
         if (levelCrouch == true)
         {
             if (other.tag == "crouch")

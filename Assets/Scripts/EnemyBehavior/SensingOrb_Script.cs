@@ -26,6 +26,11 @@ public class SensingOrb_Script : MonoBehaviour
         orbMax = ShatteredScript.orbMax;
         shrinkRate = ShatteredScript.shrinkRate;
         orbMin = ShatteredScript.orbMin;
+        if (Player == null)
+        {
+            print("No player!");
+            Destroy(gameObject);
+        }
     }
 
     private void Update()

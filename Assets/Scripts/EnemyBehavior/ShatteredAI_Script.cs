@@ -24,6 +24,7 @@ public class ShatteredAI_Script : MonoBehaviour
     public float sightRange;
     [Tooltip("Should be set to \"SensingOrb\"")]
     public GameObject SensingOrb;
+    
     private bool orbDispensed = false;
     [Tooltip("Time between spawning sensors while player is within range")]
     public float timeBetweenOrbs;
@@ -105,26 +106,30 @@ public class ShatteredAI_Script : MonoBehaviour
             }
             else
             {
+                print("Shattered can no longer see player (crouched)");
                 StopAttacking();
             }
         }
 
-        //Hurts player if direct contact is made
-        if (playerInAttackRange && !alreadyAttacked)
+        if (playerInAttackRange)
         {
-            //Damage
-            Player.GetComponent<Player_Health>().DealDamageToPlayer(damage);
-            print("Damaged player!");
-
-            if (dieOnAttack)
+            if (!alreadyAttacked) //Hurts player if direct contact is made
             {
-                Destroy(gameObject);
+                //Damage
+                Player.GetComponent<Player_Health>().DealDamageToPlayer(damage);
+                print("Damaged player!");
+
+                if (dieOnAttack)
+                {
+                    Destroy(gameObject);
+                }
+
+                alreadyAttacked = true;
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
             }
 
-            alreadyAttacked = true;
             activelyAttacking = false;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            walkPointSet = false;
+            ForceWalkPoint();
         }
     }
 
@@ -144,11 +149,7 @@ public class ShatteredAI_Script : MonoBehaviour
     {
         NavMeshPath path = new NavMeshPath();
 
-        //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        RandomWalkPoint();
 
         agent.CalculatePath(walkPoint, path);
 
@@ -158,20 +159,35 @@ public class ShatteredAI_Script : MonoBehaviour
         }
         else
         {
+            //print("Failed to set walk point");
             SearchWalkPoint();
         }
+    }
+
+    private void RandomWalkPoint()
+    {
+        //Calculate random point in range
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+    }
+
+    //This function is used to move the AI when it's pathfinding gets stuck (like when inside the player)
+    private void ForceWalkPoint()
+    {
+        RandomWalkPoint();
+        walkPointSet = true;
+        Invoke(nameof(SearchWalkPoint), 1);
     }
 
     private void Sensing()
     {
         if (playerInSightRange && !orbDispensed)
         {
-            Instantiate(SensingOrb, Player.transform.position + Vector3.up*3, Quaternion.identity);
+            GameObject dispencedOrb = Instantiate(SensingOrb, Player.transform.position + Vector3.up*3, Quaternion.identity);
             orbDispensed = true;
-            while (SensingOrb.GetComponent<SensingOrb_Script>().Creator != gameObject)
-            {
-                SensingOrb.GetComponent<SensingOrb_Script>().Creator = gameObject;
-            }
+            dispencedOrb.GetComponent<SensingOrb_Script>().Creator = gameObject;
             Invoke(nameof(ResetOrb), timeBetweenOrbs);
         }
     }
@@ -186,8 +202,10 @@ public class ShatteredAI_Script : MonoBehaviour
         //Show self
         selfModel.SetActive(true);
 
-        //Chase player
+        //Face player
         transform.LookAt(player);
+
+        //Chase player
         agent.SetDestination(player.position);
     }
 
@@ -206,6 +224,9 @@ public class ShatteredAI_Script : MonoBehaviour
 
         //stop moving
         agent.SetDestination(gameObject.transform.position);
+
+        //move elsewhere
+        walkPointSet = false;
     }
     
     public void OnDrawGizmosSelected()
