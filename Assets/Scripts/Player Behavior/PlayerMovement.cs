@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 rotationEventHappened = false;
+                
             }
         }
         else
@@ -309,6 +310,8 @@ public class PlayerMovement : MonoBehaviour
                 currentActiveWaypoint.GoToAltUpRotation();
                 upPrompt.enabled = false;
                 downPrompt.enabled = false;
+                showUpPromptUI = false;
+                showDownPromptUI = false;
 
                 //Temporarily change camera angle input so player can continue pushing up to move along path
                 rotationEventHappened = true;
@@ -320,6 +323,8 @@ public class PlayerMovement : MonoBehaviour
                 currentActiveWaypoint.GoToAltDownRotation();
                 upPrompt.enabled = false;
                 downPrompt.enabled = false;
+                showUpPromptUI = false;
+                showDownPromptUI = false;
 
                 //Temporarily change camera angle input so player can continue pushing down to move along path
                 rotationEventHappened = true;
@@ -384,7 +389,6 @@ public class PlayerMovement : MonoBehaviour
         //lock movement type until player lets off input
 
         rotationEventHappened = true;
-
     }
 
     //waypoints tell this script where to go next
