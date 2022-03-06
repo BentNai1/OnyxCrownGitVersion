@@ -7,6 +7,7 @@ public class ObjectiveTracker : MonoBehaviour
 {
     public Text CurrentText;
     public Text NextText;
+    public Text ObjectiveFade;
     
     public void OnTriggerEnter(Collider other)
     {
@@ -14,7 +15,8 @@ public class ObjectiveTracker : MonoBehaviour
         {
             CurrentText.gameObject.SetActive(false);
             NextText.gameObject.SetActive(true);
+            ObjectiveFade.gameObject.SetActive(true);
+            Destroy(ObjectiveFade.gameObject, 3f);
         }
     }
-
 }
