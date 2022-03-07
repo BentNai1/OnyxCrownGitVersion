@@ -11,12 +11,16 @@ public class ShatteredAI_Script : MonoBehaviour
 
     public LayerMask whatIsPlayer;
 
-    //Patrolling
+    //Pathing
     private Vector3 walkPoint;
     bool walkPointSet;
     [Header("Movement")]
     [Tooltip("Distance to move before changing direction")]
     public float walkPointRange;
+    [Tooltip("Time to pause before changing direction.")]
+    public float waitTime = 1f;
+    private bool forcingPath = false;
+    private bool pathCalled = true;
 
     //Sensing
     [Header("Sensing")]
@@ -64,7 +68,7 @@ public class ShatteredAI_Script : MonoBehaviour
     public float attackRange;
     [HideInInspector]
     public bool playerInSightRange, playerInAttackRange;
-    
+
     private void Start()
     {
         Player = GameObject.FindWithTag("Player");
@@ -88,6 +92,7 @@ public class ShatteredAI_Script : MonoBehaviour
         else if (playerInSightRange)
         {
             dormant = false;
+            SearchWalkPoint();
         }
 
         //Attempt to attack player
@@ -129,20 +134,39 @@ public class ShatteredAI_Script : MonoBehaviour
             }
 
             activelyAttacking = false;
-            ForceWalkPoint();
+
+            forcingPath = true;
         }
     }
 
     private void Patrolling()
     {
-        if (walkPointSet) agent.SetDestination(walkPoint);
-        else SearchWalkPoint();
+        if (walkPointSet)
+        {
+            agent.SetDestination(walkPoint);
 
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+            //Walkpoint reached
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+            if (distanceToWalkPoint.magnitude < 0.5f)
+            {
+                StopMoving();
+            }
+        }
+        else
+        {
+            StopMoving();
+        }
+    }
 
-        //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
+    private void StopMoving()
+    {
+        walkPointSet = false;
+        agent.SetDestination(gameObject.transform.position);
+        if (!pathCalled)
+        {
+            pathCalled = true;
+            SearchWalkPoint();
+        }
     }
 
     private void SearchWalkPoint()
@@ -156,11 +180,11 @@ public class ShatteredAI_Script : MonoBehaviour
         if (path.status == NavMeshPathStatus.PathComplete)
         {
             walkPointSet = true;
+            pathCalled = false;
         }
         else
         {
-            //print("Failed to set walk point");
-            SearchWalkPoint();
+            Invoke(nameof(SearchWalkPoint), waitTime);
         }
     }
 
@@ -176,9 +200,9 @@ public class ShatteredAI_Script : MonoBehaviour
     //This function is used to move the AI when it's pathfinding gets stuck (like when inside the player)
     private void ForceWalkPoint()
     {
+        forcingPath = true;
         RandomWalkPoint();
         walkPointSet = true;
-        Invoke(nameof(SearchWalkPoint), 1);
     }
 
     private void Sensing()
@@ -224,9 +248,6 @@ public class ShatteredAI_Script : MonoBehaviour
 
         //stop moving
         agent.SetDestination(gameObject.transform.position);
-
-        //move elsewhere
-        walkPointSet = false;
     }
     
     public void OnDrawGizmosSelected()

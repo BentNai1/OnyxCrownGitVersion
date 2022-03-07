@@ -62,3 +62,5 @@ ProjectSettings/Packages/com.unity.probuilder/Settings.json
 ProjectSettings/Packages/com.unity.probuilder/Settings.json
 UserSettings/EditorUserSettings.asset
 ProjectSettings/HDRPProjectSettings.asset
+ProjectSettings/QualitySettings.asset
+Assets/Scripts/Player Behavior/TriggerEnter.cs

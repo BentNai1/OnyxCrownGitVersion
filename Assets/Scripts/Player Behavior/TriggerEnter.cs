@@ -11,16 +11,14 @@ public class TriggerEnter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        /*
-        if (other.tag != "Player")
+        if (other.tag == "Cover")
         {
-            if (other.tag != "enemy")
-            {
-                print(gameObject.name + " collided with " + other.name);
-                colliding = true;
-            }
+            colliding = true;
         }
-        */
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
         if (other.tag == "Cover")
         {
             colliding = true;
@@ -29,17 +27,9 @@ public class TriggerEnter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        /*
-        if (other.name != "Player")
-        {
-            if (other.tag != "enemy")
-            {
-                colliding = false;
-            }
-        }
-        */
         if (other.tag == "Cover")
         {
+            print("Stopped colliding");
             colliding = false;
         }
     }

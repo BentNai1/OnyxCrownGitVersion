@@ -4,25 +4,37 @@ using UnityEngine;
 
 public class AbilitySelector_Script : MonoBehaviour
 {
-    public int abilityNum;
+    //UI
+    public GameObject CooldownUI;
+    public GameObject SelectorUI;
 
-    public GameObject CooldownHUD;
-    
+    //Ability Scripts
+    public Of_The_Shadows Cloak;
+    public Spectacle_Ability_Script Spectacle;
+    public Song_Of_Sorrows Lyre;
+
+    //Variables
+    private int abilityNum;
+
     void Start()
     {
+        Cloak = gameObject.GetComponent<Of_The_Shadows>();
+        Spectacle = gameObject.GetComponent<Spectacle_Ability_Script>();
+        Lyre = gameObject.GetComponent<Song_Of_Sorrows>();
+
         abilityNum = 0;
     }
     
     void Update()
     {
-        if (Input.GetButtonDown("Selection Next"))
+        if (Input.GetKeyDown("e"))
         {
             Cycle();
         }
 
         if (Input.GetButtonDown("Fire2"))
         {
-
+            Activate();
         }
     }
 
@@ -34,16 +46,40 @@ public class AbilitySelector_Script : MonoBehaviour
                 case 0:
                     print("Cloak ability selected");
                     break;
+
                 case 1:
                     print("Spectacle ability selected");
                     break;
+
                 case 2:
                     print("Lyre ability selected");
                     break;
+
                 case 3:
                     abilityNum = 0;
                     print("Cloak ability selected");
                     break;
             }
+    }
+
+    private void Activate()
+    {
+        switch (abilityNum)
+        {
+            case 0:
+                Cloak.Activate();
+                print("Cloak ability activated");
+                break;
+
+            case 1:
+                Spectacle.Activate();
+                print("Spectacle ability activated");
+                break;
+
+            case 2:
+                Lyre.Activate();
+                print("Lyre ability activated");
+                break;
+        }
     }
 }

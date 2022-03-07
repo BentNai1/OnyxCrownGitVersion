@@ -32,9 +32,16 @@ public class Spectacle_Ability_Script : MonoBehaviour
     void Update()
     {
         //Input
-        if (Input.GetButtonDown("Fire2") && !isCooling /* OBSOLETE: && GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
+        if (Input.GetButtonDown("Fire2") /* OBSOLETE: && GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
         {
-            //Collider.GetComponent<EnemyTagger_Script>().spectacleOn = true;
+            Activate();
+        }
+    }
+
+    public void Activate()
+    {
+        if (!isCooling)
+        {
             specBounds.enabled = true;
             print("Activated spectacle");
             Spectacle();

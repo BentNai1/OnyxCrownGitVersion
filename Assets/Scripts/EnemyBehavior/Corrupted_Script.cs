@@ -13,7 +13,8 @@ public class Corrupted_Script : MonoBehaviour
     public GameObject playerSocket;
 
     [HideInInspector] public Transform player;
-    
+    [HideInInspector] public CrouchToHide_Script playerHide;
+
     public LayerMask whatIsGround, whatIsPlayer;
 
     //corrupted patrolling code
@@ -37,6 +38,8 @@ public class Corrupted_Script : MonoBehaviour
     public float attackRange;
     private bool playerInAttackRange;
 
+    private bool chasing;
+
     [SerializeField] private float grabBreakoutStun = 3;
 
 #if UNITY_EDITOR
@@ -58,6 +61,7 @@ public class Corrupted_Script : MonoBehaviour
     private void Awake()
     {
          player = GameObject.Find("Player").transform;
+        playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
          agent = GetComponent<NavMeshAgent>();
     }
 
@@ -74,7 +78,11 @@ public class Corrupted_Script : MonoBehaviour
             if (!playerInSightRange) Patroling();
 
             //only chase player if in range, not hiding, and not stunned
-            if (playerInSightRange && player.GetComponent<CrouchToHide_Script>().hiding == false && timer <= 0) ChasePlayer();
+            if (playerInSightRange && playerHide.hiding == false && timer <= 0) ChasePlayer();
+            if (chasing && playerHide.hiding)
+            {
+                StopMoving();
+            }
 
             //if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
@@ -150,11 +158,19 @@ public class Corrupted_Script : MonoBehaviour
 
          private void ChasePlayer()
          {
+            chasing = true;
+
              agent.speed = 10;
 
              agent.SetDestination(player.position);
              //transform.LookAt(player.position + transform.position);
          }
+
+        private void StopMoving()
+        {
+            chasing = false;
+            agent.SetDestination(gameObject.transform.position);
+        }
 
          private void AttackPlayer()
          {
@@ -187,6 +203,16 @@ public class Corrupted_Script : MonoBehaviour
             Debug.Log("Corrupted grabbed the player.");
         }
 
+    }
+
+    public void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(walkPoint, 1);
     }
 
 

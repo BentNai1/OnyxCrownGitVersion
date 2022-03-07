@@ -28,11 +28,17 @@ public class Of_The_Shadows : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.GetButtonDown("Fire3") && !isCooling /**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain)**/)
+        if (Input.GetButtonDown("Fire3")/*&& GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
         {
             Debug.Log("Left Shift Pressed!");
+            Activate();
+        }
+    }
 
+    public void Activate()
+    {
+        if (!isCooling)
+        {
             if (/**gameObject.name.Equals ("Eggs") && **/GetComponent<Player_Health>().playerCurrentHealth > 0)
             {
                 Debug.Log("Calling Invincible");
