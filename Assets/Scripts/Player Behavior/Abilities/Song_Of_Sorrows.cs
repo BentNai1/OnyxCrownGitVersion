@@ -39,10 +39,17 @@ public class Song_Of_Sorrows : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !isCooling /**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain))**/)
+        if (Input.GetButtonDown("Fire1")/**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain))**/)
         {
             Debug.Log("Tab Pressed"); //Tested and being read
+            Activate();
+        }
+    }
 
+    public void Activate()
+    {
+        if (!isCooling)
+        {
             lyreBounds.enabled = true;
             Debug.Log("Sphere created"); //Tested and being read, sphere created
             Lyre();

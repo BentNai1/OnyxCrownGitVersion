@@ -7,11 +7,11 @@ public class CrouchToHide_Script : MonoBehaviour
     public GameObject PlayerPivot;
     public PlayerMovement playerMoveScript;
     public GameObject boxCol;
-    public bool hiding;
+    public bool hiding = false;
+    private bool hideDebug = false;
 
     public P_Animation playerAnimation;
-
-    public bool levelCrouch;
+    
     public bool toggleCrouch;
     private bool crouching;
     private float playerSpeed;
@@ -25,29 +25,28 @@ public class CrouchToHide_Script : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Crouch"))
+        //Get collision status from boxCol
+        if (boxCol.GetComponent<TriggerEnter>().colliding == true)
         {
-            if (toggleCrouch)
+            if (Input.GetButtonDown("Crouch"))
             {
                 crouching = !crouching;
             }
+            if (crouching)
+            {
+                hiding = true;
+            }
             else
             {
-                crouching = true;
+                hiding = false;
             }
         }
-
-        if (Input.GetButtonUp("Crouch") && !toggleCrouch)
+        else
         {
             crouching = false;
         }
-        
-        if (boxCol.GetComponent<TriggerEnter>().colliding == true && crouching)
-        {
-            hiding = true;
-        }
 
-        //Update player scale to reflect 'crouching'.
+        //Animation & speed
         if (crouching)
         {
             //PlayerPivot.transform.localScale = new Vector3(1, 0.5f, 1);
@@ -61,37 +60,22 @@ public class CrouchToHide_Script : MonoBehaviour
             playerMoveScript.moveSpeed = playerSpeed;
 
             playerAnimation.PlayerAnimation(P_Animation.playerAnimationState.uncrouch);
-        }
 
-        if (!crouching) hiding = false;
-    }
-
-    //If levelCrouch is true, the level can force the character to crouch
-    private void OnTriggerEnter(Collider other)
-    {
-        if (levelCrouch)
-        {
-            if (other.tag == "crouch")
-            {
-                crouching = true;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (hiding)
-        {
             hiding = false;
-            print("unhiding!");
         }
 
-        if (levelCrouch == true)
+        //DEBUG HIDING MESSAGES
+        if (hideDebug != hiding)
         {
-            if (other.tag == "crouch")
+            if (hiding)
             {
-                crouching = false;
+                print("Hidden");
             }
+            else
+            {
+                print("Exposed");
+            }
+            hideDebug = hiding;
         }
     }
 }

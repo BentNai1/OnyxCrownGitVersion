@@ -31,6 +31,10 @@ public class SensingOrb_Script : MonoBehaviour
             print("No player!");
             Destroy(gameObject);
         }
+        if (Player.GetComponent<CrouchToHide_Script>().hiding)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
