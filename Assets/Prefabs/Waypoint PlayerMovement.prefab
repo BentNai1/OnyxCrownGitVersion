@@ -81,15 +81,22 @@ MonoBehaviour:
   previousWayPoint: {fileID: 0}
   nextWaypoint: {fileID: 0}
   nextWaypointScript: {fileID: 0}
+  degreesRotateCameraNextWaypoint: 0
+  rotateSpeedNext: 0
+  degreesRotateCameraPreviousWaypoint: 0
+  rotateSpeedPrevious: 0
   effectingDistance: 0
   virtualNextTransform: {fileID: 4862239826729590460}
   virtualPreviousTransform: {fileID: 6993630733949371912}
   virtualAltUpTransform: {fileID: 5489356371670308307}
   virtualAltDownTransform: {fileID: 1649827076948354149}
   altWayPointUp: {fileID: 0}
-  doNotRotateCameraForUpPath: 0
   altWayPointDown: {fileID: 0}
-  doNotRotateCameraForDownPath: 0
+  degreesRotateCameraUpWaypoint: 0
+  rotateSpeedUp: 0
+  degreesRotateCameraDownWaypoint: 0
+  rotateSpeedDown: 0
+  printoutHiddenVariables: 0
 --- !u!135 &2132094953306397231
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -101,7 +108,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.41022858
+  m_Radius: 2
   m_Center: {x: 0.12504008, y: 0, z: 0.06661844}
 --- !u!1 &3055101316365121952
 GameObject:
