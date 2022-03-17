@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
 
     public GameObject settingsMenuUI;
+    public GameObject controlsMenuUI;
     public GameObject ResumeButton;
     public GameObject SettingsButton;
     public GameObject ControlsButton;
@@ -35,6 +36,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(false);
+        controlsMenuUI.SetActive(false);
         Lyre.SetActive(true);
         Cloak.SetActive(true);
         Glasses.SetActive(true);
@@ -49,6 +51,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         settingsMenuUI.SetActive(false);
+        controlsMenuUI.SetActive(false);
         ResumeButton.SetActive(true);
         SettingsButton.SetActive(true);
         ControlsButton.SetActive(true);
