@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class MotherBrain : MonoBehaviour
 {
@@ -19,14 +20,22 @@ public class MotherBrain : MonoBehaviour
     public float maxPauseDuration = 1;
     private float pauseDuration;
 
-    [Header ("Dice odds. Rand 0-x, 0-9 triggers")]
+    [Header ("x/100 to trigger")]
 
     private int successRange = 9;
     public int altPathPause = 1;
     public int noAltPathPause = 1;
     public int goAltPath = 1;
     public int goBack = 1;
-    
+    private string debugText = "Mother";
+
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        Handles.Label((transform.position + Vector3.up * 10), debugText);
+    }
+
+#endif
 
     // Start is called before the first frame update
     void Start()
@@ -70,19 +79,21 @@ public class MotherBrain : MonoBehaviour
     private bool PauseCheck()
     {
         //Check if alt paths are available, roll different odds
+
         if (activeWaypointScript.virtualAltUpTransform != null || activeWaypointScript.virtualAltDownTransform != null)
         {
-            diceVariable = Random.Range(0, altPathPause);
+            if (Random.Range(1, 100) <= altPathPause)
+                return true;
+            else
+                return false;
         }
         else
         {
-            diceVariable = Random.Range(0, noAltPathPause);
+            if (Random.Range(1, 100) <= noAltPathPause)
+                return true;
+            else
+                return false;
         }
-
-        if (diceVariable <= successRange)
-            return true;
-        else
-            return false;
     }
 
 
@@ -90,7 +101,8 @@ public class MotherBrain : MonoBehaviour
     private void PauseMovement()
     {
         pauseDuration = Random.Range(minPauseDuration, maxPauseDuration);
-    }
+        debugText = "Pausing...";
+}
 
 
     //Decide if using alt paths, passes to WaypointCheck2 if not
@@ -99,20 +111,32 @@ public class MotherBrain : MonoBehaviour
         //Check if alt paths are available, rand decide if using
         if (activeWaypointScript.altWayPointUp != null || activeWaypointScript.altWayPointDown != null)
         {
-            if (Random.Range(0, goAltPath) >= successRange)
+            if (Random.Range(1, 100) <= goAltPath)
             {
                 //if both available, 50/50, else default to whichever is available
                 if (activeWaypointScript.altWayPointUp != null && activeWaypointScript.altWayPointDown != null)
                 {
-                    if (Random.Range(0, 19) >= successRange)
+                    if (Random.Range(0, 1) <= 1)
+                    { 
                         SetNextPoint(activeWaypointScript.altWayPointUp);
+                        debugText = "Up waypoint, " + nextWaypoint.name;
+                    }
                     else
+                    { 
                         SetNextPoint(activeWaypointScript.altWayPointDown);
+                        debugText = "Down waypoint, " + nextWaypoint.name;
+                    }
                 }
                 else if (activeWaypointScript.virtualAltUpTransform != null)
+                { 
                     SetNextPoint(activeWaypointScript.altWayPointUp);
+                    debugText = "Up waypoint, " + nextWaypoint.name;
+                }
                 else
+                { 
                     SetNextPoint(activeWaypointScript.altWayPointDown);
+                    debugText = "Down waypoint, " + nextWaypoint.name;
+                }
             }
 
             //go on to part 2 if fails to use alt paths
@@ -128,16 +152,29 @@ public class MotherBrain : MonoBehaviour
     {
         //check if both waypoints are valid, rand decide which
         if (activeWaypointScript.nextWaypoint != null && activeWaypointScript.previousWayPoint != null)
-            if (Random.Range(0, goBack) >= successRange)
+            if (Random.Range(1, 100) <= goBack)
+            { 
                 SetNextPoint(activeWaypointScript.previousWayPoint);
+                debugText = "Previous waypoint, " + nextWaypoint.name; 
+            }
+
             else
+            { 
                 SetNextPoint(activeWaypointScript.nextWaypoint);
+                debugText = "Next waypoint, " + nextWaypoint.name;
+            }
 
         //otherwise, use whichever direction is available.
         else if (activeWaypointScript.nextWaypoint != null)
+        { 
             SetNextPoint(activeWaypointScript.nextWaypoint);
+            debugText = "Next waypoint, " + nextWaypoint.name;
+        }
         else if (activeWaypointScript.previousWayPoint != null)
+        { 
             SetNextPoint(activeWaypointScript.previousWayPoint);
+            debugText = "Previous waypoint, " + nextWaypoint.name;
+        }
 
         //if there is somehow neither, go back to try and hit an alt path. This should NEVER happen, but who knows?
         else
@@ -151,5 +188,7 @@ public class MotherBrain : MonoBehaviour
         previousWaypoint = activeWaypoint;
         nextWaypoint = Waypoint;
         motherMoverScript.SetMoveDestination(nextWaypoint);
+
+        
     }
 }
