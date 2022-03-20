@@ -7,7 +7,7 @@ public class WaypointPlayerMovement : MonoBehaviour
 {
     #region Variables
     [HideInInspector] public GameObject previousWayPoint;
-    [SerializeField] private GameObject nextWaypoint;
+    public GameObject nextWaypoint;
     [HideInInspector] public WaypointPlayerMovement nextWaypointScript;
 
     [SerializeField] private float degreesRotateCameraNextWaypoint;
@@ -28,8 +28,8 @@ public class WaypointPlayerMovement : MonoBehaviour
     private bool playerInTriggerVolume;
 
     [Header ("Alternative Routes")]
-    [SerializeField] private GameObject altWayPointUp;
-    [SerializeField] private GameObject altWayPointDown;
+    public GameObject altWayPointUp;
+    public GameObject altWayPointDown;
     private bool isStartingDownSidePath;
     private float timer;
 
