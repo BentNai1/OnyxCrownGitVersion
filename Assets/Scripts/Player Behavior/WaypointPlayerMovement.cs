@@ -299,13 +299,13 @@ public class WaypointPlayerMovement : MonoBehaviour
             {
                 timer = 0.5f;
             }
-        }
-        #endregion
 
-        //if end of a line, return full player movement
-        if (nextWaypoint == null || previousWayPoint == null)
-            playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, false);
-        
+            #endregion
+
+            //if end of a line, return full player movement
+            if (nextWaypoint == null || previousWayPoint == null)
+                playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, false);
+        }
 
         //turn off rotating (future feature)
         //PassNewVertCorrection(other); (future feature)

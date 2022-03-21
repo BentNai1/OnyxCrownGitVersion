@@ -12,7 +12,7 @@ public class MotherBrain : MonoBehaviour
     private WaypointPlayerMovement activeWaypointScript;
     private MotherMover motherMoverScript;
 
-    private bool patrollingForward;
+    private bool patrollingForward = true;
     private int diceVariable;
 
     [Header ("   ")]
@@ -117,25 +117,25 @@ public class MotherBrain : MonoBehaviour
                 if (activeWaypointScript.altWayPointUp != null && activeWaypointScript.altWayPointDown != null)
                 {
                     if (Random.Range(0, 1) <= 1)
-                    { 
-                        SetNextPoint(activeWaypointScript.altWayPointUp);
+                    {
                         debugText = "Up waypoint, " + nextWaypoint.name;
+                        SetNextPoint(activeWaypointScript.altWayPointUp);
                     }
                     else
-                    { 
-                        SetNextPoint(activeWaypointScript.altWayPointDown);
+                    {
                         debugText = "Down waypoint, " + nextWaypoint.name;
+                        SetNextPoint(activeWaypointScript.altWayPointDown);
                     }
                 }
                 else if (activeWaypointScript.virtualAltUpTransform != null)
-                { 
-                    SetNextPoint(activeWaypointScript.altWayPointUp);
+                {
                     debugText = "Up waypoint, " + nextWaypoint.name;
+                    SetNextPoint(activeWaypointScript.altWayPointUp);
                 }
                 else
-                { 
-                    SetNextPoint(activeWaypointScript.altWayPointDown);
+                {
                     debugText = "Down waypoint, " + nextWaypoint.name;
+                    SetNextPoint(activeWaypointScript.altWayPointDown);
                 }
             }
 
@@ -153,14 +153,28 @@ public class MotherBrain : MonoBehaviour
         //check if both waypoints are valid, rand decide which
         if (activeWaypointScript.nextWaypoint != null && activeWaypointScript.previousWayPoint != null)
             if (Random.Range(1, 100) <= goBack)
-            { 
-                SetNextPoint(activeWaypointScript.previousWayPoint);
+            {
+                //Rand back, 'patrollingForward' inverts which path
+                if (patrollingForward)
+                {
+                    SetNextPoint(activeWaypointScript.previousWayPoint);
+                    patrollingForward = false;
+                }
+                else
+                {
+                    SetNextPoint(activeWaypointScript.nextWaypoint);
+                    patrollingForward = true;
+                }
                 debugText = "Previous waypoint, " + nextWaypoint.name; 
             }
 
             else
-            { 
-                SetNextPoint(activeWaypointScript.nextWaypoint);
+            {
+                //Rand foward, 'patrollingForward' inverts which path
+                if (patrollingForward)
+                    SetNextPoint(activeWaypointScript.nextWaypoint);
+                else
+                    SetNextPoint(activeWaypointScript.previousWayPoint);
                 debugText = "Next waypoint, " + nextWaypoint.name;
             }
 
@@ -169,11 +183,13 @@ public class MotherBrain : MonoBehaviour
         { 
             SetNextPoint(activeWaypointScript.nextWaypoint);
             debugText = "Next waypoint, " + nextWaypoint.name;
+            patrollingForward = false;
         }
         else if (activeWaypointScript.previousWayPoint != null)
         { 
             SetNextPoint(activeWaypointScript.previousWayPoint);
             debugText = "Previous waypoint, " + nextWaypoint.name;
+            patrollingForward = true;
         }
 
         //if there is somehow neither, go back to try and hit an alt path. This should NEVER happen, but who knows?
@@ -197,5 +213,6 @@ public class MotherBrain : MonoBehaviour
         previousWaypoint = tempWaypoint;
         motherMoverScript.SetMoveDestination(nextWaypoint);
         debugText = "Stuck, turning around to " + nextWaypoint.name;
+        patrollingForward = !patrollingForward;
     }
 }
