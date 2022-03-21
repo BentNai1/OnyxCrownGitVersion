@@ -16,8 +16,19 @@ public class MotherMover : MonoBehaviour
     private Vector3 moveDirection;
     [Tooltip ("AI will turn towards target if outside of this threshhold")]
     public float faceAngleThreshhold = 1;
-    public float rotateSpeed = 1;
+    public float rotateSlowdown = 1;
     private float targetRotationDegree;
+    private float previousFrameRotationDegree;
+    private float rotationInverterValue = 1;
+
+    [Header ("Unstuck")]
+    public float minimumMovementThreshhold = 1;
+    [Tooltip("Number of frames AI can move less than threshhold before turning around")]
+    public int minMoveInfractionLimit = 1;
+    private int minMoveInfractionCount;
+    private Vector3 lastFramePosition;
+    
+
 
     void Start()
     {
@@ -25,6 +36,8 @@ public class MotherMover : MonoBehaviour
         motherAIAndModelCC = this.gameObject.GetComponentInParent<CharacterController>();
         motherBrainScript = gameObject.GetComponent<MotherBrain>();
         motherRotater = this.gameObject.GetComponentInParent<MotherRotate>();
+
+        lastFramePosition = motherAIAndModel.position;
     }
 
 
@@ -44,10 +57,13 @@ public class MotherMover : MonoBehaviour
             else
             {
                 MoveToTarget();
+                CheckMovingForward();
             }
-
-            }
+        }
     }
+
+
+
 
     public void SetMoveDestination(GameObject destination)
     {
@@ -81,18 +97,46 @@ public class MotherMover : MonoBehaviour
 
     private void RotateToTarget()
     {
-        float step = rotateSpeed * Time.deltaTime;
+        float step = rotateSlowdown * Time.deltaTime;
 
-        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0.0f).y;
+
+        //if angle is getting bigger, flip direction
+        if (previousFrameRotationDegree < targetRotationDegree)
+            rotationInverterValue = rotationInverterValue * -1;
+        
+
+        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0).y * rotationInverterValue;
 
         motherRotater.RotateMother(yRotate);
 
-        //motherAIAndModel.Rotate(0, Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0.0f).y, 0);
+        previousFrameRotationDegree = targetRotationDegree;
     }
 
     private float FindTargetRotation()
     {
         float angleDif = Vector3.Angle(motherAIAndModel.transform.forward, moveDirection);
         return angleDif;
+    }
+
+
+    //Ensures movement is working, if block is detected try to return to previous waypoint
+    private void CheckMovingForward()
+    {
+        //find distance moved from last frame
+        float distanceMoved = Vector3.Distance(lastFramePosition, motherAIAndModel.position);
+
+        //if below threshhold, move infraction var up; once high enough, swap waypoints.
+
+        if (distanceMoved < minimumMovementThreshhold)
+            minMoveInfractionCount++;
+
+        if (minMoveInfractionCount >= minMoveInfractionLimit)
+        {
+            minMoveInfractionCount = 0;
+            motherBrainScript.SwapActiveWaypoint();
+        }
+
+        //save this frame's position for next frame
+        lastFramePosition = motherAIAndModel.position;
     }
 }

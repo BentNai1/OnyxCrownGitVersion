@@ -20,9 +20,9 @@ public class MotherBrain : MonoBehaviour
     public float maxPauseDuration = 1;
     private float pauseDuration;
 
-    [Header ("x/100 to trigger")]
-
+    
     private int successRange = 9;
+    [Header("x/100 to trigger")]
     public int altPathPause = 1;
     public int noAltPathPause = 1;
     public int goAltPath = 1;
@@ -188,7 +188,14 @@ public class MotherBrain : MonoBehaviour
         previousWaypoint = activeWaypoint;
         nextWaypoint = Waypoint;
         motherMoverScript.SetMoveDestination(nextWaypoint);
+    }
 
-        
+    public void SwapActiveWaypoint()
+    {
+        GameObject tempWaypoint = nextWaypoint;
+        nextWaypoint = previousWaypoint;
+        previousWaypoint = tempWaypoint;
+        motherMoverScript.SetMoveDestination(nextWaypoint);
+        debugText = "Stuck, turning around to " + nextWaypoint.name;
     }
 }
