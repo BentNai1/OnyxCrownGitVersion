@@ -288,14 +288,17 @@ public class WaypointPlayerMovement : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         #region Turn off Alt Path Prompts
-        playerMovementScript.showUpPromptUI = false;
-        playerMovementScript.showDownPromptUI = false;
-        playerMovementScript.upPrompt.enabled = false;
-        playerMovementScript.downPrompt.enabled = false;
-
-        if(isStartingDownSidePath)
+        if (other.tag == "Player")
         {
-            timer = 0.5f;
+            playerMovementScript.showUpPromptUI = false;
+            playerMovementScript.showDownPromptUI = false;
+            playerMovementScript.upPrompt.enabled = false;
+            playerMovementScript.downPrompt.enabled = false;
+
+            if (isStartingDownSidePath)
+            {
+                timer = 0.5f;
+            }
         }
         #endregion
 
