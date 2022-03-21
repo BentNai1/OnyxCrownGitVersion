@@ -9,22 +9,44 @@ public class MotherMover : MonoBehaviour
     private GameObject targetWaypoint;
     private Transform motherAIAndModel;
     private CharacterController motherAIAndModelCC;
+    private MotherRotate motherRotater;
     [HideInInspector] public bool closeToTarget = true;
     private MotherBrain motherBrainScript;
+
+    private Vector3 moveDirection;
+    [Tooltip ("AI will turn towards target if outside of this threshhold")]
+    public float faceAngleThreshhold = 1;
+    public float rotateSpeed = 1;
+    private float targetRotationDegree;
 
     void Start()
     {
         motherAIAndModel = this.gameObject.GetComponentInParent<Transform>();
         motherAIAndModelCC = this.gameObject.GetComponentInParent<CharacterController>();
         motherBrainScript = gameObject.GetComponent<MotherBrain>();
+        motherRotater = this.gameObject.GetComponentInParent<MotherRotate>();
     }
 
 
     void Update()
     {
-        if(!closeToTarget) MoveToTarget();
+        //only move if not directly on top of target
+        if (!closeToTarget)
+        {
+            //if facing away, turn towards taget; otherwise, move towards target
+            FindMoveDirection();
+            targetRotationDegree = FindTargetRotation();
 
+            if (targetRotationDegree >= faceAngleThreshhold)
+            {
+                RotateToTarget();
+            }
+            else
+            {
+                MoveToTarget();
+            }
 
+            }
     }
 
     public void SetMoveDestination(GameObject destination)
@@ -33,12 +55,16 @@ public class MotherMover : MonoBehaviour
         closeToTarget = false;
     }
 
+    private void FindMoveDirection()
+    {
+        moveDirection = Vector3.Normalize(targetWaypoint.transform.position - motherAIAndModel.position);
+        moveDirection.y = 0;
+    }
+
     private void MoveToTarget()
     {
-        float step = baseMovementSpeed * Time.deltaTime;
 
-        Vector3 moveDirection = Vector3.Normalize(targetWaypoint.transform.position - this.transform.position);
-        moveDirection.y = 0;
+        float step = baseMovementSpeed * Time.deltaTime;
 
         motherAIAndModelCC.Move(moveDirection * baseMovementSpeed);
 
@@ -51,5 +77,22 @@ public class MotherMover : MonoBehaviour
             motherBrainScript.DecideNextWaypoint();
 
         }
+    }
+
+    private void RotateToTarget()
+    {
+        float step = rotateSpeed * Time.deltaTime;
+
+        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0.0f).y;
+
+        motherRotater.RotateMother(yRotate);
+
+        //motherAIAndModel.Rotate(0, Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0.0f).y, 0);
+    }
+
+    private float FindTargetRotation()
+    {
+        float angleDif = Vector3.Angle(motherAIAndModel.transform.forward, moveDirection);
+        return angleDif;
     }
 }
