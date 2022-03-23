@@ -12,11 +12,13 @@ public class MotherMover : MonoBehaviour
     private MotherRotate motherRotater;
     [HideInInspector] public bool closeToTarget = true;
     private MotherBrain motherBrainScript;
+    private Vector3 playerPosition;
 
     private Vector3 moveDirection;
     [Tooltip ("AI will turn towards target if outside of this threshhold")]
     public float faceAngleThreshhold = 1;
     public float rotateSlowdown = 1;
+    
     private float targetRotationDegree;
     private float previousFrameRotationDegree;
     private float rotationInverterValue = 1;
@@ -27,7 +29,17 @@ public class MotherMover : MonoBehaviour
     public int minMoveInfractionLimit = 1;
     private int minMoveInfractionCount;
     private Vector3 lastFramePosition;
-    
+
+    [Header ("Lunge")]
+    public float fastRotateSlowdown = 1;
+    private bool lungeTurning;
+    private bool lunging;
+    private bool lungeWindUp;
+    public float lungeWindUpDuration = 1;
+    public float lungeSpeed = 1;
+    public float lungeDuration = 1;
+    private float lungeTimer;
+
 
 
     void Start()
@@ -40,19 +52,19 @@ public class MotherMover : MonoBehaviour
         lastFramePosition = motherAIAndModel.position;
     }
 
-
+    //rotate/move towards target
     void Update()
     {
         //only move if not directly on top of target
-        if (!closeToTarget)
+        if (!closeToTarget && !lunging)
         {
             //if facing away, turn towards taget; otherwise, move towards target
-            FindMoveDirection();
+            FindMoveDirection(targetWaypoint.transform.position);
             targetRotationDegree = FindTargetRotation();
 
             if (targetRotationDegree >= faceAngleThreshhold)
             {
-                RotateToTarget();
+                RotateToTarget(rotateSlowdown, targetWaypoint.transform.position);
             }
             else
             {
@@ -60,23 +72,31 @@ public class MotherMover : MonoBehaviour
                 CheckMovingForward();
             }
         }
+
+        //lunging replaces movement
+        if (lunging)
+        {
+            FastTurnThenLunge();
+        }
     }
 
 
 
-
+    //outside scripts can set target for this to rotate/move towards
     public void SetMoveDestination(GameObject destination)
     {
         targetWaypoint = destination;
         closeToTarget = false;
     }
 
-    private void FindMoveDirection()
+    //create a vector3 for where the ai needs to rotate/move to
+    private void FindMoveDirection(Vector3 targetLocation)
     {
-        moveDirection = Vector3.Normalize(targetWaypoint.transform.position - motherAIAndModel.position);
+        moveDirection = Vector3.Normalize(targetLocation - motherAIAndModel.position);
         moveDirection.y = 0;
     }
 
+    //move ai towards target
     private void MoveToTarget()
     {
 
@@ -95,9 +115,10 @@ public class MotherMover : MonoBehaviour
         }
     }
 
-    private void RotateToTarget()
+    //rotate ai towards target
+    private void RotateToTarget(float slowdown, Vector3 targetPosition)
     {
-        float step = rotateSlowdown * Time.deltaTime;
+        float step = slowdown * Time.deltaTime;
 
 
         //if angle is getting bigger, flip direction
@@ -105,19 +126,22 @@ public class MotherMover : MonoBehaviour
             rotationInverterValue = rotationInverterValue * -1;
         
 
-        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.up, targetWaypoint.transform.position, step, 0).y * rotationInverterValue;
+        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y * rotationInverterValue;
+
+        Debug.Log(step);
+        Debug.Log(yRotate);
 
         motherRotater.RotateMother(yRotate);
 
         previousFrameRotationDegree = targetRotationDegree;
     }
 
+    //calculate difference in angle between where ai is facing and where it needs to be facing
     private float FindTargetRotation()
     {
         float angleDif = Vector3.Angle(motherAIAndModel.transform.forward, moveDirection);
         return angleDif;
     }
-
 
     //Ensures movement is working, if block is detected try to return to previous waypoint
     private void CheckMovingForward()
@@ -138,5 +162,63 @@ public class MotherMover : MonoBehaviour
 
         //save this frame's position for next frame
         lastFramePosition = motherAIAndModel.position;
+    }
+
+    //Outside callable function to have AI lunge at a position
+    public void ActivateLunge(Vector3 player)
+    {
+        if (!lunging)
+        {
+            lunging = true;
+            lungeWindUp = true;
+            lungeTimer = lungeWindUpDuration;
+            playerPosition = player;
+            FindMoveDirection(playerPosition);
+        }
+    }
+
+
+    private void FastTurnThenLunge()
+    {
+        targetRotationDegree = FindTargetRotation();
+
+        if (targetRotationDegree >= faceAngleThreshhold)
+        {
+            RotateToTarget(fastRotateSlowdown, targetWaypoint.transform.position);
+        }
+        else
+        {
+            Lunge();
+        }
+    }
+
+    private void Lunge()
+    {
+        //pause for windup
+        if(lungeWindUp && lungeTimer >= 0)
+        {
+            lungeTimer -= Time.deltaTime;
+        }
+        else if (lungeWindUp)
+        {
+            lungeWindUp = false;
+            lungeTimer = lungeDuration;
+        }
+
+        //the lunge
+        else if(!lungeWindUp && lungeTimer >= 0)
+        {
+            float step = lungeSpeed * Time.deltaTime;
+            motherAIAndModelCC.Move(moveDirection * lungeSpeed);
+
+            lungeTimer -= Time.deltaTime;
+        }
+
+        //turn off lunging, tell brain to pause and then carry on
+        else
+        {
+            lunging = false;
+            motherBrainScript.PauseMovement();
+        }
     }
 }

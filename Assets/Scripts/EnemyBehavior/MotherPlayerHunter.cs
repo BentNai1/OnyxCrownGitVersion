@@ -6,6 +6,8 @@ public class MotherPlayerHunter : MonoBehaviour
 {
     private PlayerMovement playerMovementScript;
     private MotherBrain motherBrainScript;
+    private MotherMover motherMoverScript;
+    private bool playerInKillRange;
 
     public enum detectionEvent { KillVolume, closeVolume, detectionVolume}
 
@@ -18,6 +20,7 @@ public class MotherPlayerHunter : MonoBehaviour
         //find the one player in the scene
         playerMovementScript = FindObjectOfType<PlayerMovement>();
         motherBrainScript = GetComponent<MotherBrain>();
+        motherMoverScript = GetComponent<MotherMover>();
     }
 
     // Update is called once per frame
@@ -26,8 +29,13 @@ public class MotherPlayerHunter : MonoBehaviour
         
     }
 
-   public void PlayerDetected(detectionEvent detectionType)
+   public void PlayerDetected(detectionEvent detectionType, bool enteringVolume)
     {
-
+        if (detectionType == detectionEvent.KillVolume && enteringVolume)
+        {
+            playerInKillRange = true;
+            motherMoverScript.ActivateLunge(playerMovementScript.transform.position);
+            Debug.Log("Lunging at player");
+        }
     }
 }

@@ -36,33 +36,25 @@ public class MotherBrain : MonoBehaviour
     }
 
 #endif
-
-    // Start is called before the first frame update
     void Start()
     {
         motherMoverScript = gameObject.GetComponent<MotherMover>();
     }
 
-    // Update is called once per frame
+    //pause timer
     void Update()
     {
-        //pause timer, at end decide next move again
+        //at end run DecideNextWaypoint again
         if (pauseDuration > minPauseDuration)
         {
             pauseDuration -= Time.deltaTime;
             if (pauseDuration <= minPauseDuration)
                 DecideNextWaypoint();
-
         }
 
     }
 
-    public void ChangeActiveWaypoint(GameObject waypoint)
-    {
-        activeWaypoint = waypoint;
-        activeWaypointScript = activeWaypoint.GetComponent<WaypointPlayerMovement>();
-    }
-
+    //decide if pausing, if not go to waypoint
     public void DecideNextWaypoint()
     {
         //check to see if pause animation
@@ -76,6 +68,7 @@ public class MotherBrain : MonoBehaviour
         }
     }
 
+    //rand decide if pausing
     private bool PauseCheck()
     {
         //Check if alt paths are available, roll different odds
@@ -98,7 +91,7 @@ public class MotherBrain : MonoBehaviour
 
 
     //set pause timer
-    private void PauseMovement()
+    public void PauseMovement()
     {
         pauseDuration = Random.Range(minPauseDuration, maxPauseDuration);
         debugText = "Pausing...";
@@ -198,7 +191,14 @@ public class MotherBrain : MonoBehaviour
     }
 
 
+    //change which waypoint is 'active'; other elements of the script care about that
+    public void ChangeActiveWaypoint(GameObject waypoint)
+    {
+        activeWaypoint = waypoint;
+        activeWaypointScript = activeWaypoint.GetComponent<WaypointPlayerMovement>();
+    }
 
+    //tell mover to go towards active waypoint
     private void SetNextPoint(GameObject Waypoint)
     {
         previousWaypoint = activeWaypoint;
@@ -206,6 +206,7 @@ public class MotherBrain : MonoBehaviour
         motherMoverScript.SetMoveDestination(nextWaypoint);
     }
 
+    //used for unstuck, go to previous waypoint
     public void SwapActiveWaypoint()
     {
         GameObject tempWaypoint = nextWaypoint;
