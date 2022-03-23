@@ -7,7 +7,7 @@ public class DoorRotator : MonoBehaviour
     public GameObject door;
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Mother"))
         {
             door.SetActive(false);
         }
@@ -19,7 +19,7 @@ public class DoorRotator : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Mother"))
         {
             door.SetActive(true);
         }

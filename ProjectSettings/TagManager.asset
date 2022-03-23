@@ -16,6 +16,7 @@ TagManager:
   - LyreTrigger
   - Cover
   - Lock
+  - Mother
   layers:
   - Default
   - TransparentFX

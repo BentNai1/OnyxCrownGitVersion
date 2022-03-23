@@ -7,7 +7,7 @@ public class WaypointPlayerMovement : MonoBehaviour
 {
     #region Variables
     [HideInInspector] public GameObject previousWayPoint;
-    [SerializeField] private GameObject nextWaypoint;
+    public GameObject nextWaypoint;
     [HideInInspector] public WaypointPlayerMovement nextWaypointScript;
 
     [SerializeField] private float degreesRotateCameraNextWaypoint;
@@ -28,8 +28,8 @@ public class WaypointPlayerMovement : MonoBehaviour
     private bool playerInTriggerVolume;
 
     [Header ("Alternative Routes")]
-    [SerializeField] private GameObject altWayPointUp;
-    [SerializeField] private GameObject altWayPointDown;
+    public GameObject altWayPointUp;
+    public GameObject altWayPointDown;
     private bool isStartingDownSidePath;
     private float timer;
 
@@ -288,21 +288,24 @@ public class WaypointPlayerMovement : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         #region Turn off Alt Path Prompts
-        playerMovementScript.showUpPromptUI = false;
-        playerMovementScript.showDownPromptUI = false;
-        playerMovementScript.upPrompt.enabled = false;
-        playerMovementScript.downPrompt.enabled = false;
-
-        if(isStartingDownSidePath)
+        if (other.tag == "Player")
         {
-            timer = 0.5f;
-        }
-        #endregion
+            playerMovementScript.showUpPromptUI = false;
+            playerMovementScript.showDownPromptUI = false;
+            playerMovementScript.upPrompt.enabled = false;
+            playerMovementScript.downPrompt.enabled = false;
 
-        //if end of a line, return full player movement
-        if (nextWaypoint == null || previousWayPoint == null)
-            playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, false);
-        
+            if (isStartingDownSidePath)
+            {
+                timer = 0.5f;
+            }
+
+            #endregion
+
+            //if end of a line, return full player movement
+            if (nextWaypoint == null || previousWayPoint == null)
+                playerMovementScript.PreventMovement(PlayerMovement.mainPathDirection.forward, false);
+        }
 
         //turn off rotating (future feature)
         //PassNewVertCorrection(other); (future feature)
