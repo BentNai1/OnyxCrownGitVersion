@@ -7,9 +7,11 @@ public class DEVMotherMoveTester : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject waypointToMoveTo;
+    private MotherBrain motherBrainScript;
     private MotherMover motherMoverScript;
     void Start()
     {
+        motherBrainScript = this.gameObject.GetComponent<MotherBrain>();
         motherMoverScript = this.gameObject.GetComponent<MotherMover>();
     }
 
@@ -18,6 +20,7 @@ public class DEVMotherMoveTester : MonoBehaviour
     {
         if (waypointToMoveTo != null)
         {
+            motherBrainScript.ChangeActiveWaypoint(waypointToMoveTo);
             motherMoverScript.SetMoveDestination(waypointToMoveTo);
             waypointToMoveTo = null;
         }
