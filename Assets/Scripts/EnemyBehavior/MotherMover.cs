@@ -123,13 +123,9 @@ public class MotherMover : MonoBehaviour
 
         //if angle is getting bigger, flip direction
         if (previousFrameRotationDegree < targetRotationDegree)
-            rotationInverterValue = rotationInverterValue * -1;
-        
+            rotationInverterValue = rotationInverterValue * -1; 
 
         float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y * rotationInverterValue;
-
-        Debug.Log(step);
-        Debug.Log(yRotate);
 
         motherRotater.RotateMother(yRotate);
 
