@@ -3,72 +3,7 @@ guid: 914ebabad15731e408d3cffe13354d00
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert5
-    second: {fileID: 2100000, guid: 39a41543193fa18429d4cd11f851eb23, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert6
-    second: {fileID: 2100000, guid: 3cb87bfb90fe9d141bbe899a10ff2e4d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert7
-    second: {fileID: 2100000, guid: a7acb8ad5e00ad143ace494425cf6b57, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__lambert4
-    second: {fileID: 2100000, guid: 6f1970fee00c414419296d44ce9f29c3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__lambert6
-    second: {fileID: 2100000, guid: 25a4348da8ba0824fa74408031129f4b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__lambert6
-    second: {fileID: 2100000, guid: cdba083726e19084583d144c8976f906, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert10
-    second: {fileID: 2100000, guid: 68727785e8d5625459fe837dc3a90e98, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert12
-    second: {fileID: 2100000, guid: 95840a46db09b044e9a9ce81e312c776, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert14
-    second: {fileID: 2100000, guid: cd76ac07aa3f8c943977102858e9e119, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert16
-    second: {fileID: 2100000, guid: afde478c0ffe5c84cbf7aa74853a20a3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert18
-    second: {fileID: 2100000, guid: 3923df1435118864599dbe4320f49dce, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert6
-    second: {fileID: 2100000, guid: 5a369a6e013c53044afc0661e08c157d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pasted__pasted__pasted__lambert8
-    second: {fileID: 2100000, guid: b174a6d2014ba9a41b48949c1a4931e1, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
