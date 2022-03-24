@@ -30,6 +30,11 @@ public class Corrupted_Script : MonoBehaviour
 
     private float timer;
 
+    public GameObject waypoint1;
+    public GameObject waypoint2;
+    public GameObject waypoint3;
+    private Vector3 waypoint;
+
     //state of corrupted
 
     public float sightRange;
@@ -41,6 +46,7 @@ public class Corrupted_Script : MonoBehaviour
     private bool chasing;
 
     [SerializeField] private float grabBreakoutStun = 3;
+    private float think;
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -54,15 +60,16 @@ public class Corrupted_Script : MonoBehaviour
 
     void Start()
     {
+        waypoint = waypoint1.transform.position;
         current = 0;
         //speed = 3;
     }
 
     private void Awake()
     {
-         player = GameObject.Find("Player").transform;
+        player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
-         agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -92,89 +99,127 @@ public class Corrupted_Script : MonoBehaviour
         {
             TakePlayerToEgg();
         }
-            
-        
-        
-       /**
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            speed = 2;
-            
-        }
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            speed = 5; 
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            speed = 2;
-        }
-
-         if (Input.GetButtonUp("Fire1"))
-        {
-            speed = 5;
-        }**/
         
     }
-        private void Patroling()
-        {
-             if (!walkPointSet) SearchWalkPoint();
 
-            if (walkPointSet)
-            {
-                agent.SetDestination(walkPoint);
-            }
+    private void Patroling()
+    {
+        if (!walkPointSet)
+        {
+            //Roam around a little before moving onto next waypoint
+            Roam();
+            Think();
+        }
+
+        if (walkPointSet)
+        {
+            agent.SetDestination(walkPoint);
+            //possibly add randomized wait timer here before moving onto other walkpoints
+        }
                
 
-             Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //If WalkPoint is reached
         if (distanceToWalkPoint.magnitude < 1f)
-                 walkPointSet = false;
+        {
+            walkPointSet = false;
         }
 
-         private void SearchWalkPoint()
+    }
+
+    private void SearchWalkPoint(Vector3 waypoint)
+    {
+        walkPoint = waypoint;
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            walkPointSet = true;
+    }
+
+//Temporary----------------------------------------------------
+    private void Roam()
+    {
+        //Calculates random point in range
+
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            walkPointSet = true;
+    }
+
+    private void NewWaypoint()
+    {
+        //swaps waypoints from the one that was just reached with another
+
+        if(waypoint == waypoint1.transform.position)
         {
-            //Calculates random point in range
-             float randomZ = Random.Range(-walkPointRange, walkPointRange);
-             float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-             walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-             if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-                 walkPointSet = true;
-         }
-
-        private void TakePlayerToEgg()
-        {
-            //transform.LookAt(capturePoint.transform.position + transform.position);
-            //transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
-
-            agent.SetDestination(capturePoint.transform.position - (playerSocket.transform.position - transform.position));
-
-            player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
+            waypoint = waypoint2.transform.position;
+            SearchWalkPoint(waypoint);
         }
 
-         private void ChasePlayer()
-         {
-            chasing = true;
 
-             agent.speed = 10;
-
-             agent.SetDestination(player.position);
-             //transform.LookAt(player.position + transform.position);
-         }
-
-        private void StopMoving()
+        else if(waypoint == waypoint2.transform.position)
         {
-            chasing = false;
-            agent.SetDestination(gameObject.transform.position);
+            waypoint = waypoint3.transform.position;
+            SearchWalkPoint(waypoint);
         }
 
-         private void AttackPlayer()
-         {
-         }
+
+        else if(waypoint == waypoint3.transform.position)
+        {
+            waypoint = waypoint1.transform.position;
+            SearchWalkPoint(waypoint);
+        }
+
+    }
+
+    private void Think()
+    {
+        //Wait time before moving onto next waypoint
+
+        think = Random.Range(0, 6);
+        timer = think;
+
+        if (timer <= 0)
+        {
+            NewWaypoint();
+        }
+        
+    }
+//-------------------------------------------------------------
+
+    private void TakePlayerToEgg()
+    {
+        //transform.LookAt(capturePoint.transform.position + transform.position);
+        //transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
+
+        agent.SetDestination(capturePoint.transform.position - (playerSocket.transform.position - transform.position));
+
+        player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
+    }
+
+    private void ChasePlayer()
+    {
+        chasing = true;
+
+        agent.speed = 10;
+
+        agent.SetDestination(player.position);
+        //transform.LookAt(player.position + transform.position);
+    }
+
+    private void StopMoving()
+    {
+        chasing = false;
+        agent.SetDestination(gameObject.transform.position);
+    }
+
+    private void AttackPlayer()
+    {
+    }
 
     public void StunThisEnemy()
     {
@@ -213,6 +258,13 @@ public class Corrupted_Script : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(walkPoint, 1);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(waypoint1.transform.position, waypoint2.transform.position);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(waypoint2.transform.position, waypoint3.transform.position);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(waypoint3.transform.position, waypoint1.transform.position);
     }
 
 
