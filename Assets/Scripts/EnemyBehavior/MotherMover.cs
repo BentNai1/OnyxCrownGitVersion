@@ -154,6 +154,7 @@ public class MotherMover : MonoBehaviour
         {
             minMoveInfractionCount = 0;
             motherBrainScript.SwapActiveWaypoint();
+            motherBrainScript.UpdateDebug("Stuck, turning around.");
         }
 
         //save this frame's position for next frame

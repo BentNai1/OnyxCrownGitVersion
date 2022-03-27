@@ -8,6 +8,9 @@ public class MotherBrain : MonoBehaviour
     private GameObject previousWaypoint;
     private GameObject nextWaypoint;
 
+    private GameObject quedWaypointFromHunterScript;
+    private PlayerMovement playerMovementScript;
+
     private GameObject activeWaypoint;
     private WaypointPlayerMovement activeWaypointScript;
     private MotherMover motherMoverScript;
@@ -39,6 +42,7 @@ public class MotherBrain : MonoBehaviour
     void Start()
     {
         motherMoverScript = gameObject.GetComponent<MotherMover>();
+        playerMovementScript = FindObjectOfType<PlayerMovement>();
     }
 
     //pause timer
@@ -48,22 +52,41 @@ public class MotherBrain : MonoBehaviour
         if (pauseDuration > minPauseDuration)
         {
             pauseDuration -= Time.deltaTime;
-            if (pauseDuration <= minPauseDuration)
-                DecideNextWaypoint();
-        }
 
+            //cancel pause if waypoint is qued up
+            if (quedWaypointFromHunterScript != null)
+            {
+                DecideNextWaypoint();
+            }
+
+            else if (pauseDuration <= minPauseDuration)
+            {
+                DecideNextWaypoint();
+                
+            }
+        }
     }
 
     //decide if pausing, if not go to waypoint
     public void DecideNextWaypoint()
     {
+        //check for qued waypoint, use that if there is one
+        if (quedWaypointFromHunterScript != null)
+        {
+            SetNextPoint(quedWaypointFromHunterScript);
+
+            quedWaypointFromHunterScript = null;
+        }
+
+
         //check to see if pause animation
-        if (PauseCheck() == true)
+        else if (PauseCheck() == true)
         {
             PauseMovement();
         }
         else
         {
+            Debug.Log("Mother AI running waypoint check...");
             WaypointCheck1();
         }
     }
@@ -158,7 +181,7 @@ public class MotherBrain : MonoBehaviour
                     SetNextPoint(activeWaypointScript.nextWaypoint);
                     patrollingForward = true;
                 }
-                debugText = "Previous waypoint, " + nextWaypoint.name; 
+                UpdateDebug("Previous waypoint, " + nextWaypoint.name); 
             }
 
             else
@@ -168,20 +191,20 @@ public class MotherBrain : MonoBehaviour
                     SetNextPoint(activeWaypointScript.nextWaypoint);
                 else
                     SetNextPoint(activeWaypointScript.previousWayPoint);
-                debugText = "Next waypoint, " + nextWaypoint.name;
+                UpdateDebug("Next waypoint, " + nextWaypoint.name);
             }
 
         //otherwise, use whichever direction is available.
         else if (activeWaypointScript.nextWaypoint != null)
         { 
             SetNextPoint(activeWaypointScript.nextWaypoint);
-            debugText = "Next waypoint, " + nextWaypoint.name;
+            UpdateDebug("Next waypoint, " + nextWaypoint.name);
             patrollingForward = false;
         }
         else if (activeWaypointScript.previousWayPoint != null)
         { 
             SetNextPoint(activeWaypointScript.previousWayPoint);
-            debugText = "Previous waypoint, " + nextWaypoint.name;
+            UpdateDebug("Previous waypoint, " + nextWaypoint.name);
             patrollingForward = true;
         }
 
@@ -213,7 +236,41 @@ public class MotherBrain : MonoBehaviour
         nextWaypoint = previousWaypoint;
         previousWaypoint = tempWaypoint;
         motherMoverScript.SetMoveDestination(nextWaypoint);
-        debugText = "Stuck, turning around to " + nextWaypoint.name;
+        Debug.Log("Move destination swapped to " + nextWaypoint);
         patrollingForward = !patrollingForward;
+    }
+
+    public void UpdateDebug(string text)
+    {
+        debugText = text;
+    }
+
+    //instead of randomly determining next waypoint, go to this one instead (because hunter script spotted the player)
+    public void AddQuedWaypoint(GameObject frontPlayerWaypoint, GameObject backPlayerWaypoint)
+    {
+        //check if ai is in same stretch of two points as player
+        if ((GameObject.ReferenceEquals(frontPlayerWaypoint, nextWaypoint) && GameObject.ReferenceEquals(backPlayerWaypoint, previousWaypoint)) || (GameObject.ReferenceEquals(frontPlayerWaypoint, previousWaypoint) && GameObject.ReferenceEquals(backPlayerWaypoint, nextWaypoint)))
+        {
+            //check if player is closer to prev point than ai, if so swap points
+            if(Vector3.Distance(playerMovementScript.transform.position, previousWaypoint.transform.position) < (Vector3.Distance(transform.position, previousWaypoint.transform.position)))
+            {
+                SwapActiveWaypoint();
+                UpdateDebug("Player detected behind!");
+            }
+
+        }
+
+
+        //if a waypoint matches next waypoint, set the other one to be qued up.
+        else if (GameObject.ReferenceEquals(frontPlayerWaypoint, nextWaypoint))
+        {
+            quedWaypointFromHunterScript = backPlayerWaypoint;
+            UpdateDebug("Player detected towards " + quedWaypointFromHunterScript);
+        }
+        else if (GameObject.ReferenceEquals(backPlayerWaypoint, nextWaypoint))
+        {
+            quedWaypointFromHunterScript = frontPlayerWaypoint;
+
+        }
     }
 }
