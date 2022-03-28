@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class MotherPlayerHunter : MonoBehaviour
 {
@@ -13,12 +14,23 @@ public class MotherPlayerHunter : MonoBehaviour
     private MotherMover motherMoverScript;
     private bool playerInKillRange;
 
+    private string debugText = "Player position";
+
     public enum detectionEvent { KillVolume, tooCloseToHideVolume, detectionVolume}
 
     
 
     private bool playerDetected;
-    // Start is called before the first frame update
+
+
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        Handles.Label((transform.position + Vector3.up * 20), debugText);
+    }
+
+#endif
+
     void Start()
     {
         //find the one player in the scene
@@ -35,14 +47,19 @@ public class MotherPlayerHunter : MonoBehaviour
         
     }
 
-   public void PlayerDetected(detectionEvent detectionType, bool enteringVolume)
+    public void UpdateDebug(string text)
+    {
+        debugText = text;
+    }
+
+    public void PlayerDetected(detectionEvent detectionType, bool enteringVolume)
     {
         //if player gets RIGHT up to ai, tell movement to lunge at the player
         if (detectionType == detectionEvent.KillVolume && enteringVolume)
         {
             playerInKillRange = true;
             motherMoverScript.ActivateLunge(playerMovementScript.transform.position);
-            Debug.Log("Lunging at player");
+            UpdateDebug("Player in lunge distance.");
         }
 
 
@@ -65,13 +82,19 @@ public class MotherPlayerHunter : MonoBehaviour
         {
             if(crouchScript.hiding)
             {
-                motherBrainScript.UpdateDebug("Ignoring hidden player.");
+                UpdateDebug("Ignoring hidden player.");
             }
 
             else
             {
+                UpdateDebug("Player detected!");
                 motherBrainScript.AddQuedWaypoint(playerMovementScript.forwardWaypoint, playerMovementScript.backwardWaypoint);
             }
+        }
+
+        if (detectionType == detectionEvent.detectionVolume && !enteringVolume)
+        {
+            UpdateDebug("Player out of detection range.");
         }
     }
 }

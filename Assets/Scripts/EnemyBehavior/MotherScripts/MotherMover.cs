@@ -209,6 +209,8 @@ public class MotherMover : MonoBehaviour
             motherAIAndModelCC.Move(moveDirection * lungeSpeed);
 
             lungeTimer -= Time.deltaTime;
+
+            motherBrainScript.UpdateDebug("Lunging");
         }
 
         //turn off lunging, tell brain to pause and then carry on
