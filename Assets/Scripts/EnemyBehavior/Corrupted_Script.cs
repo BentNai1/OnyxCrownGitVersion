@@ -79,9 +79,10 @@ public class Corrupted_Script : MonoBehaviour
         if (think > 0)
         {
             think -= Time.deltaTime;
+            timeToThink = true;
+
             if (think < minThinkTime)
             {
-                timeToThink = true;
                 DecideNext();
             }
         }
