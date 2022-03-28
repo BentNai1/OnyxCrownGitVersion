@@ -13,6 +13,7 @@ public class MotherMover : MonoBehaviour
     [HideInInspector] public bool closeToTarget = true;
     private MotherBrain motherBrainScript;
     private Vector3 playerPosition;
+    private MotherAnimSoundScript animSoundScript;
 
     private Vector3 moveDirection;
     [Tooltip ("AI will turn towards target if outside of this threshhold")]
@@ -48,6 +49,7 @@ public class MotherMover : MonoBehaviour
         motherAIAndModelCC = this.gameObject.GetComponentInParent<CharacterController>();
         motherBrainScript = gameObject.GetComponent<MotherBrain>();
         motherRotater = this.gameObject.GetComponentInParent<MotherRotate>();
+        animSoundScript = gameObject.GetComponent<MotherAnimSoundScript>();
 
         lastFramePosition = motherAIAndModel.position;
     }
@@ -171,6 +173,7 @@ public class MotherMover : MonoBehaviour
             lungeTimer = lungeWindUpDuration;
             playerPosition = player;
             FindMoveDirection(playerPosition);
+            animSoundScript.PlayLeapPrep();
         }
     }
 
@@ -200,11 +203,13 @@ public class MotherMover : MonoBehaviour
         {
             lungeWindUp = false;
             lungeTimer = lungeDuration;
+            animSoundScript.PlayLeap();
         }
 
         //the lunge
         else if(!lungeWindUp && lungeTimer >= 0)
         {
+
             float step = lungeSpeed * Time.deltaTime;
             motherAIAndModelCC.Move(moveDirection * lungeSpeed);
 

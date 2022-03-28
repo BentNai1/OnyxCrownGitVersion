@@ -14,6 +14,7 @@ public class MotherBrain : MonoBehaviour
     private GameObject activeWaypoint;
     private WaypointPlayerMovement activeWaypointScript;
     private MotherMover motherMoverScript;
+    private MotherAnimSoundScript animSoundScript;
 
     private bool patrollingForward = true;
     private int diceVariable;
@@ -30,7 +31,7 @@ public class MotherBrain : MonoBehaviour
     public int noAltPathPause = 1;
     public int goAltPath = 1;
     public int goBack = 1;
-    private string debugText = "Mother";
+    private string debugText = "Mother brain";
 
 #if UNITY_EDITOR
     public void OnDrawGizmos()
@@ -43,6 +44,7 @@ public class MotherBrain : MonoBehaviour
     {
         motherMoverScript = gameObject.GetComponent<MotherMover>();
         playerMovementScript = FindObjectOfType<PlayerMovement>();
+        animSoundScript = GetComponent<MotherAnimSoundScript>();
     }
 
     //pause timer
@@ -118,7 +120,8 @@ public class MotherBrain : MonoBehaviour
     {
         pauseDuration = Random.Range(minPauseDuration, maxPauseDuration);
         debugText = "Pausing...";
-}
+        animSoundScript.PlayWalking(false);
+    }
 
 
     //Decide if using alt paths, passes to WaypointCheck2 if not
@@ -227,6 +230,7 @@ public class MotherBrain : MonoBehaviour
         previousWaypoint = activeWaypoint;
         nextWaypoint = Waypoint;
         motherMoverScript.SetMoveDestination(nextWaypoint);
+        animSoundScript.PlayWalking(true);
     }
 
     //used for unstuck, go to previous waypoint

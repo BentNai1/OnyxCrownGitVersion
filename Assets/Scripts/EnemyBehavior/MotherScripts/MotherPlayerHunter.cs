@@ -12,6 +12,7 @@ public class MotherPlayerHunter : MonoBehaviour
 
     private MotherBrain motherBrainScript;
     private MotherMover motherMoverScript;
+    private MotherAnimSoundScript motherAnimSound;
     private bool playerInKillRange;
 
     private string debugText = "Player position";
@@ -39,6 +40,7 @@ public class MotherPlayerHunter : MonoBehaviour
 
         motherBrainScript = GetComponent<MotherBrain>();
         motherMoverScript = GetComponent<MotherMover>();
+        motherAnimSound = GetComponent<MotherAnimSoundScript>();
     }
 
     // Update is called once per frame
