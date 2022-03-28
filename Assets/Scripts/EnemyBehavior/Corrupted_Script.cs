@@ -46,7 +46,9 @@ public class Corrupted_Script : MonoBehaviour
     private bool chasing;
 
     [SerializeField] private float grabBreakoutStun = 3;
-    private float think;
+    private float think = 1;
+    private float minThinkTime = 1;
+    private bool timeToThink;
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -74,7 +76,17 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Update()
     {
-        if (timer > 0)  timer -= Time.deltaTime;
+        if (think > 0)
+        {
+            think -= Time.deltaTime;
+            if (think < minThinkTime)
+            {
+                timeToThink = true;
+                DecideNext();
+            }
+        }
+        else timeToThink = false;
+
 
         if (isHoldingPlayer == false)
         {
@@ -102,19 +114,25 @@ public class Corrupted_Script : MonoBehaviour
         
     }
 
+    private void DecideNext()
+    {
+        if (timeToThink == true)
+            Think();
+        else
+            NewWaypoint();
+    }
+
     private void Patroling()
     {
         if (!walkPointSet)
         {
             //Roam around a little before moving onto next waypoint
             Roam();
-            Think();
         }
 
         if (walkPointSet)
         {
             agent.SetDestination(walkPoint);
-            //possibly add randomized wait timer here before moving onto other walkpoints
         }
                
 
@@ -179,14 +197,7 @@ public class Corrupted_Script : MonoBehaviour
     private void Think()
     {
         //Wait time before moving onto next waypoint
-
         think = Random.Range(0, 6);
-        timer = think;
-
-        if (timer <= 0)
-        {
-            NewWaypoint();
-        }
         
     }
 //-------------------------------------------------------------
