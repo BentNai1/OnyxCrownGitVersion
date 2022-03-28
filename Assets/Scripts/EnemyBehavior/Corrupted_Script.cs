@@ -88,7 +88,7 @@ public class Corrupted_Script : MonoBehaviour
             }
         }
         else timeToThink = false;**/
-        timer -= Time.deltaTime;
+        if (timer > 0)  timer -= Time.deltaTime;
 
         if (isHoldingPlayer == false)
         {
@@ -201,8 +201,10 @@ public class Corrupted_Script : MonoBehaviour
     {
         //Wait time before moving onto next waypoint
         think = Random.Range(0, 6);
+        timer  = think;
 
-        NewWaypoint();
+        if(timer<= 0)
+            NewWaypoint();
         
     }
 //-------------------------------------------------------------
