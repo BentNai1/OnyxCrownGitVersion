@@ -248,6 +248,7 @@ MonoBehaviour:
   capturePoint: {fileID: 0}
   playerSocket: {fileID: 951555489}
   player: {fileID: 0}
+  playerHide: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -259,6 +260,9 @@ MonoBehaviour:
   points: []
   speed: 15
   playerspeed: 100
+  waypoint1: {fileID: 0}
+  waypoint2: {fileID: 0}
+  waypoint3: {fileID: 0}
   sightRange: 25
   attackRange: 10
   grabBreakoutStun: 2
