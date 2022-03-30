@@ -39,7 +39,7 @@ public class Song_Of_Sorrows : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetButtonDown("Fire1")/**&& GetComponent<Player_Mana>().ConsumeMana(manaDrain))**/)
+        if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Tab Pressed"); //Tested and being read
             Activate();
@@ -65,8 +65,6 @@ public class Song_Of_Sorrows : MonoBehaviour
 
         coroutine = coolDownDelay();
         StartCoroutine(coroutine);
-
-        //HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, coolDownDuration);
        
     }
 
