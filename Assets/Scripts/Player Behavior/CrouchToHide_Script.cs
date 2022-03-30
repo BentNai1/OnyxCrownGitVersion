@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrouchToHide_Script : MonoBehaviour
 {
@@ -16,11 +17,17 @@ public class CrouchToHide_Script : MonoBehaviour
     private bool crouching;
     private float playerSpeed;
     public float crouchSpeedMultiplier;
+    public GameObject Eye;
+    public Sprite eyeOpen;
+    public Sprite eyeClose;
+
+    private bool debugCollide;
     
 
     private void Start()
     {
         playerSpeed = GetComponent<PlayerMovement>().moveSpeed;
+        debugCollide = false;
     }
 
     private void Update()
@@ -35,6 +42,7 @@ public class CrouchToHide_Script : MonoBehaviour
             if (crouching)
             {
                 hiding = true;
+                // closed eye goes here
             }
             else
             {
@@ -43,6 +51,7 @@ public class CrouchToHide_Script : MonoBehaviour
         }
         else
         {
+            // remove eye
             crouching = false;
         }
 
@@ -64,15 +73,32 @@ public class CrouchToHide_Script : MonoBehaviour
             hiding = false;
         }
 
+        if (debugCollide !=boxCol.GetComponent<TriggerEnter>().colliding)
+        {
+            
+            if (boxCol.GetComponent<TriggerEnter>().colliding)
+            {
+                Eye.GetComponent<Image>().enabled = true;
+                Eye.GetComponent<Image>().sprite = eyeOpen;
+            }
+            else 
+            {
+                Eye.GetComponent<Image>().enabled = false;
+            }
+            debugCollide = boxCol.GetComponent<TriggerEnter>().colliding;
+        }
         //DEBUG HIDING MESSAGES
         if (hideDebug != hiding)
         {
+            
             if (hiding)
             {
+                 Eye.GetComponent<Image>().sprite = eyeClose;
                 print("Hidden");
             }
             else
             {
+                 Eye.GetComponent<Image>().sprite = eyeOpen;
                 print("Exposed");
             }
             hideDebug = hiding;
