@@ -19,9 +19,12 @@ public class Corrupted_Script : MonoBehaviour
 
     //corrupted patrolling code
 
-    public Vector3 walkPoint;
-    bool walkPointSet;
+    public Vector3 walkPoint1;
+    public Vector3 walkPoint2;
+    bool walkPointSet1;
+    bool walkPointSet2;
     public float walkPointRange;
+    private bool roam = false;
 
     public Transform[] points;
     int current;
@@ -46,9 +49,7 @@ public class Corrupted_Script : MonoBehaviour
     private bool chasing;
 
     [SerializeField] private float grabBreakoutStun = 3;
-    private float think = 1;
-    private float minThinkTime = 1;
-    private bool timeToThink;
+    private float think;
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -56,6 +57,11 @@ public class Corrupted_Script : MonoBehaviour
         if (capturePoint == null)
         {
             Handles.Label(transform.position, "ERROR, no egg targeted for return");
+        }
+
+        if(agent.isStopped == true)
+        {
+            Handles.Label(transform.position + new Vector3(0, 6, 0), "Thinking...");
         }
     }
 #endif
@@ -76,19 +82,18 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Update()
     {
-        /**
         if (think > 0)
         {
             think -= Time.deltaTime;
-            timeToThink = true;
 
-            if (think < minThinkTime)
+            if(think <= 0)
             {
-                DecideNext();
+                agent.isStopped = false;
             }
         }
-        else timeToThink = false;**/
-        if (timer > 0)  timer -= Time.deltaTime;
+        
+
+        if (timer > 0) timer -= Time.deltaTime;
 
         if (isHoldingPlayer == false)
         {
@@ -109,55 +114,70 @@ public class Corrupted_Script : MonoBehaviour
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
-        if(isHoldingPlayer == true)
+        if (isHoldingPlayer == true)
         {
             TakePlayerToEgg();
         }
-        
-    }
 
-    private void DecideNext()
-    {
-        if (timeToThink == true)
-            Think();
-        else
-            NewWaypoint();
     }
 
     private void Patroling()
     {
-        if (!walkPointSet)
+        if (!walkPointSet1)
         {
-            //Roam around a little before moving onto next waypoint
-            Roam();
+            if(roam)
+            {
+                Roam();
+            }
+            NewWaypoint();
+        }
+
+        if (walkPointSet1)
+        {
+            
+            agent.SetDestination(walkPoint1);
+        }
+
+        if (walkPointSet2)
+        {
+
+            agent.SetDestination(walkPoint2);
+        }
+
+
+        Vector3 distanceToWalkPoint1 = transform.position - walkPoint1;
+        Vector3 distanceToWalkPoint2 = transform.position - walkPoint2;
+
+        //If main walkpoint is reached
+        if (distanceToWalkPoint1.magnitude < 1f)
+        {
             Think();
+            roam = true;
+            walkPointSet1 = false;
         }
 
-        if (walkPointSet)
+        //If roam walkpoint is reached
+        if (distanceToWalkPoint2.magnitude < 1f)
         {
-            agent.SetDestination(walkPoint);
-        }
-               
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //If WalkPoint is reached
-        if (distanceToWalkPoint.magnitude < 1f)
-        {
-            walkPointSet = false;
+            //Think();
+            roam = false;
+            walkPointSet2 = false;
         }
 
     }
 
     private void SearchWalkPoint(Vector3 waypoint)
     {
-        walkPoint = waypoint;
+        walkPoint1 = waypoint;
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
+        if (Physics.Raycast(walkPoint1, -transform.up, 2f, whatIsGround))
+        {
+            walkPointSet1 = true;
+        }
+
     }
 
-//Temporary----------------------------------------------------
+    //Temporary----------------------------------------------------
     private void Roam()
     {
         //Calculates random point in range
@@ -165,31 +185,34 @@ public class Corrupted_Script : MonoBehaviour
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint2 = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
+        if (Physics.Raycast(walkPoint2, -transform.up, 2f, whatIsGround))
+        {
+            walkPointSet2 = true;
+        }
+
     }
 
     private void NewWaypoint()
     {
         //swaps waypoints from the one that was just reached with another
 
-        if(waypoint == waypoint1.transform.position)
+        if (waypoint == waypoint1.transform.position)
         {
             waypoint = waypoint2.transform.position;
             SearchWalkPoint(waypoint);
         }
 
 
-        else if(waypoint == waypoint2.transform.position)
+        else if (waypoint == waypoint2.transform.position)
         {
             waypoint = waypoint3.transform.position;
             SearchWalkPoint(waypoint);
         }
 
 
-        else if(waypoint == waypoint3.transform.position)
+        else if (waypoint == waypoint3.transform.position)
         {
             waypoint = waypoint1.transform.position;
             SearchWalkPoint(waypoint);
@@ -200,14 +223,11 @@ public class Corrupted_Script : MonoBehaviour
     private void Think()
     {
         //Wait time before moving onto next waypoint
-        think = Random.Range(0, 6);
-        timer  = think;
+        think = Random.Range(1, 4);
 
-        if(timer<= 0)
-            NewWaypoint();
-        
+        agent.isStopped = true;
     }
-//-------------------------------------------------------------
+    //-------------------------------------------------------------
 
     private void TakePlayerToEgg()
     {
@@ -258,7 +278,7 @@ public class Corrupted_Script : MonoBehaviour
         if (other.gameObject.tag == "Player" && timer <= 0)
         {
             Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
- 
+
             struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
 
             isHoldingPlayer = true;
@@ -275,7 +295,9 @@ public class Corrupted_Script : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(walkPoint, 1);
+        Gizmos.DrawWireSphere(walkPoint1, 1);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(walkPoint2, 1);
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(waypoint1.transform.position, waypoint2.transform.position);
