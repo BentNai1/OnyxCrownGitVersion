@@ -51,6 +51,7 @@ public class Corrupted_Script : MonoBehaviour
     [SerializeField] private float grabBreakoutStun = 3;
     private float think;
 
+//Gizmos
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -82,17 +83,21 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Update()
     {
+        //The timer for the corrupted to stop at a waypoint and think for a bit
+        //Subtracting "think" from the ingame timer every frame
         if (think > 0)
         {
             think -= Time.deltaTime;
 
+            //Done thinking
             if(think <= 0)
             {
+                //Lets the corrupted continue to move
                 agent.isStopped = false;
             }
         }
         
-
+        //Timer for the grab stun
         if (timer > 0) timer -= Time.deltaTime;
 
         if (isHoldingPlayer == false)
@@ -123,8 +128,10 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Patroling()
     {
+        //Searches for a new main waypoint, once they reach their current waypoint
         if (!walkPointSet1)
         {
+            //If corrupted reached the main waypoint, roam to a random point around that waypoint
             if(roam)
             {
                 Roam();
@@ -132,23 +139,24 @@ public class Corrupted_Script : MonoBehaviour
             NewWaypoint();
         }
 
+        //Once main waypoint is found set desination to that waypoint
         if (walkPointSet1)
         {
             
             agent.SetDestination(walkPoint1);
         }
 
+        //Once new roam point is found, set destination to that roam point
         if (walkPointSet2)
         {
-
             agent.SetDestination(walkPoint2);
         }
 
-
+        //calculate the distance between the main waypoint or roam point and the corrupted's current position
         Vector3 distanceToWalkPoint1 = transform.position - walkPoint1;
         Vector3 distanceToWalkPoint2 = transform.position - walkPoint2;
 
-        //If main walkpoint is reached
+        //If main waypoint is reached, think and then roam
         if (distanceToWalkPoint1.magnitude < 1f)
         {
             Think();
@@ -156,7 +164,7 @@ public class Corrupted_Script : MonoBehaviour
             walkPointSet1 = false;
         }
 
-        //If roam walkpoint is reached
+        //If roam walkpoint is reached, go to new main waypoint
         if (distanceToWalkPoint2.magnitude < 1f)
         {
             //Think();
@@ -166,10 +174,12 @@ public class Corrupted_Script : MonoBehaviour
 
     }
 
+    //Sets the new wapoint from NewWaypoint() to walkpoint1, and sent to patrol function to set new destination
     private void SearchWalkPoint(Vector3 waypoint)
     {
         walkPoint1 = waypoint;
 
+        //checks is the waypoint is not wonky or in some crazy place
         if (Physics.Raycast(walkPoint1, -transform.up, 2f, whatIsGround))
         {
             walkPointSet1 = true;
@@ -180,13 +190,14 @@ public class Corrupted_Script : MonoBehaviour
     //Temporary----------------------------------------------------
     private void Roam()
     {
-        //Calculates random point in range
-
+        //Calculates random point in range  of the current waypoint
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
+        //sets the random transforms to the new walkpoint2 variable, to then be sent to patrol and set the new destination
         walkPoint2 = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
+        //checks is the waypoint is not wonky or in some crazy place
         if (Physics.Raycast(walkPoint2, -transform.up, 2f, whatIsGround))
         {
             walkPointSet2 = true;
@@ -196,14 +207,12 @@ public class Corrupted_Script : MonoBehaviour
 
     private void NewWaypoint()
     {
-        //swaps waypoints from the one that was just reached with another
-
+        //swaps waypoints from the one that was just reached with another from the list of waypoints on the corrupted game object
         if (waypoint == waypoint1.transform.position)
         {
             waypoint = waypoint2.transform.position;
             SearchWalkPoint(waypoint);
         }
-
 
         else if (waypoint == waypoint2.transform.position)
         {
@@ -211,20 +220,19 @@ public class Corrupted_Script : MonoBehaviour
             SearchWalkPoint(waypoint);
         }
 
-
         else if (waypoint == waypoint3.transform.position)
         {
             waypoint = waypoint1.transform.position;
             SearchWalkPoint(waypoint);
         }
-
     }
 
     private void Think()
     {
-        //Wait time before moving onto next waypoint
+        //sets the think timer to a randome range between 1 and 4, and will pause the corrupted movement for that amount of time
         think = Random.Range(1, 4);
 
+        //stops the movement of the corrupted
         agent.isStopped = true;
     }
     //-------------------------------------------------------------
@@ -290,15 +298,19 @@ public class Corrupted_Script : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
+        //detection fields for seing and attacking the player
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+
+        //shows the next waypioint the corrupted will take
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(walkPoint1, 1);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(walkPoint2, 1);
 
+        //showing the path the corrupted with mainly take
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(waypoint1.transform.position, waypoint2.transform.position);
         Gizmos.color = Color.cyan;
