@@ -5,8 +5,7 @@ using UnityEngine;
 public class AbilitySelector_Script : MonoBehaviour
 {
     //UI
-    //public GameObject CooldownUI;
-    //public GameObject SelectorUI;
+    public GameObject Wheel;
 
     //Ability Scripts
     [HideInInspector]
@@ -17,7 +16,9 @@ public class AbilitySelector_Script : MonoBehaviour
     public Song_Of_Sorrows Lyre;
 
     //Variables
-    private int abilityNum;
+    public int abilityNum;
+    private float abilityDuration;
+    private float cooldownDuration;
 
     void Start()
     {
@@ -30,12 +31,12 @@ public class AbilitySelector_Script : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown("e"))
+        if (!Wheel.GetComponent<Cooldown_Script>().isUsing && Input.GetKeyDown("e"))
         {
             Cycle();
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if (!Wheel.GetComponent<Cooldown_Script>().isCooling && Input.GetButtonDown("Fire2"))
         {
             Activate();
         }
@@ -69,7 +70,10 @@ public class AbilitySelector_Script : MonoBehaviour
                 abilityNum = 0;
                 print("Cloak ability selected");
                 break;
-            }
+        }
+
+        //Apply change to UI
+        Wheel.GetComponent<AbilityWheel_Script>().UpdateUI(abilityNum);
     }
 
     private void Activate()
@@ -80,20 +84,27 @@ public class AbilitySelector_Script : MonoBehaviour
             //Cloak
             case 0:
                 Cloak.Activate();
+                abilityDuration = Cloak.abilityDuration;
+                cooldownDuration = Cloak.coolDownDuration;
                 print("Cloak ability activated");
                 break;
 
             //Spectacle
             case 1:
                 Spectacle.Activate();
+                abilityDuration = Spectacle.abilityDuration;
+                cooldownDuration = Spectacle.cooldownDuration;
                 print("Spectacle ability activated");
                 break;
 
             //Lyre
             case 2:
                 Lyre.Activate();
+                abilityDuration = Lyre.abilityDuration;
+                cooldownDuration = Lyre.coolDownDuration;
                 print("Lyre ability activated");
                 break;
         }
+        Wheel.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, cooldownDuration);
     }
 }

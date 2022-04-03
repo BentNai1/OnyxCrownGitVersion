@@ -5,19 +5,20 @@ using UnityEngine;
 public class Spectacle_Ability_Script : MonoBehaviour
 {
     private SphereCollider specBounds;
-    public GameObject HUD;
+    //public GameObject HUD;
     public GameObject Collider;
     bool isCooling = false;
     private IEnumerator coroutine;
+    public ParticleSystem specs;
 
     //OBSOLETE
     //[SerializeField]
     //private float manaDrain = 31;
 
     [SerializeField]
-    private float abilityDuration = 3;
+    public float abilityDuration = 3;
     [SerializeField]
-    private float cooldownDuration = 3;
+    public float cooldownDuration = 3;
 
     private void Awake()
     {
@@ -29,14 +30,14 @@ public class Spectacle_Ability_Script : MonoBehaviour
         specBounds.enabled = false;
     }
 
-    void Update()
-    {
-        //Input
-        if (Input.GetButtonDown("Fire2") /* OBSOLETE: && GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
-        {
-            Activate();
-        }
-    }
+    //void Update()
+    //{
+    //    //Input
+    //    if (Input.GetButtonDown("Fire2") /* OBSOLETE: && GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
+    //    {
+    //        Activate();
+    //    }
+    //}
 
     public void Activate()
     {
@@ -58,16 +59,20 @@ public class Spectacle_Ability_Script : MonoBehaviour
         StartCoroutine(coroutine);
 
         //Calls to the Cooldown bar on the UI to begin animating with given durations
-        HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, cooldownDuration);
+        //HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, cooldownDuration);
     }
 
     //Timing of the ability
     private IEnumerator CooldownDelay()
     {
+        specs.Play();
+
         yield return new WaitForSeconds(abilityDuration);
         //Collider.GetComponent<EnemyTagger_Script>().spectacleOn = false;
         specBounds.enabled = false;
+        specs.Stop();
         yield return new WaitForSeconds(cooldownDuration);
         isCooling = false;
+
     }
 }
