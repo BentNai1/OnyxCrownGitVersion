@@ -11,6 +11,8 @@ public class CombinationLock : MonoBehaviour
     [SerializeField]
     private int[] lockAnswer;
 
+    public bool playerBusy;
+
     void Start()
     {
         lockCam.SetActive(false);
@@ -58,6 +60,7 @@ public class CombinationLock : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lockCam.SetActive(true);
+            playerBusy = true;
         }
     }
 
@@ -66,6 +69,7 @@ public class CombinationLock : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lockCam.SetActive(false);
+            playerBusy = false;
         }
     }
 

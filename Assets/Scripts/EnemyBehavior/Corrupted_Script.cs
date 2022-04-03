@@ -14,6 +14,7 @@ public class Corrupted_Script : MonoBehaviour
 
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
+    [HideInInspector] public CombinationLock playerLock;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -31,7 +32,7 @@ public class Corrupted_Script : MonoBehaviour
     public float speed;
     public float playerspeed;
 
-    private float timer;
+    private float stunTimer;
 
     public GameObject waypoint1;
     public GameObject waypoint2;
@@ -79,6 +80,7 @@ public class Corrupted_Script : MonoBehaviour
         player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
+        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Update()
@@ -98,7 +100,7 @@ public class Corrupted_Script : MonoBehaviour
         }
         
         //Timer for the grab stun
-        if (timer > 0) timer -= Time.deltaTime;
+        if (stunTimer > 0) stunTimer -= Time.deltaTime;
 
         if (isHoldingPlayer == false)
         {
@@ -108,14 +110,12 @@ public class Corrupted_Script : MonoBehaviour
 
             if (!playerInSightRange) Patroling();
 
-            //only chase player if in range, not hiding, and not stunned
-            if (playerInSightRange && playerHide.hiding == false && timer <= 0) ChasePlayer();
+            //only chase player if in range, not hiding, not in lock, and enemy not stunned
+            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
             if (chasing && playerHide.hiding)
             {
                 StopMoving();
             }
-
-            //if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
@@ -269,7 +269,7 @@ public class Corrupted_Script : MonoBehaviour
 
     public void StunThisEnemy()
     {
-        timer = grabBreakoutStun;
+        stunTimer = grabBreakoutStun;
         isHoldingPlayer = false;
 
     }
@@ -283,7 +283,7 @@ public class Corrupted_Script : MonoBehaviour
             StunThisEnemy();
         }
 
-        if (other.gameObject.tag == "Player" && timer <= 0)
+        if (other.gameObject.tag == "Player" && stunTimer <= 0)
         {
             Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
 
