@@ -110,8 +110,8 @@ public class Corrupted_Script : MonoBehaviour
 
             if (!playerInSightRange) Patroling();
 
-            //only chase player if in range, not hiding, and enemy not stunned
-            if (playerInSightRange && playerHide.hiding == false && playerLock.playerBusy == false && stunTimer <= 0) ChasePlayer();
+            //only chase player if in range, not hiding, not in lock, and enemy not stunned
+            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
             if (chasing && playerHide.hiding)
             {
                 StopMoving();
