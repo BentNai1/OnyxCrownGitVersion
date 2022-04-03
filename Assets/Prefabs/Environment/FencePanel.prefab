@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942762337184432749}
   - component: {fileID: 1843791507459435765}
+  - component: {fileID: -831277121261197620}
   m_Layer: 0
   m_Name: FencePanel
   m_TagString: Untagged
@@ -47,6 +48,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 2.7903547, z: 2.7}
   m_Center: {x: 0, y: 1.3951774, z: 0}
+--- !u!205 &-831277121261197620
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603720224944477701}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.090135634
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1 &4462576588782491214
 GameObject:
   m_ObjectHideFlags: 0

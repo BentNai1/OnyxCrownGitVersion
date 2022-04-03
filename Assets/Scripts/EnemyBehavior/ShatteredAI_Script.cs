@@ -13,14 +13,20 @@ public class ShatteredAI_Script : MonoBehaviour
 
     //Pathing
     private Vector3 walkPoint;
-    bool walkPointSet;
+    bool walkPointSet = false;
+    private Vector3 patrolP1;
+
     [Header("Movement")]
-    [Tooltip("Distance to move before changing direction")]
-    public float walkPointRange;
-    [Tooltip("Time to pause before changing direction.")]
-    public float waitTime = 1f;
-    private bool forcingPath = false;
-    private bool pathCalled = true;
+    public GameObject patrolP2;
+    bool isP1Current = false;
+    [HideInInspector]
+    public GameObject Player;
+    //[Tooltip("Distance to move before changing direction")]
+    //public float walkPointRange;
+    //[Tooltip("Time to pause before changing direction.")]
+    //public float waitTime = 1f;
+    //private bool forcingPath = false;
+    //private bool pathCalled = true;
 
     //Sensing
     [Header("Sensing")]
@@ -30,8 +36,8 @@ public class ShatteredAI_Script : MonoBehaviour
     public GameObject SensingOrb;
     
     private bool orbDispensed = false;
-    [Tooltip("Time between spawning sensors while player is within range")]
-    public float timeBetweenOrbs;
+    //[Tooltip("Time between spawning sensors while player is within range")]
+    //public float timeBetweenOrbs = 1f;
     [Tooltip("Starting size of sensing orb")]
     public float orbScale = 1;
     [Tooltip("How fast orb grows while colliding with player")]
@@ -45,12 +51,10 @@ public class ShatteredAI_Script : MonoBehaviour
 
     //Attacking
     [Header("Attacking")]
-    [Tooltip("Attack damage")]
-    public float damage;
+    //[Tooltip("Attack damage")]
+    //public float damage;
     [Tooltip("The character model that appears when attacking")]
     public GameObject selfModel;
-    [HideInInspector]
-    public GameObject Player;
     [Tooltip("Time before enemy can damage player again")]
     public float timeBetweenAttacks;
     bool alreadyAttacked;
@@ -71,9 +75,21 @@ public class ShatteredAI_Script : MonoBehaviour
 
     private void Start()
     {
+        //Initialize references
         Player = GameObject.FindWithTag("Player");
         player = Player.transform;
         agent = GetComponent<NavMeshAgent>();
+        walkPoint = patrolP2.transform.position;
+        patrolP1 = gameObject.transform.position;
+
+        //Calculate and begin patrol path
+        agent.SetDestination(walkPoint);
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(walkPoint, path);
+        if (path.status != NavMeshPathStatus.PathComplete)
+        {
+            Debug.Log("WARNING: Shattered could not find path to waypoint 'patrolP2'");
+        }
     }
 
     private void Update()
@@ -81,19 +97,10 @@ public class ShatteredAI_Script : MonoBehaviour
         //Check if player is in sight range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
 
-        //Activate AI when player approaches
-        if (dormant == false)
-        {
-            //Check if player is in attack radius
-            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-            Patrolling();
-            Sensing();
-        }
-        else if (playerInSightRange)
-        {
-            dormant = false;
-            SearchWalkPoint();
-        }
+        //Check if player is in attack radius
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+        Patrolling();
 
         //Attempt to attack player
         if (activelyAttacking)
@@ -115,13 +122,17 @@ public class ShatteredAI_Script : MonoBehaviour
                 StopAttacking();
             }
         }
+        else
+        {
+            Sensing();
+        }
 
         if (playerInAttackRange)
         {
             if (!alreadyAttacked) //Hurts player if direct contact is made
             {
                 //Damage
-                Player.GetComponent<Player_Health>().DealDamageToPlayer(damage);
+                Player.GetComponent<Player_Health>().DealDamageToPlayer(Player.GetComponent<Player_Health>().playerCurrentHealth);
                 print("Damaged player!");
 
                 if (dieOnAttack)
@@ -135,89 +146,101 @@ public class ShatteredAI_Script : MonoBehaviour
 
             activelyAttacking = false;
 
-            forcingPath = true;
+            GoToPatrolPoint();
         }
     }
 
     private void Patrolling()
     {
-        if (walkPointSet)
+        //Walkpoint reached
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        if (!activelyAttacking && distanceToWalkPoint.magnitude < 1f)
         {
-            agent.SetDestination(walkPoint);
-
-            //Walkpoint reached
-            Vector3 distanceToWalkPoint = transform.position - walkPoint;
-            if (distanceToWalkPoint.magnitude < 0.5f)
-            {
-                StopMoving();
-            }
-        }
-        else
-        {
-            StopMoving();
+            //Switch walkpoint to opposite patrol point
+            isP1Current = !isP1Current;
+            GoToPatrolPoint();
         }
     }
 
-    private void StopMoving()
+    private void GoToPatrolPoint() //Sets destination to current patrol point
     {
-        walkPointSet = false;
-        agent.SetDestination(gameObject.transform.position);
-        if (!pathCalled)
+        switch (isP1Current)
         {
-            pathCalled = true;
-            SearchWalkPoint();
+            case true:
+                walkPoint = patrolP1;
+                break;
+            case false:
+                walkPoint = patrolP2.transform.position;
+                break;
         }
+        agent.SetDestination(walkPoint);
     }
 
-    private void SearchWalkPoint()
-    {
-        NavMeshPath path = new NavMeshPath();
+    //OBSOLETE
+    //private void StopMoving()
+    //{
+    //    walkPointSet = false;
+    //    agent.SetDestination(gameObject.transform.position);
+    //    if (!pathCalled)
+    //    {
+    //        pathCalled = true;
+    //    }
+    //}
 
-        RandomWalkPoint();
+    //OBSOLETE
+    //private void SearchWalkPoint()
+    //{
+    //    NavMeshPath path = new NavMeshPath();
 
-        agent.CalculatePath(walkPoint, path);
+    //    RandomWalkPoint();
 
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            walkPointSet = true;
-            pathCalled = false;
-        }
-        else
-        {
-            Invoke(nameof(SearchWalkPoint), waitTime);
-        }
-    }
+    //    agent.CalculatePath(walkPoint, path);
 
-    private void RandomWalkPoint()
-    {
-        //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+    //    if (path.status == NavMeshPathStatus.PathComplete)
+    //    {
+    //        walkPointSet = true;
+    //        pathCalled = false;
+    //    }
+    //    else
+    //    {
+    //        Invoke(nameof(SearchWalkPoint), waitTime);
+    //    }
+    //}
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-    }
+    //OBSOLETE
+    //private void RandomWalkPoint()
+    //{
+    //    //Calculate random point in range
+    //    float randomZ = Random.Range(-walkPointRange, walkPointRange);
+    //    float randomX = Random.Range(-walkPointRange, walkPointRange);
 
+    //    walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+    //}
+
+    //OBSOLETE
     //This function is used to move the AI when it's pathfinding gets stuck (like when inside the player)
-    private void ForceWalkPoint()
-    {
-        forcingPath = true;
-        RandomWalkPoint();
-        walkPointSet = true;
-    }
+    //private void ForceWalkPoint()
+    //{
+    //    forcingPath = true;
+    //    RandomWalkPoint();
+    //    walkPointSet = true;
+    //}
 
     private void Sensing()
     {
         if (playerInSightRange && !orbDispensed)
         {
+            print("Dispensing");
             GameObject dispencedOrb = Instantiate(SensingOrb, Player.transform.position + Vector3.up*3, Quaternion.identity);
             orbDispensed = true;
             dispencedOrb.GetComponent<SensingOrb_Script>().Creator = gameObject;
-            Invoke(nameof(ResetOrb), timeBetweenOrbs);
+            Invoke(nameof(ResetOrb), 1f);
         }
     }
 
     private void ResetOrb()
     {
+        print("reset orb");
         orbDispensed = false;
     }
 
@@ -227,7 +250,11 @@ public class ShatteredAI_Script : MonoBehaviour
         selfModel.SetActive(true);
 
         //Face player
-        transform.LookAt(player);
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        if (distanceToWalkPoint.magnitude > 2) //Distance from player is checked to prevent the shattered from tilting up or down when close
+        {
+            transform.LookAt(player);
+        }
 
         //Chase player
         agent.SetDestination(player.position);
@@ -248,6 +275,8 @@ public class ShatteredAI_Script : MonoBehaviour
 
         //stop moving
         agent.SetDestination(gameObject.transform.position);
+
+        GoToPatrolPoint();
     }
     
     public void OnDrawGizmosSelected()

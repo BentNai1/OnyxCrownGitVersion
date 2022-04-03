@@ -16,8 +16,8 @@ GameObject:
   m_Name: Clawed Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4901882389947712635
 Transform:
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5714272582625386177}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 30, z: 30}
+  m_LocalScale: {x: 30, y: 40, z: 30}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 53d816c29382a9f498b507296c19822c, type: 2}
+  - {fileID: -1444460858095362738, guid: 154205918132f734bb9a3a1e16eb6ae4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

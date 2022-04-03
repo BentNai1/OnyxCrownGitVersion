@@ -6,9 +6,6 @@ using UnityEngine;
 public class Of_The_Shadows : MonoBehaviour
 {
 
-    //public GameObject HUD;
-
-   
     private IEnumerator coroutine;
     public ParticleSystem invis;
 
@@ -28,18 +25,19 @@ public class Of_The_Shadows : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire3")/*&& GetComponent<Player_Mana>().ConsumeMana(manaDrain)*/)
+        if (Input.GetButtonDown("Fire3"))
         {
             Debug.Log("Left Shift Pressed!");
             Activate();
         }
     }
 
+    //Reads if player has above 0 health and calls for the ability
     public void Activate()
     {
         if (!isCooling)
         {
-            if (/**gameObject.name.Equals ("Eggs") && **/GetComponent<Player_Health>().playerCurrentHealth > 0)
+            if (GetComponent<Player_Health>().playerCurrentHealth > 0)
             {
                 Debug.Log("Calling Invincible");
                 coroutine = Invulnerable();
@@ -50,17 +48,16 @@ public class Of_The_Shadows : MonoBehaviour
         }
     }
 
+    //starts cooldown once coroutine is used
     public void shadowStep() 
     {
         isCooling = true;
 
         coroutine = coolDownDelay();
         StartCoroutine(coroutine);
-
-        //HUD.GetComponent<Cooldown_Script>().Cooldown(abilityDuration, coolDownDuration);
-
     }
 
+    //Makes it so player is only invincible to eggs and no other enemies.
     private IEnumerator Invulnerable()
     {
         Physics.IgnoreLayerCollision(6, 7, true);
@@ -77,7 +74,7 @@ public class Of_The_Shadows : MonoBehaviour
     }
 
 
-
+    //cooldown
     private IEnumerator coolDownDelay()
     {
         yield return new WaitForSeconds(abilityDuration);
