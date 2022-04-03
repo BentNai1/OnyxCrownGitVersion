@@ -615,7 +615,7 @@ MonoBehaviour:
   faceAngleThreshhold: 1
   rotateSlowdown: 1
   minimumMovementThreshhold: 0.1
-  minMoveInfractionLimit: 5
+  minMoveInfractionLimit: 200
   fastRotateSlowdown: 8
   lungeWindUpDuration: 0.8
   lungeSpeed: 3
@@ -676,11 +676,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motherAnimator: {fileID: 267354516997229228}
-  idleVocalizationSound: []
-  walkingSound: []
-  spottedSound: []
-  leapPrepSound: []
-  leapSound: []
+  idleVocalizationSound:
+  - {fileID: 8300000, guid: 53c914a9e9b243d47a0997a2e1d85fb9, type: 3}
+  walkingSound:
+  - {fileID: 8300000, guid: f9515dc838b621042a25561b29769f49, type: 3}
+  spottedSound:
+  - {fileID: 8300000, guid: dc8c4fa7a83785145afb9671a797e250, type: 3}
+  leapPrepSound:
+  - {fileID: 8300000, guid: eda10f6c5daf1014ab946d29a3e2f271, type: 3}
+  leapSound:
+  - {fileID: 8300000, guid: 27b0d2f3ef8343a46b4540c591fe524d, type: 3}
   movementAudioSource: {fileID: 840847289657186761}
   vocalizationAudioSource: {fileID: 963660875398109246}
 --- !u!1 &5313228010104004423
@@ -849,7 +854,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.51
   Loop: 0
   Mute: 0
   Spatialize: 0
