@@ -1450,9 +1450,7 @@ MonoBehaviour:
   ResumeButton: {fileID: 0}
   SettingsButton: {fileID: 0}
   ControlsButton: {fileID: 0}
-  Lyre: {fileID: 0}
-  Cloak: {fileID: 0}
-  Glasses: {fileID: 0}
+  AbilityWheel: {fileID: 0}
   MenuButton: {fileID: 0}
   QuitButton: {fileID: 0}
 --- !u!1 &2727889000438097777
@@ -3838,9 +3836,7 @@ MonoBehaviour:
   ResumeButton: {fileID: 2244323630415457872}
   SettingsButton: {fileID: 4031614897374941425}
   ControlsButton: {fileID: 7607056341064271185}
-  Lyre: {fileID: 0}
-  Cloak: {fileID: 0}
-  Glasses: {fileID: 0}
+  AbilityWheel: {fileID: 463201409851239932}
   MenuButton: {fileID: 8000163460529956258}
   QuitButton: {fileID: 472327115147621988}
 --- !u!1 &6649018204189015770
@@ -5750,6 +5746,11 @@ PrefabInstance:
 --- !u!224 &463201409851239875 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5429039577888733223, guid: 669e0e6919753394387539437a9cff5a, type: 3}
+  m_PrefabInstance: {fileID: 5564845506858620388}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &463201409851239932 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5429039577888733208, guid: 669e0e6919753394387539437a9cff5a, type: 3}
   m_PrefabInstance: {fileID: 5564845506858620388}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5839703270009961256
