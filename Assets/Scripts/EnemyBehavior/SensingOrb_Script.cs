@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SensingOrb_Script : MonoBehaviour
 {
+    //Behavior References
     [HideInInspector]
     public GameObject Creator;
     private ShatteredAI_Script ShatteredScript;
@@ -11,11 +12,22 @@ public class SensingOrb_Script : MonoBehaviour
     public GameObject Player;
     public LayerMask whatIsPlayer;
     
+    //Behavior variables
     private float orbScale = 1;
     private float orbMin;
     private float orbMax;
     private float growRate;
     private float shrinkRate;
+
+    //Particles
+    public GameObject ParticleSys;
+    private ParticleSystem ps;
+    private float orbProgress;
+    private bool psStarted = false;
+    private float percentToStop;
+    private float percentToEmitParticles;
+    private float percentToSpeedParticles;
+    private float percentToMaxParticles;
 
     private void Start()
     {
@@ -35,6 +47,14 @@ public class SensingOrb_Script : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        //Particles
+        percentToEmitParticles = ShatteredScript.percentToEmitParticles;
+        percentToSpeedParticles = ShatteredScript.percentToSpeedParticles;
+        percentToMaxParticles = ShatteredScript.percentToMaxParticles;
+        ps = ParticleSys.GetComponent<ParticleSystem>();
+        ps.Stop();
+        percentToStop = 100 - ((growRate * 0.5f * 100) / orbMax);
     }
 
     private void Update()
@@ -60,6 +80,41 @@ public class SensingOrb_Script : MonoBehaviour
             Creator.GetComponent<ShatteredAI_Script>().activelyAttacking = true;
             print("ATTACKINGGG");
             Destroy(gameObject);
+        }
+
+        //Particles
+        orbProgress = (orbScale * 100) / orbMax;
+        if (orbProgress >= percentToEmitParticles && !psStarted)
+        {
+            ps.Play();
+            psStarted = true;
+        }
+        if (psStarted)
+        {
+            var ParMain = ps.main;
+            var ParShape = ps.shape;
+            var ParEmission = ps.emission;
+            if (orbProgress <= percentToSpeedParticles)
+            {
+                ParMain.startSpeed = -(orbScale / 5);
+            }
+            else if (orbProgress > percentToSpeedParticles && orbProgress < percentToMaxParticles)
+            {
+                ParMain.maxParticles = 20;
+                ParShape.randomDirectionAmount = 0;
+                ParEmission.rateOverTime = 10;
+                ParMain.startSpeed = -(orbScale / 5) * 2;
+                ParMain.startLifetime = 1;
+            }
+            else if (orbProgress >= percentToStop)
+            {
+                ps.Stop();
+            }
+            else
+            {
+                ParMain.startSpeed = -(orbScale / 5) * 4;
+                ParMain.startLifetime = 0.5f;
+            }
         }
     }
 

@@ -48,6 +48,12 @@ public class ShatteredAI_Script : MonoBehaviour
     public float shrinkRate = 0.5f;
     [Tooltip("Orb will disappear at this size")]
     public float orbMin = 0.1f;
+    [Tooltip("Orb progress until particles appear")]
+    public float percentToEmitParticles = 33;
+    [Tooltip("Orb progress until particles speed up")]
+    public float percentToSpeedParticles = 66;
+    [Tooltip("Orb progress until particles speed up more")]
+    public float percentToMaxParticles = 90;
 
     //Attacking
     [Header("Attacking")]

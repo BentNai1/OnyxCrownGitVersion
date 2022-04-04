@@ -316,7 +316,7 @@ MonoBehaviour:
   sightRange: 30
   SensingOrb: {fileID: 5331348460328529965, guid: 6355186760e730945b10c9aa84b2f6f8, type: 3}
   timeBetweenOrbs: 2
-  orbScale: 1
+  orbScale: 5
   growRate: 5
   orbMax: 20
   shrinkRate: 0.5
@@ -350,12 +350,14 @@ MonoBehaviour:
   Player: {fileID: 0}
   sightRange: 15
   SensingOrb: {fileID: 5331348460328529965, guid: 6355186760e730945b10c9aa84b2f6f8, type: 3}
-  timeBetweenOrbs: 0
-  orbScale: 1
+  orbScale: 5
   growRate: 5
-  orbMax: 20
+  orbMax: 50
   shrinkRate: 0.5
   orbMin: 0.1
+  percentToEmitParticles: 33
+  percentToSpeedParticles: 66
+  percentToMaxParticles: 90
   selfModel: {fileID: 1583270136601970300}
   timeBetweenAttacks: 5
   attackTimeout: 1
