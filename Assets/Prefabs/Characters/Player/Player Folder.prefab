@@ -223,6 +223,14 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 709968755542070758, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: eyeOpen
+      value: 
+      objectReference: {fileID: 21300000, guid: 4f2a5561fb7cb8f45bb73485648b4604, type: 3}
+    - target: {fileID: 709968755542070758, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
+      propertyPath: eyeClose
+      value: 
+      objectReference: {fileID: 21300000, guid: 9c76f018f37984246b6f87d095d4320a, type: 3}
+    - target: {fileID: 709968755542070758, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: playerAnimation
       value: 
       objectReference: {fileID: 3876720546262356462}
@@ -356,35 +364,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071256, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.738983
+      value: 1.8552413
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.999975
+      value: 20.000006
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.999998
+      value: 10.000002
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00005531311
+      value: 0.000036239624
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.70081687
+      value: -0.7008164
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09410854
+      value: -0.094108455
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.700816
+      value: 0.70081645
       objectReference: {fileID: 0}
     - target: {fileID: 8107818004545071257, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.09410842
+      value: -0.09410847
       objectReference: {fileID: 0}
     - target: {fileID: 8107818005398980820, guid: d90e37ac2946f3b418c86d7fb150081f, type: 3}
       propertyPath: m_Name

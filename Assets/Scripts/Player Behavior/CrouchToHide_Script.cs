@@ -17,6 +17,7 @@ public class CrouchToHide_Script : MonoBehaviour
     private bool crouching;
     private float playerSpeed;
     public float crouchSpeedMultiplier;
+    [HideInInspector]
     public GameObject Eye;
     public Sprite eyeOpen;
     public Sprite eyeClose;
@@ -28,6 +29,7 @@ public class CrouchToHide_Script : MonoBehaviour
     {
         playerSpeed = GetComponent<PlayerMovement>().moveSpeed;
         debugCollide = false;
+        Eye = GameObject.Find("Eye");
     }
 
     private void Update()
