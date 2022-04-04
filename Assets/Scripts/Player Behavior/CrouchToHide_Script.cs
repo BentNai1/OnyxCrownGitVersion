@@ -75,15 +75,17 @@ public class CrouchToHide_Script : MonoBehaviour
 
         if (debugCollide !=boxCol.GetComponent<TriggerEnter>().colliding)
         {
-            
-            if (boxCol.GetComponent<TriggerEnter>().colliding)
+            if(Eye != null)
             {
-                Eye.GetComponent<Image>().enabled = true;
-                Eye.GetComponent<Image>().sprite = eyeOpen;
-            }
-            else 
-            {
-                Eye.GetComponent<Image>().enabled = false;
+                if (boxCol.GetComponent<TriggerEnter>().colliding)
+                {
+                    Eye.GetComponent<Image>().enabled = true;
+                    Eye.GetComponent<Image>().sprite = eyeOpen;
+                }
+                else
+                {
+                    Eye.GetComponent<Image>().enabled = false;
+                }
             }
             debugCollide = boxCol.GetComponent<TriggerEnter>().colliding;
         }
@@ -93,12 +95,14 @@ public class CrouchToHide_Script : MonoBehaviour
             
             if (hiding)
             {
-                 Eye.GetComponent<Image>().sprite = eyeClose;
+                if (Eye != null)
+                    Eye.GetComponent<Image>().sprite = eyeClose;
                 print("Hidden");
             }
             else
             {
-                 Eye.GetComponent<Image>().sprite = eyeOpen;
+                if (Eye != null)
+                    Eye.GetComponent<Image>().sprite = eyeOpen;
                 print("Exposed");
             }
             hideDebug = hiding;

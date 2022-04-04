@@ -5,7 +5,8 @@ using UnityEngine;
 public class ShowHideMarker_Script : MonoBehaviour
 {
     public GameObject Marker;
-    private bool onOff = false;
+    public ParticleSystem Particles;
+    //private bool onOff = false;
     [SerializeField]
     private float disappearTime;
     private float disappearTimer;
@@ -18,11 +19,11 @@ public class ShowHideMarker_Script : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown("q") )
-        {
-            ShowHideMarker(!onOff);
-            onOff = !onOff;
-        }
+        //if(Input.GetKeyDown("q") )
+        //{
+        //    ShowHideMarker(!onOff);
+        //    onOff = !onOff;
+        //}
 
         disappearTimer -= Time.deltaTime;
         if(disappearTimer <= 0)
@@ -51,5 +52,15 @@ public class ShowHideMarker_Script : MonoBehaviour
     public void ShowHideMarker(bool state)
     {
         Marker.SetActive(state);
+
+        switch (state)
+        {
+            case true:
+                Particles.Play();
+                break;
+            case false:
+                Particles.Stop();
+                break;
+        }
     }
 }
