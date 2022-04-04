@@ -51,6 +51,7 @@ public class Corrupted_Script : MonoBehaviour
 
     [SerializeField] private float grabBreakoutStun = 3;
     private float think;
+    private bool thinking;
 
 //Gizmos
 #if UNITY_EDITOR
@@ -61,7 +62,7 @@ public class Corrupted_Script : MonoBehaviour
             Handles.Label(transform.position, "ERROR, no egg targeted for return");
         }
 
-        if(agent.isStopped == true)
+        if(thinking == true)
         {
             Handles.Label(transform.position + new Vector3(0, 6, 0), "Thinking...");
         }
@@ -96,6 +97,7 @@ public class Corrupted_Script : MonoBehaviour
             {
                 //Lets the corrupted continue to move
                 agent.isStopped = false;
+                thinking = false;
             }
         }
         
@@ -234,6 +236,7 @@ public class Corrupted_Script : MonoBehaviour
 
         //stops the movement of the corrupted
         agent.isStopped = true;
+        thinking = true;
     }
     //-------------------------------------------------------------
 
