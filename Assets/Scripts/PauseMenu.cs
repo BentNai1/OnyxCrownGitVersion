@@ -14,9 +14,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject ResumeButton;
     public GameObject SettingsButton;
     public GameObject ControlsButton;
-    public GameObject Lyre;
-    public GameObject Cloak;
-    public GameObject Glasses;
+    public GameObject AbilityWheel;
     public GameObject MenuButton;
     public GameObject QuitButton;
     void Update()
@@ -37,9 +35,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(false);
         controlsMenuUI.SetActive(false);
-        Lyre.SetActive(true);
-        Cloak.SetActive(true);
-        Glasses.SetActive(true);
+        AbilityWheel.SetActive(true);
 
 
 
@@ -57,9 +53,7 @@ public class PauseMenu : MonoBehaviour
         ControlsButton.SetActive(true);
         MenuButton.SetActive(true);
         QuitButton.SetActive(true);
-        Lyre.SetActive(false);
-        Cloak.SetActive(false);
-        Glasses.SetActive(false);
+        AbilityWheel.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
