@@ -53,7 +53,7 @@ public class Corrupted_Script : MonoBehaviour
     private float think;
     private bool thinking;
 
-//Gizmos
+    //Gizmos
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -62,7 +62,12 @@ public class Corrupted_Script : MonoBehaviour
             Handles.Label(transform.position, "ERROR, no egg targeted for return");
         }
 
-        if(thinking == true)
+        if (waypoint1 == null || waypoint2 == null || waypoint3 == null)
+        {
+            Handles.Label(transform.position + new Vector3(0, 3, 0), "ERROR, waypoints not set");
+        }
+
+        if (thinking == true)
         {
             Handles.Label(transform.position + new Vector3(0, 6, 0), "Thinking...");
         }
@@ -73,7 +78,8 @@ public class Corrupted_Script : MonoBehaviour
     {
         waypoint = waypoint1.transform.position;
         current = 0;
-        //speed = 3;
+
+        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Awake()
@@ -81,7 +87,6 @@ public class Corrupted_Script : MonoBehaviour
         player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
-        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Update()
@@ -93,14 +98,14 @@ public class Corrupted_Script : MonoBehaviour
             think -= Time.deltaTime;
 
             //Done thinking
-            if(think <= 0)
+            if (think <= 0)
             {
                 //Lets the corrupted continue to move
                 agent.isStopped = false;
                 thinking = false;
             }
         }
-        
+
         //Timer for the grab stun
         if (stunTimer > 0) stunTimer -= Time.deltaTime;
 
@@ -134,7 +139,7 @@ public class Corrupted_Script : MonoBehaviour
         if (!walkPointSet1)
         {
             //If corrupted reached the main waypoint, roam to a random point around that waypoint
-            if(roam)
+            if (roam)
             {
                 Roam();
             }
@@ -144,7 +149,7 @@ public class Corrupted_Script : MonoBehaviour
         //Once main waypoint is found set desination to that waypoint
         if (walkPointSet1)
         {
-            
+
             agent.SetDestination(walkPoint1);
         }
 
@@ -321,11 +326,4 @@ public class Corrupted_Script : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(waypoint3.transform.position, waypoint1.transform.position);
     }
-
-
-    //when Corrupted is no longer colliding with lyre collider sphere
-    /**void OnCollisionExit(Collision other)
-    {
-        speed = 3;
-    }**/
 }
