@@ -16,11 +16,10 @@ public class Of_The_Shadows : MonoBehaviour
 
     [SerializeField]
     private float manaDrain = 1;
+    
+    public float abilityDuration = 4;
 
-    [SerializeField]
-    private float abilityDuration = 4;
-
-    private float coolDownDuration = 5;
+    public float coolDownDuration = 5;
 
 
     void Update()

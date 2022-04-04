@@ -342,6 +342,7 @@ MonoBehaviour:
   playerSocket: {fileID: 951555489}
   player: {fileID: 0}
   playerHide: {fileID: 0}
+  playerLock: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -357,7 +358,7 @@ MonoBehaviour:
   waypoint1: {fileID: 1769727004}
   waypoint2: {fileID: 2141987376}
   waypoint3: {fileID: 1626623294}
-  sightRange: 25
+  sightRange: 12
   attackRange: 10
   grabBreakoutStun: 2
 --- !u!1001 &7414273759136475862
