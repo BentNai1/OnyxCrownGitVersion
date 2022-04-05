@@ -14,9 +14,6 @@ public class Song_Of_Sorrows : MonoBehaviour
     bool isCooling = false;
 
     [SerializeField]
-    private float manaDrain = 4;
-
-    [SerializeField]
     private float abilityDuration = 3;
 
     [SerializeField]
