@@ -22,14 +22,14 @@ public class Of_The_Shadows : MonoBehaviour
     public float coolDownDuration = 5;
 
 
-    void Update()
+/*    void update()
     {
-        if (Input.GetButtonDown("Fire3"))
+        if (input.getbuttondown("fire3"))
         {
-            Debug.Log("Left Shift Pressed!");
-            Activate();
+            debug.log("left shift pressed!");
+            activate();
         }
-    }
+    }*/
 
     //Reads if player has above 0 health and calls for the ability
     public void Activate()

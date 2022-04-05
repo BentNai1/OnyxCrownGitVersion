@@ -35,14 +35,14 @@ public class Song_Of_Sorrows : MonoBehaviour
     }
 
     
-    void Update()
+   /* void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Tab Pressed"); //Tested and being read
             Activate();
         }
-    }
+    }*/
 
     public void Activate()
     {
