@@ -14,10 +14,10 @@ public class Song_Of_Sorrows : MonoBehaviour
     bool isCooling = false;
 
     [SerializeField]
-    private float abilityDuration = 3;
+    public float abilityDuration = 3;
 
     [SerializeField]
-    private float coolDownDuration = 8;
+    public float coolDownDuration = 8;
 
     [SerializeField]
     private float stunDuration = 3;
