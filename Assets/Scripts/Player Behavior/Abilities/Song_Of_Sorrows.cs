@@ -33,7 +33,7 @@ public class Song_Of_Sorrows : MonoBehaviour
         lyreBounds.enabled = false;
     }
 
-    
+/*    
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -42,7 +42,7 @@ public class Song_Of_Sorrows : MonoBehaviour
             Activate();
         }
     }
-
+*/
     public void Activate()
     {
         if (!isCooling)

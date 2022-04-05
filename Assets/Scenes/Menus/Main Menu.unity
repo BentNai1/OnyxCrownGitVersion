@@ -565,18 +565,15 @@ MonoBehaviour:
     "Right Joystick" to Crouch
 
 
-    "Y"
-    for Invulnerability
+    "X"
+    to Cycle Abilites
 
 
-    "X" for Kings Spectacles
+    "B" to Activate Selected Ability
 
 
-    "B" (Long Press) for
-    Lyre
-
-
-    "A" (multi-press) Struggle/Jump'
+    "A" (multi-press)
+    Struggle'
 --- !u!222 &152287658
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2970,18 +2967,15 @@ MonoBehaviour:
     "C" to Duck/Hide
 
 
-    "Left
-    Shift" for Invulnerability
+    "E"
+    to Cycle Abilities
 
 
-    "E" for Kings Spectacles
+    "Q" to Activate Selected Ability
 
 
-    "TAB" (Long Press)
-    for Lyre
-
-
-    "SpaceBar" (multi-press) Struggle'
+    "SpaceBar" (multi-press)
+    Struggle'
 --- !u!222 &613709186
 CanvasRenderer:
   m_ObjectHideFlags: 0
