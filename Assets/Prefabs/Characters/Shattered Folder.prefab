@@ -248,7 +248,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9010583313906022555}
   - component: {fileID: 9010583313906022559}
-  - component: {fileID: 9010583313906022552}
   - component: {fileID: 3903585279696375087}
   m_Layer: 0
   m_Name: ShatteredEnemy
@@ -284,7 +283,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 5
+  m_Speed: 25
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -296,41 +295,6 @@ NavMeshAgent:
   m_BaseOffset: 1.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9010583313906022552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010583313906022558}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f69a87fa7d42f6c49a65ab98384481a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  walkPointRange: 20
-  waitTime: 0.5
-  sightRange: 30
-  SensingOrb: {fileID: 5331348460328529965, guid: 6355186760e730945b10c9aa84b2f6f8, type: 3}
-  timeBetweenOrbs: 2
-  orbScale: 5
-  growRate: 5
-  orbMax: 20
-  shrinkRate: 0.5
-  orbMin: 0.1
-  damage: 5
-  selfModel: {fileID: 1583270136601970300}
-  Player: {fileID: 0}
-  timeBetweenAttacks: 10
-  attackTimeout: 0
-  activelyAttacking: 0
-  dieOnAttack: 0
-  attackRange: 2
-  playerInSightRange: 0
-  playerInAttackRange: 0
 --- !u!114 &3903585279696375087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,12 +319,12 @@ MonoBehaviour:
   orbMax: 50
   shrinkRate: 0.5
   orbMin: 0.1
-  percentToEmitParticles: 33
+  percentToEmitParticles: 20
   percentToSpeedParticles: 66
   percentToMaxParticles: 90
   selfModel: {fileID: 1583270136601970300}
   timeBetweenAttacks: 5
-  attackTimeout: 1
+  attackTimeout: 10
   activelyAttacking: 0
   dieOnAttack: 0
   attackRange: 2
@@ -510,6 +474,10 @@ PrefabInstance:
     - target: {fileID: 647834745938080299, guid: e2cfda5059830294e946a54d672276c8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508354246146865452, guid: e2cfda5059830294e946a54d672276c8, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2525506759988127969, guid: e2cfda5059830294e946a54d672276c8, type: 3}
       propertyPath: m_Materials.Array.data[0]
