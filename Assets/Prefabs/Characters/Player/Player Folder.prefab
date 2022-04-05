@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a89e77d2e1ab24799146f4001d9272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUD: {fileID: 0}
   Collider: {fileID: 6666253495627411118}
   song: {fileID: 6353439681109791049}
-  manaDrain: 24
   abilityDuration: 3
   coolDownDuration: 10
   stunDuration: 3
