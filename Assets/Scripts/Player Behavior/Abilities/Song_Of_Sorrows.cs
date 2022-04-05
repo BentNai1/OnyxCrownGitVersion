@@ -8,6 +8,7 @@ public class Song_Of_Sorrows : MonoBehaviour
     private SphereCollider lyreBounds;
     public GameObject HUD;
     public GameObject Collider;
+    public ParticleSystem song;
 
     private IEnumerator coroutine;
 
@@ -68,9 +69,12 @@ public class Song_Of_Sorrows : MonoBehaviour
     //Makes it so you can't just spam the ability
     private IEnumerator coolDownDelay()
     {
+        song.Play();
+
         yield return new WaitForSeconds(abilityDuration);
 
         lyreBounds.enabled = false;
+        song.Stop();
         yield return new WaitForSeconds(coolDownDuration);
        
         isCooling = false;
