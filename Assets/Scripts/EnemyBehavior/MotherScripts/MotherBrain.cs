@@ -121,6 +121,7 @@ public class MotherBrain : MonoBehaviour
         pauseDuration = Random.Range(minPauseDuration, maxPauseDuration);
         debugText = "Pausing...";
         animSoundScript.PlayWalking(false);
+        animSoundScript.PlayIdle();
     }
 
 
@@ -135,26 +136,26 @@ public class MotherBrain : MonoBehaviour
                 //if both available, 50/50, else default to whichever is available
                 if (activeWaypointScript.altWayPointUp != null && activeWaypointScript.altWayPointDown != null)
                 {
-                    if (Random.Range(0, 1) <= 1)
+                    if (Random.Range(0, 1) == 1)
                     {
-                        debugText = "Up waypoint, " + nextWaypoint.name;
                         SetNextPoint(activeWaypointScript.altWayPointUp);
+                        UpdateDebug("Up waypoint, " + nextWaypoint.name);
                     }
                     else
                     {
-                        debugText = "Down waypoint, " + nextWaypoint.name;
                         SetNextPoint(activeWaypointScript.altWayPointDown);
+                        UpdateDebug("Down waypoint, " + nextWaypoint.name);
                     }
                 }
                 else if (activeWaypointScript.virtualAltUpTransform != null)
                 {
-                    debugText = "Up waypoint, " + nextWaypoint.name;
                     SetNextPoint(activeWaypointScript.altWayPointUp);
+                    UpdateDebug("Up waypoint, " + nextWaypoint.name);
                 }
                 else
                 {
-                    debugText = "Down waypoint, " + nextWaypoint.name;
                     SetNextPoint(activeWaypointScript.altWayPointDown);
+                    UpdateDebug("Down waypoint, " + nextWaypoint.name);
                 }
             }
 

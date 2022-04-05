@@ -5,6 +5,8 @@ using UnityEngine;
 public class MotherAnimSoundScript : MonoBehaviour
 {
 
+    public Animator motherAnimator;
+
     public AudioClip[] idleVocalizationSound;
     private int idleSoundIndex;
 
@@ -39,6 +41,9 @@ public class MotherAnimSoundScript : MonoBehaviour
     {
         vocalizationAudioSource.clip = idleVocalizationSound[idleSoundIndex];
         vocalizationAudioSource.Play();
+
+        if (motherAnimator.GetInteger("LookWalkAttack") != 0)
+            motherAnimator.SetInteger("LookWalkAttack", 0);
     }
 
     public void PlayWalking(bool activate)
@@ -47,6 +52,9 @@ public class MotherAnimSoundScript : MonoBehaviour
         {
             movementAudioSource.clip = walkingSound[walkingSoundIndex];
             movementAudioSource.Play();
+
+            if (motherAnimator.GetInteger("LookWalkAttack") != 1)
+                motherAnimator.SetInteger("LookWalkAttack", 1);
         }
 
         if(!activate)
@@ -68,6 +76,9 @@ public class MotherAnimSoundScript : MonoBehaviour
         vocalizationAudioSource.Play();
 
         PlayWalking(false);
+
+        if (motherAnimator.GetInteger("LookWalkAttack") != 2)
+            motherAnimator.SetInteger("LookWalkAttack", 2);
     }
 
     public void PlayLeap()
