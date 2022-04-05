@@ -6,19 +6,18 @@ using UnityEngine;
 public class Song_Of_Sorrows : MonoBehaviour
 {
     private SphereCollider lyreBounds;
+    public GameObject HUD;
     public GameObject Collider;
 
     private IEnumerator coroutine;
-    public ParticleSystem song;
 
     bool isCooling = false;
 
     [SerializeField]
-    private float manaDrain = 4;
-    
-    public float abilityDuration = 3;
-    
-    public float coolDownDuration = 8;
+    private float abilityDuration = 3;
+
+    [SerializeField]
+    private float coolDownDuration = 8;
 
     [SerializeField]
     private float stunDuration = 3;
@@ -35,14 +34,14 @@ public class Song_Of_Sorrows : MonoBehaviour
     }
 
     
-   /* void Update()
+    void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Tab Pressed"); //Tested and being read
             Activate();
         }
-    }*/
+    }
 
     public void Activate()
     {
@@ -69,17 +68,12 @@ public class Song_Of_Sorrows : MonoBehaviour
     //Makes it so you can't just spam the ability
     private IEnumerator coolDownDelay()
     {
-        song.Play();
-
         yield return new WaitForSeconds(abilityDuration);
-
-        song.Stop();
 
         lyreBounds.enabled = false;
         yield return new WaitForSeconds(coolDownDuration);
        
         isCooling = false;
-
     }
 
 }
