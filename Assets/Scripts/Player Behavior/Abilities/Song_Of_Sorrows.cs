@@ -23,6 +23,8 @@ public class Song_Of_Sorrows : MonoBehaviour
     [SerializeField]
     private float stunDuration = 3;
 
+    public AudioSource lyreSound;
+
     //Creates sphere collider for ability
     private void Awake()
     {
@@ -51,6 +53,8 @@ public class Song_Of_Sorrows : MonoBehaviour
             lyreBounds.enabled = true;
             Debug.Log("Sphere created"); //Tested and being read, sphere created
             Lyre();
+
+            lyreSound.Play();
         }
     }
 
