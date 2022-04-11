@@ -6,41 +6,40 @@ using UnityEditor;
 
 public class Corrupted_Script : MonoBehaviour
 {
-    public bool isHoldingPlayer;
-
-    [HideInInspector] public NavMeshAgent agent;
-    public GameObject capturePoint;
-    public GameObject playerSocket;
-
-    [HideInInspector] public Transform player;
-    [HideInInspector] public CrouchToHide_Script playerHide;
-    public CombinationLock playerLock;
-
-    public LayerMask whatIsGround, whatIsPlayer;
-
-    //corrupted patrolling code
-
-    public Vector3 walkPoint1;
-    public Vector3 walkPoint2;
-    bool walkPointSet1;
-    bool walkPointSet2;
-    public float walkPointRange;
-    private bool roam = false;
-
-    public Transform[] points;
-    int current;
+    [Header("- General")]
     public float speed;
     public float playerspeed;
+    public LayerMask whatIsGround, whatIsPlayer;
 
-    private float stunTimer;
+    [Header("- Scripts")]
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public Transform player;
+    [HideInInspector] public CrouchToHide_Script playerHide;
+    [HideInInspector] public CombinationLock playerLock;
 
+    [Header("- Pathing")]
     public GameObject waypoint1;
     public GameObject waypoint2;
     public GameObject waypoint3;
     private Vector3 waypoint;
+    private bool walkPointSet1;
+    private bool walkPointSet2;
+    private float think;
+    private bool thinking;
+    private bool roam = false;
+    [HideInInspector] public float walkPointRange;
+    [HideInInspector] public Vector3 walkPoint1;
+    [HideInInspector] public Vector3 walkPoint2;
 
-    //state of corrupted
 
+    [Header("- Grabbing Player")]
+    public GameObject capturePoint;
+    public GameObject playerSocket;
+    [HideInInspector] public bool isHoldingPlayer;
+    [SerializeField] private float grabBreakoutStun = 3;
+    private float stunTimer;
+
+    [Header("- States")]
     public float sightRange;
     private bool playerInSightRange;
 
@@ -48,10 +47,6 @@ public class Corrupted_Script : MonoBehaviour
     private bool playerInAttackRange;
 
     private bool chasing;
-
-    [SerializeField] private float grabBreakoutStun = 3;
-    private float think;
-    private bool thinking;
 
     //Gizmos
 #if UNITY_EDITOR
@@ -77,7 +72,6 @@ public class Corrupted_Script : MonoBehaviour
     void Start()
     {
         waypoint = waypoint1.transform.position;
-        current = 0;
     }
 
     private void Awake()
@@ -85,7 +79,7 @@ public class Corrupted_Script : MonoBehaviour
         player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
-        playerLock = GetComponent<CombinationLock>();
+        playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
     }
 
     private void Update()
@@ -118,11 +112,7 @@ public class Corrupted_Script : MonoBehaviour
 
             //only chase player if in range, not hiding, not in lock, and enemy not stunned
             if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
-
-            if (chasing && playerHide.hiding)
-            {
-                StopMoving();
-            }
+            if (chasing && playerHide.hiding) StopMoving();
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
@@ -130,7 +120,6 @@ public class Corrupted_Script : MonoBehaviour
         {
             TakePlayerToEgg();
         }
-
     }
 
     private void Patroling()
@@ -149,7 +138,6 @@ public class Corrupted_Script : MonoBehaviour
         //Once main waypoint is found set desination to that waypoint
         if (walkPointSet1)
         {
-
             agent.SetDestination(walkPoint1);
         }
 
@@ -178,7 +166,6 @@ public class Corrupted_Script : MonoBehaviour
             roam = false;
             walkPointSet2 = false;
         }
-
     }
 
     //Sets the new wapoint from NewWaypoint() to walkpoint1, and sent to patrol function to set new destination
@@ -191,10 +178,8 @@ public class Corrupted_Script : MonoBehaviour
         {
             walkPointSet1 = true;
         }
-
     }
 
-    //Temporary----------------------------------------------------
     private void Roam()
     {
         //Calculates random point in range  of the current waypoint
@@ -209,7 +194,6 @@ public class Corrupted_Script : MonoBehaviour
         {
             walkPointSet2 = true;
         }
-
     }
 
     private void NewWaypoint()
@@ -251,7 +235,6 @@ public class Corrupted_Script : MonoBehaviour
         //transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
 
         agent.SetDestination(capturePoint.transform.position - (playerSocket.transform.position - transform.position));
-
         player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
     }
 
@@ -260,7 +243,6 @@ public class Corrupted_Script : MonoBehaviour
         chasing = true;
 
         agent.speed = 10;
-
         agent.SetDestination(player.position);
         //transform.LookAt(player.position + transform.position);
     }
@@ -279,29 +261,25 @@ public class Corrupted_Script : MonoBehaviour
     {
         stunTimer = grabBreakoutStun;
         isHoldingPlayer = false;
-
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "LyreTrigger")
         {
-            Debug.Log("Lyre Collider stunned corrupted"); //Being read but speed is not changing
-
+            Debug.Log("Lyre Collider stunned corrupted");
             StunThisEnemy();
         }
 
         if (other.gameObject.tag == "Player" && stunTimer <= 0)
         {
-            Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
-
-            struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
-
             isHoldingPlayer = true;
+
+            Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
+            struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
 
             Debug.Log("Corrupted grabbed the player.");
         }
-
     }
 
     public void OnDrawGizmosSelected()

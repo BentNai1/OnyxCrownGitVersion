@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CombinationLock : MonoBehaviour
 {
-    private int[] result;
-
     [SerializeField]
     public GameObject gate, lockCam, combLock;
     [SerializeField]
     private int[] lockAnswer;
 
-    public bool playerBusy;
+    private int[] result;
+
+    public bool playerBusy = false;
 
     void Start()
     {
