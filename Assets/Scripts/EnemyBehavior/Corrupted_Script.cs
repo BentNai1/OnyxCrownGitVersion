@@ -14,7 +14,7 @@ public class Corrupted_Script : MonoBehaviour
 
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
-    [HideInInspector] public CombinationLock playerLock;
+    public CombinationLock playerLock;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -78,8 +78,6 @@ public class Corrupted_Script : MonoBehaviour
     {
         waypoint = waypoint1.transform.position;
         current = 0;
-
-        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Awake()
@@ -87,6 +85,7 @@ public class Corrupted_Script : MonoBehaviour
         player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
+        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Update()
@@ -119,6 +118,7 @@ public class Corrupted_Script : MonoBehaviour
 
             //only chase player if in range, not hiding, not in lock, and enemy not stunned
             if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
+
             if (chasing && playerHide.hiding)
             {
                 StopMoving();
