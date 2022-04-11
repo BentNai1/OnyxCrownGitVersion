@@ -43,7 +43,7 @@ public class Corrupted_Script : MonoBehaviour
     public float sightRange;
     private bool playerInSightRange;
 
-    public float attackRange;
+    private float attackRange;
     private bool playerInAttackRange;
 
     private bool chasing;
@@ -106,7 +106,7 @@ public class Corrupted_Script : MonoBehaviour
         {
             //Checking for sight range (and eventually atttack range)
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+            //playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
             if (!playerInSightRange) Patroling();
 
@@ -285,8 +285,8 @@ public class Corrupted_Script : MonoBehaviour
     public void OnDrawGizmosSelected()
     {
         //detection fields for seing and attacking the player
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
 
