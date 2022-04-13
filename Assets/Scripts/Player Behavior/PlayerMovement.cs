@@ -333,24 +333,21 @@ public class PlayerMovement : MonoBehaviour
                 lastUsedAngle = inputRotationAngle.LeftCamera;
             }
             #endregion
+        
+            //..............................................Dash (Depriciated)
+            #region Dash (Depreciated)
+            /**if (Input.GetButtonDown("Fire3"))
+            {
+                dashScript.DashInDirection(controller, modelRotation);
+            }**/
+            #endregion
+
+            //..............................................Player fall velocity
+            #region Falling
+            fallVelocity.y = fallVelocity.y + gravity * Time.deltaTime;
+            controller.Move(fallVelocity * Time.deltaTime); //frick this line of code in particular ~Nathan Moyer
+            #endregion
         }
-
-
-
-
-        //..............................................Dash (Depriciated)
-        #region Dash (Depreciated)
-        /**if (Input.GetButtonDown("Fire3"))
-        {
-            dashScript.DashInDirection(controller, modelRotation);
-        }**/
-        #endregion
-
-        //..............................................Player fall velocity
-        #region Falling
-        fallVelocity.y = fallVelocity.y + gravity * Time.deltaTime;
-        controller.Move(fallVelocity * Time.deltaTime);
-        #endregion
     }
 
         /** Jump - Depreciated
