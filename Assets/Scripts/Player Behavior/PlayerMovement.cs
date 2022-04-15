@@ -196,9 +196,9 @@ public class PlayerMovement : MonoBehaviour
                 vertMovementWasActive = false;
                 vertCorrectionTarget = transform.localPosition.x;
             }
-            //change y to match direction of saved direction
-            float preClampY = transform.localPosition.x - vertCorrectionTarget;
-            //preClampY = Mathf.SmoothStep(preClampY, vertCorrectionTarget, 1);
+            //calculate discreprancy for how far off y axis player is
+            float preClampY = (transform.localPosition.x - vertCorrectionTarget) * -1;
+
             mathY = Mathf.Clamp(preClampY, -1, 1);
 
             //set bool that indicates major vertical correction happened - relevant for outside scripts
@@ -229,14 +229,28 @@ public class PlayerMovement : MonoBehaviour
             //creates a location to move to relative to 
             //direction player is facing
 
-            Vector3 newLocation = transform.forward *  xAxisInput  + transform.right * mathY * -1;
+            //adjust for speed and frames
+            float speedTimeMultiplier = moveSpeed * Time.deltaTime;
 
-            Debug.DrawLine(transform.position, (newLocation*2 + transform.position), Color.cyan);
+            //x axis position
+            Vector3 newLocation = (transform.forward * xAxisInput) * speedTimeMultiplier;
 
-            controller.Move(newLocation * moveSpeed * Time.deltaTime);
+            //newLocation = newLocation + (transform.right * mathY * speedTimeMultiplier);
+
+            //y axis position, corrected for overshoot
+            newLocation = newLocation + (CorrectForYOvershoot(transform.right * mathY * speedTimeMultiplier, mathY));
+
+            Debug.DrawLine(transform.position, (newLocation * 2 + transform.position), Color.cyan);
+
+            //move, without overshooting
+            controller.Move(newLocation);
+
 
             //Send animation script the current speed, so it can change the player animation walk to match
-            playerAnimationScript.changeMovementAnimSpeed(Mathf.Abs(mathY)+Mathf.Abs(xAxisInput));
+            playerAnimationScript.changeMovementAnimSpeed(Mathf.Abs(mathY) + Mathf.Abs(xAxisInput));
+
+            //..............................................Rotate model
+            //only rotate if movement happened
 
             //..............................................Rotate model
             //only rotate if movement happened
@@ -414,6 +428,30 @@ public class PlayerMovement : MonoBehaviour
             disableBackwardMove = false;
             disableForwardMove = false;
         }    
+    }
+
+    private Vector3 CorrectForYOvershoot(Vector3 movementVectorToCheck, float yMoveTarget)
+    {
+        //if going to overshoot on y correction, set to match instead
+
+
+
+        Vector3 newVertVector = new Vector3(0, 0, 0);
+
+        Debug.Log("--------");
+        Debug.Log("PreValue " + movementVectorToCheck + "Target: " + yMoveTarget + "Target magnitude: " + movementVectorToCheck.magnitude);
+        if (movementVectorToCheck.magnitude != 0)
+            newVertVector = movementVectorToCheck * Mathf.Clamp01(Mathf.Abs(yMoveTarget) / movementVectorToCheck.magnitude);
+        else
+            newVertVector = movementVectorToCheck;
+        Debug.Log(" - - - - - - ");
+        Debug.Log("Overshoot Corrected value: " + newVertVector + "Corrected magnitude: " + newVertVector.magnitude);
+        Debug.Log("--------");
+
+
+
+
+        return newVertVector;
     }
 
     #region getinputs
