@@ -8,7 +8,11 @@ public class CombinationRotate : MonoBehaviour
     public static event Action<string, int> Rotated = delegate { };
     private bool coroutineAllowed;
     private int numShown;
-     
+
+    [Header("- Sound")]
+    [SerializeField] private AudioSource lockSpeaker;
+    [SerializeField] private AudioClip combinationSound;
+
     private void Start()
     {
         coroutineAllowed = true;
@@ -29,12 +33,15 @@ public class CombinationRotate : MonoBehaviour
     {
         coroutineAllowed = false;
 
+        lockSpeaker.PlayOneShot(combinationSound);
+
         for(int i = 0; i <= 11; i++)
         {
             //Yess it have to be that long to keep it rotating accuratley
             transform.Rotate(0f, 0f, -3.333333333333333f);
             yield return new WaitForSeconds(0.01f);
         }
+
 
         coroutineAllowed = true;
 

@@ -878,12 +878,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6907704945458400834, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
+      propertyPath: lockSpeaker
+      value: 
+      objectReference: {fileID: 1391793330}
+    - target: {fileID: 6907704945742322430, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
+      propertyPath: lockSpeaker
+      value: 
+      objectReference: {fileID: 1391793330}
+    - target: {fileID: 6907704946000048166, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
+      propertyPath: lockSpeaker
+      value: 
+      objectReference: {fileID: 1391793330}
+    - target: {fileID: 6907704946251341601, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
+      propertyPath: lockSpeaker
+      value: 
+      objectReference: {fileID: 1391793330}
+    - target: {fileID: 6907704946286915195, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
+      propertyPath: lockSpeaker
+      value: 
+      objectReference: {fileID: 1391793330}
     - target: {fileID: 6907704946481038610, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
       propertyPath: m_Name
-      value: Lock
-      objectReference: {fileID: 0}
-    - target: {fileID: 6907704946481038610, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
-      propertyPath: m_TagString
       value: Lock
       objectReference: {fileID: 0}
     - target: {fileID: 6907704946481038611, guid: 08b2cc45cee25da48878d4a4ed047af0, type: 3}
@@ -1175,6 +1191,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c6a3c19a3202043be2b40ce80e263e, type: 3}
+--- !u!82 &1391793330 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4350617218419136637, guid: 70c6a3c19a3202043be2b40ce80e263e, type: 3}
+  m_PrefabInstance: {fileID: 1212351211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1428850698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1769727004, guid: 3db9cbd301332284d805a60151a1dd82, type: 3}
