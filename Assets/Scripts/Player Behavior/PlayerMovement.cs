@@ -438,18 +438,10 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 newVertVector = new Vector3(0, 0, 0);
 
-        Debug.Log("--------");
-        Debug.Log("PreValue " + movementVectorToCheck + "Target: " + yMoveTarget + "Target magnitude: " + movementVectorToCheck.magnitude);
         if (movementVectorToCheck.magnitude != 0)
             newVertVector = movementVectorToCheck * Mathf.Clamp01(Mathf.Abs(yMoveTarget) / movementVectorToCheck.magnitude);
         else
             newVertVector = movementVectorToCheck;
-        Debug.Log(" - - - - - - ");
-        Debug.Log("Overshoot Corrected value: " + newVertVector + "Corrected magnitude: " + newVertVector.magnitude);
-        Debug.Log("--------");
-
-
-
 
         return newVertVector;
     }

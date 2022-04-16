@@ -618,8 +618,8 @@ MonoBehaviour:
   minMoveInfractionLimit: 200
   fastRotateSlowdown: 8
   lungeWindUpDuration: 0.8
-  lungeSpeed: 10
-  lungeDuration: 0.2
+  lungeSpeed: 100
+  lungeDuration: 1
 --- !u!114 &5313228009877010278
 MonoBehaviour:
   m_ObjectHideFlags: 0
