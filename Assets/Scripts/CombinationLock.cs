@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CombinationLock : MonoBehaviour
 {
+    [Header("- Lock Stuff")]
+
     [SerializeField] public GameObject gate, lockCam, combLock;
     [SerializeField] private int[] lockAnswer;
 
     private int[] result;
 
-    public bool playerBusy = false;
+    [HideInInspector] public bool playerBusy = false;
 
+    [Header("- Sound")]
     [SerializeField] private AudioSource lockSpeaker;
     [SerializeField] private AudioClip unlockSound;
 

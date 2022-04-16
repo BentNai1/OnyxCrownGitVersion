@@ -26,6 +26,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ff86219a8b4a43a44f8877bf5c04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockSpeaker: {fileID: 0}
+  combinationSound: {fileID: 8300000, guid: db0c64da92096334c917c1dbcdfd00e4, type: 3}
 --- !u!64 &6907704945742322431
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -52,6 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ff86219a8b4a43a44f8877bf5c04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockSpeaker: {fileID: 0}
+  combinationSound: {fileID: 8300000, guid: db0c64da92096334c917c1dbcdfd00e4, type: 3}
 --- !u!64 &6907704946286915192
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -78,6 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ff86219a8b4a43a44f8877bf5c04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockSpeaker: {fileID: 0}
+  combinationSound: {fileID: 8300000, guid: db0c64da92096334c917c1dbcdfd00e4, type: 3}
 --- !u!64 &6907704946000048167
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -104,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ff86219a8b4a43a44f8877bf5c04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockSpeaker: {fileID: 0}
+  combinationSound: {fileID: 8300000, guid: db0c64da92096334c917c1dbcdfd00e4, type: 3}
 --- !u!1 &6907704944943864168
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,8 +356,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gate: {fileID: 0}
   lockCam: {fileID: 6907704944943864168}
-  combLock: {fileID: 0}
-  lockAnswer: 01000000020000000300000004000000
+  combLock: {fileID: 6907704946481038610}
+  lockAnswer: 05000000020000000600000009000000
+  playerBusy: 0
+  lockSpeaker: {fileID: 0}
+  unlockSound: {fileID: 8300000, guid: 02f4ad0225711684ebfcad400bc3e5ca, type: 3}
 --- !u!65 &6907704946251341607
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -375,7 +386,7 @@ GameObject:
   - component: {fileID: 6907704946481038608}
   m_Layer: 5
   m_Name: Lock
-  m_TagString: Untagged
+  m_TagString: Lock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
