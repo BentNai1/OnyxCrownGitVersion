@@ -136,14 +136,24 @@ public class MotherMover : MonoBehaviour
         float step = slowdown * Time.deltaTime;
 
 
-        //if angle is getting bigger, flip direction
+        //if angle is getting bigger, decide flip direction
         if (previousFrameRotationDegree < targetRotationDegree)
             rotationInverterValue = rotationInverterValue * -1; 
 
-        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y * rotationInverterValue;
+        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y;
 
+        //check if rotation is too far, lower to match if needed
+        if (yRotate > targetRotationDegree)
+            yRotate = targetRotationDegree;
+
+
+        //flip direction if needed
+        targetRotationDegree = targetRotationDegree * rotationInverterValue;
+
+        //rotate
         motherRotater.RotateMother(yRotate);
 
+        //store previous rotation frame
         previousFrameRotationDegree = targetRotationDegree;
     }
 
@@ -222,10 +232,8 @@ public class MotherMover : MonoBehaviour
         //the lunge
         else if(!lungeWindUp && lungeTimer >= 0)
         {
-
-            float step = lungeSpeed * Time.deltaTime;
-            Vector3 stepLungeTarget = moveDirection * lungeSpeed;
-            motherAIAndModelCC.Move(CorrectForMovementOvershoot(stepLungeTarget, playerPosition));
+            Vector3 stepLungeTarget = moveDirection * lungeSpeed * Time.deltaTime;
+            motherAIAndModelCC.Move(stepLungeTarget);
 
             lungeTimer -= Time.deltaTime;
 
