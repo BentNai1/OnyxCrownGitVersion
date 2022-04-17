@@ -17,6 +17,7 @@ TagManager:
   - Cover
   - Lock
   - Mother
+  - Table
   layers:
   - Default
   - TransparentFX
