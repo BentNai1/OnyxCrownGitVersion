@@ -10,10 +10,13 @@ public class NoteAppearance : MonoBehaviour
     [SerializeField]
     private Text _noteText;
 
+    public bool playerBusy;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            playerBusy = true;
             _noteImage.enabled = true;
              _noteText.enabled = true;
         }
@@ -23,6 +26,7 @@ public class NoteAppearance : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerBusy = false;
             _noteImage.enabled = false;
              _noteText.enabled = false;
         }

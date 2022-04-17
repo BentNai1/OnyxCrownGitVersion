@@ -5,25 +5,20 @@ using UnityEngine.UI;
 
 public class Struggle : MonoBehaviour
 {
-    public int numPress;
-    public Vector3 offset = new Vector3( 20, 20, 20);
-
+    [Header("- Variables for Corrutped")]
     public GameObject playerSocket;
-
-    public CharacterController playerCharacterController;
-
     public bool isStruggling;
 
-    PlayerMovement playerScript2;
-
-    //Mash Variables
+    [Header("- Button Mash")]
     public float mashDelay = 1f;
-
     public float mash;
     public bool pressed;
+    public float buttonHoldTime = 4;
 
+    [Header("- Scritps")]
+    PlayerMovement playerScript2;
+    public CharacterController playerCharacterController;
     private Corrupted_Script enemyHoldingPlayer;
-
     
 
     void Start()
@@ -35,15 +30,9 @@ public class Struggle : MonoBehaviour
 
     void Update()
     {
-        
-            
-        
         if (isStruggling == true)
         {
-            
-            /**Vector3 diff = transform.TransformDirection(capturePoint.transform.position - transform.position);
-            playerCharacterController.transform.TransformDirection(offset);
-            playerCharacterController.Move(diff);**/
+
 
             if(Input.GetButtonDown("Jump") && !pressed)
             {
@@ -56,13 +45,19 @@ public class Struggle : MonoBehaviour
                 pressed = false;
             }
 
-            if (mash >= 7)
+            if(pressed)
+            {
+                buttonHoldTime -= Time.deltaTime;
+            }
+
+            if (mash >= 7 || buttonHoldTime <= 0)
             {
                 isStruggling = false;
                 playerScript2.isGrabbed = false;
                 Debug.Log("Player finished struggling, can move again");
                 enemyHoldingPlayer.StunThisEnemy();
                 mash = 0;
+                buttonHoldTime = 4;
             }
         }
     }

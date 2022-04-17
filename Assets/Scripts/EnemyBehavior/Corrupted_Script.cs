@@ -11,12 +11,16 @@ public class Corrupted_Script : MonoBehaviour
     public float speed;
     public float playerspeed;
     public LayerMask whatIsGround, whatIsPlayer;
+    private float thrust = 3f;
+    public bool enemyRanIntoTable = false;
 
     [Header("- Scripts")]
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
     [HideInInspector] public CombinationLock playerLock;
+    [HideInInspector] public NoteAppearance playerNote;
+
 
     [Header("- Pathing")]
     public GameObject waypoint1;
@@ -84,6 +88,7 @@ public class Corrupted_Script : MonoBehaviour
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
         if(playerLock == null) playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
+        if (playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
     }
 
     private void Update()
@@ -118,7 +123,7 @@ public class Corrupted_Script : MonoBehaviour
             if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0)
             {
                 //When player is busy in a lock, go back to patroling 
-                if(playerLock.playerBusy == true)
+                if(playerLock.playerBusy == true && playerNote.playerBusy == true)
                 {
                     Patroling();
                 }
@@ -299,6 +304,13 @@ public class Corrupted_Script : MonoBehaviour
             struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
 
             Debug.Log("Corrupted grabbed the player.");
+        }
+
+        if(other.gameObject.tag == "Table")
+        {
+            //Destroy(other.gameObject);
+            //other.GetComponent<Rigidbody>().AddForce(0, 3, -3 * thrust, ForceMode.Impulse);
+            enemyRanIntoTable = true;
         }
     }
 
