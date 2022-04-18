@@ -91,6 +91,7 @@ public class MotherPlayerHunter : MonoBehaviour
             {
                 UpdateDebug("Player detected!");
                 motherBrainScript.AddQuedWaypoint(playerMovementScript.forwardWaypoint, playerMovementScript.backwardWaypoint);
+                motherAnimSound.PlaySpotted();
             }
         }
 
