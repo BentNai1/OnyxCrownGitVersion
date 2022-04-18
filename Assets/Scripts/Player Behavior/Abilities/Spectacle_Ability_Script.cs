@@ -20,6 +20,8 @@ public class Spectacle_Ability_Script : MonoBehaviour
     [SerializeField]
     public float cooldownDuration = 3;
 
+    public AudioSource spectacleSound;
+
     private void Awake()
     {
         specBounds = Collider.GetComponent<SphereCollider>();
@@ -46,6 +48,8 @@ public class Spectacle_Ability_Script : MonoBehaviour
             specBounds.enabled = true;
             print("Activated spectacle");
             Spectacle();
+
+            spectacleSound.Play();
         }
     }
     
