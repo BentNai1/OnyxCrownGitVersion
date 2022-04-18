@@ -39,17 +39,23 @@ public class MotherAnimSoundScript : MonoBehaviour
 
     public void PlayIdle()
     {
-        vocalizationAudioSource.clip = idleVocalizationSound[idleSoundIndex];
-        vocalizationAudioSource.Play();
+        if (!vocalizationAudioSource.isPlaying)
+        {
+            idleSoundIndex = Random.Range(0, idleVocalizationSound.Length - 1);
+            vocalizationAudioSource.clip = idleVocalizationSound[idleSoundIndex];
+            vocalizationAudioSource.Play();
+        }
 
         if (motherAnimator.GetInteger("LookWalkAttack") != 0)
             motherAnimator.SetInteger("LookWalkAttack", 0);
+        
     }
 
     public void PlayWalking(bool activate)
     {
         if (activate)
         {
+            walkingSoundIndex = Random.Range(0, walkingSound.Length - 1);
             movementAudioSource.clip = walkingSound[walkingSoundIndex];
             movementAudioSource.Play();
 
@@ -66,12 +72,18 @@ public class MotherAnimSoundScript : MonoBehaviour
 
     public void PlaySpotted()
     {
-        vocalizationAudioSource.clip = spottedSound[spottedSoundIndex];
-        vocalizationAudioSource.Play();
+
+        if (!vocalizationAudioSource.isPlaying)
+        {
+            spottedSoundIndex = Random.Range(0, spottedSound.Length - 1);
+            vocalizationAudioSource.clip = spottedSound[spottedSoundIndex];
+            vocalizationAudioSource.Play();
+        }
     }
 
     public void PlayLeapPrep()
     {
+        leapPrepSoundIndex = Random.Range(0, leapPrepSound.Length - 1);
         vocalizationAudioSource.clip = leapPrepSound[leapPrepSoundIndex];
         vocalizationAudioSource.Play();
 
@@ -83,6 +95,7 @@ public class MotherAnimSoundScript : MonoBehaviour
 
     public void PlayLeap()
     {
+        leapSoundIndex = Random.Range(0, leapSound.Length - 1);
         vocalizationAudioSource.clip = leapSound[leapSoundIndex];
         vocalizationAudioSource.Play();
 

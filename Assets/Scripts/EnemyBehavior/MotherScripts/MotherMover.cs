@@ -52,6 +52,8 @@ public class MotherMover : MonoBehaviour
         animSoundScript = gameObject.GetComponent<MotherAnimSoundScript>();
 
         lastFramePosition = motherAIAndModel.position;
+
+        Application.targetFrameRate = 10;
     }
 
     //rotate/move towards target
@@ -98,13 +100,24 @@ public class MotherMover : MonoBehaviour
         moveDirection.y = 0;
     }
 
+    private Vector3 CorrectForMovementOvershoot(Vector3 movementVectorToCheck, Vector3 targetLocation)
+    {
+        //prevent from overshooting by multiplying clamped 0-1 the final target divided by the calculated movement (if it would move to far, the distance to be moved gets lowered)
+
+        Vector3 targetVector = (targetLocation - motherAIAndModel.position);
+        movementVectorToCheck = movementVectorToCheck * Mathf.Clamp01(targetVector.magnitude / movementVectorToCheck.magnitude);
+
+        return movementVectorToCheck;
+    }
+
     //move ai towards target
     private void MoveToTarget()
     {
 
         float step = baseMovementSpeed * Time.deltaTime;
+        Vector3 finalMovementValue = moveDirection * step;
 
-        motherAIAndModelCC.Move(moveDirection * baseMovementSpeed);
+        motherAIAndModelCC.Move(CorrectForMovementOvershoot(finalMovementValue, targetWaypoint.transform.position));
 
 
         //turn off movement when close enough to waypoint
@@ -123,14 +136,24 @@ public class MotherMover : MonoBehaviour
         float step = slowdown * Time.deltaTime;
 
 
-        //if angle is getting bigger, flip direction
+        //if angle is getting bigger, decide flip direction
         if (previousFrameRotationDegree < targetRotationDegree)
             rotationInverterValue = rotationInverterValue * -1; 
 
-        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y * rotationInverterValue;
+        float yRotate = Vector3.RotateTowards(motherAIAndModel.transform.forward, targetPosition, step, 10000).y;
 
+        //check if rotation is too far, lower to match if needed
+        if (yRotate > targetRotationDegree)
+            yRotate = targetRotationDegree;
+
+
+        //flip direction if needed
+        targetRotationDegree = targetRotationDegree * rotationInverterValue;
+
+        //rotate
         motherRotater.RotateMother(yRotate);
 
+        //store previous rotation frame
         previousFrameRotationDegree = targetRotationDegree;
     }
 
@@ -209,9 +232,8 @@ public class MotherMover : MonoBehaviour
         //the lunge
         else if(!lungeWindUp && lungeTimer >= 0)
         {
-
-            float step = lungeSpeed * Time.deltaTime;
-            motherAIAndModelCC.Move(moveDirection * lungeSpeed);
+            Vector3 stepLungeTarget = moveDirection * lungeSpeed * Time.deltaTime;
+            motherAIAndModelCC.Move(stepLungeTarget);
 
             lungeTimer -= Time.deltaTime;
 

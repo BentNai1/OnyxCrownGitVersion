@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cbad4bdc83245741920a824318b160c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMovementSpeed: 0.2
+  baseMovementSpeed: 6
   closeEnoughThreshhold: 0.1
   closeToTarget: 1
   faceAngleThreshhold: 1
@@ -618,8 +618,8 @@ MonoBehaviour:
   minMoveInfractionLimit: 200
   fastRotateSlowdown: 8
   lungeWindUpDuration: 0.8
-  lungeSpeed: 3
-  lungeDuration: 0.2
+  lungeSpeed: 100
+  lungeDuration: 1
 --- !u!114 &5313228009877010278
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,16 +6,21 @@ using UnityEditor;
 
 public class Corrupted_Script : MonoBehaviour
 {
+    #region Variables
     [Header("- General")]
     public float speed;
     public float playerspeed;
     public LayerMask whatIsGround, whatIsPlayer;
+    private float thrust = 3f;
+    public bool enemyRanIntoTable = false;
 
     [Header("- Scripts")]
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
     [HideInInspector] public CombinationLock playerLock;
+    [HideInInspector] public NoteAppearance playerNote;
+
 
     [Header("- Pathing")]
     public GameObject waypoint1;
@@ -47,7 +52,9 @@ public class Corrupted_Script : MonoBehaviour
     private bool playerInAttackRange;
 
     private bool chasing;
+    #endregion
 
+    #region Active Gizmos
     //Gizmos
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -68,6 +75,7 @@ public class Corrupted_Script : MonoBehaviour
         }
     }
 #endif
+    #endregion
 
     void Start()
     {
@@ -76,10 +84,11 @@ public class Corrupted_Script : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        if(player == null) player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
-        playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
+        if(playerLock == null) playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
+        if (playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
     }
 
     private void Update()
@@ -111,7 +120,16 @@ public class Corrupted_Script : MonoBehaviour
             if (!playerInSightRange) Patroling();
 
             //only chase player if in range, not hiding, not in lock, and enemy not stunned
-            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
+            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0)
+            {
+                //When player is busy in a lock, go back to patroling 
+                if(playerLock.playerBusy == true && playerNote.playerBusy == true)
+                {
+                    Patroling();
+                }
+                else ChasePlayer();
+            }
+
             if (chasing && playerHide.hiding) StopMoving();
         }
 
@@ -122,8 +140,13 @@ public class Corrupted_Script : MonoBehaviour
         }
     }
 
+    #region Pathing
     private void Patroling()
     {
+        //setting speed at beggning for when the player is busy in the lock
+        //and so the enemy won't be pathing super fast
+        agent.speed = 3;
+
         //Searches for a new main waypoint, once they reach their current waypoint
         if (!walkPointSet1)
         {
@@ -227,8 +250,9 @@ public class Corrupted_Script : MonoBehaviour
         agent.isStopped = true;
         thinking = true;
     }
-    //-------------------------------------------------------------
+    #endregion
 
+    #region States
     private void TakePlayerToEgg()
     {
         //transform.LookAt(capturePoint.transform.position + transform.position);
@@ -262,6 +286,7 @@ public class Corrupted_Script : MonoBehaviour
         stunTimer = grabBreakoutStun;
         isHoldingPlayer = false;
     }
+    #endregion
 
     public void OnTriggerEnter(Collider other)
     {
@@ -280,8 +305,16 @@ public class Corrupted_Script : MonoBehaviour
 
             Debug.Log("Corrupted grabbed the player.");
         }
+
+        if(other.gameObject.tag == "Table")
+        {
+            //Destroy(other.gameObject);
+            //other.GetComponent<Rigidbody>().AddForce(0, 3, -3 * thrust, ForceMode.Impulse);
+            enemyRanIntoTable = true;
+        }
     }
 
+    #region Drawn Gizmos
     public void OnDrawGizmosSelected()
     {
         //detection fields for seing and attacking the player
@@ -304,4 +337,5 @@ public class Corrupted_Script : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(waypoint3.transform.position, waypoint1.transform.position);
     }
+    #endregion
 }
