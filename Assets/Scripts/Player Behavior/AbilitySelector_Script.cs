@@ -31,14 +31,14 @@ public class AbilitySelector_Script : MonoBehaviour
     
     void Update()
     {
-        if (!Wheel.GetComponent<Cooldown_Script>().isUsing && Input.GetKeyDown("e"))
-        {
-            Cycle();
-        }
-
-        if (!Wheel.GetComponent<Cooldown_Script>().isCooling && Input.GetButtonDown("Fire2"))
+        if (!Wheel.GetComponent<Cooldown_Script>().isCooling && Input.GetButtonDown("Fire1"))
         {
             Activate();
+        }
+
+        if (!Wheel.GetComponent<Cooldown_Script>().isUsing && Input.GetButtonDown("Fire2"))
+        {
+            Cycle();
         }
     }
 
