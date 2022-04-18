@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class CombinationLock : MonoBehaviour
 {
+    [Header("- Lock Stuff")]
+
+    [SerializeField] public GameObject gate, lockCam, combLock;
+    [SerializeField] private int[] lockAnswer;
+
     private int[] result;
 
-    [SerializeField]
-    public GameObject gate, lockCam, combLock;
-    [SerializeField]
-    private int[] lockAnswer;
+    [HideInInspector] public bool playerBusy = false;
 
-    public bool playerBusy;
+    [Header("- Sound")]
+    [SerializeField] private AudioSource lockSpeaker;
+    [SerializeField] private AudioClip unlockSound;
 
     void Start()
     {
@@ -48,6 +52,7 @@ public class CombinationLock : MonoBehaviour
         if (result[0] == lockAnswer[0] && result[1] == lockAnswer[1] && result[2] == lockAnswer[2] && result[3] == lockAnswer[3])
         {
             Debug.Log("Gate Opened!");
+            lockSpeaker.PlayOneShot(unlockSound);
             gate.SetActive(false);
             Destroy(combLock);
         }

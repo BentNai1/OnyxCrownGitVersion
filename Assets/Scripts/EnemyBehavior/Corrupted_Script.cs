@@ -6,53 +6,55 @@ using UnityEditor;
 
 public class Corrupted_Script : MonoBehaviour
 {
-    public bool isHoldingPlayer;
+    #region Variables
+    [Header("- General")]
+    public float speed;
+    public float playerspeed;
+    public LayerMask whatIsGround, whatIsPlayer;
+    private float thrust = 3f;
+    public bool enemyRanIntoTable = false;
 
+    [Header("- Scripts")]
     [HideInInspector] public NavMeshAgent agent;
-    public GameObject capturePoint;
-    public GameObject playerSocket;
-
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
     [HideInInspector] public CombinationLock playerLock;
+    [HideInInspector] public NoteAppearance playerNote;
 
-    public LayerMask whatIsGround, whatIsPlayer;
 
-    //corrupted patrolling code
-
-    public Vector3 walkPoint1;
-    public Vector3 walkPoint2;
-    bool walkPointSet1;
-    bool walkPointSet2;
-    public float walkPointRange;
-    private bool roam = false;
-
-    public Transform[] points;
-    int current;
-    public float speed;
-    public float playerspeed;
-
-    private float stunTimer;
-
+    [Header("- Pathing")]
     public GameObject waypoint1;
     public GameObject waypoint2;
     public GameObject waypoint3;
     private Vector3 waypoint;
+    private bool walkPointSet1;
+    private bool walkPointSet2;
+    private float think;
+    private bool thinking;
+    private bool roam = false;
+    [HideInInspector] public float walkPointRange;
+    [HideInInspector] public Vector3 walkPoint1;
+    [HideInInspector] public Vector3 walkPoint2;
 
-    //state of corrupted
 
+    [Header("- Grabbing Player")]
+    public GameObject capturePoint;
+    public GameObject playerSocket;
+    [HideInInspector] public bool isHoldingPlayer;
+    [SerializeField] private float grabBreakoutStun = 3;
+    private float stunTimer;
+
+    [Header("- States")]
     public float sightRange;
     private bool playerInSightRange;
 
-    public float attackRange;
+    private float attackRange;
     private bool playerInAttackRange;
 
     private bool chasing;
+    #endregion
 
-    [SerializeField] private float grabBreakoutStun = 3;
-    private float think;
-    private bool thinking;
-
+    #region Active Gizmos
     //Gizmos
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -73,20 +75,20 @@ public class Corrupted_Script : MonoBehaviour
         }
     }
 #endif
+    #endregion
 
     void Start()
     {
         waypoint = waypoint1.transform.position;
-        current = 0;
-
-        playerLock = GetComponent<CombinationLock>();
     }
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        if(player == null) player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
+        if(playerLock == null) playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
+        if (playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
     }
 
     private void Update()
@@ -113,16 +115,22 @@ public class Corrupted_Script : MonoBehaviour
         {
             //Checking for sight range (and eventually atttack range)
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+            //playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
             if (!playerInSightRange) Patroling();
 
             //only chase player if in range, not hiding, not in lock, and enemy not stunned
-            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0) ChasePlayer();
-            if (chasing && playerHide.hiding)
+            if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0)
             {
-                StopMoving();
+                //When player is busy in a lock, go back to patroling 
+                if(playerLock.playerBusy == true && playerNote.playerBusy == true)
+                {
+                    Patroling();
+                }
+                else ChasePlayer();
             }
+
+            if (chasing && playerHide.hiding) StopMoving();
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
@@ -130,11 +138,15 @@ public class Corrupted_Script : MonoBehaviour
         {
             TakePlayerToEgg();
         }
-
     }
 
+    #region Pathing
     private void Patroling()
     {
+        //setting speed at beggning for when the player is busy in the lock
+        //and so the enemy won't be pathing super fast
+        agent.speed = 3;
+
         //Searches for a new main waypoint, once they reach their current waypoint
         if (!walkPointSet1)
         {
@@ -149,7 +161,6 @@ public class Corrupted_Script : MonoBehaviour
         //Once main waypoint is found set desination to that waypoint
         if (walkPointSet1)
         {
-
             agent.SetDestination(walkPoint1);
         }
 
@@ -178,7 +189,6 @@ public class Corrupted_Script : MonoBehaviour
             roam = false;
             walkPointSet2 = false;
         }
-
     }
 
     //Sets the new wapoint from NewWaypoint() to walkpoint1, and sent to patrol function to set new destination
@@ -191,10 +201,8 @@ public class Corrupted_Script : MonoBehaviour
         {
             walkPointSet1 = true;
         }
-
     }
 
-    //Temporary----------------------------------------------------
     private void Roam()
     {
         //Calculates random point in range  of the current waypoint
@@ -209,7 +217,6 @@ public class Corrupted_Script : MonoBehaviour
         {
             walkPointSet2 = true;
         }
-
     }
 
     private void NewWaypoint()
@@ -243,15 +250,15 @@ public class Corrupted_Script : MonoBehaviour
         agent.isStopped = true;
         thinking = true;
     }
-    //-------------------------------------------------------------
+    #endregion
 
+    #region States
     private void TakePlayerToEgg()
     {
         //transform.LookAt(capturePoint.transform.position + transform.position);
         //transform.position = Vector3.MoveTowards(transform.position, capturePoint.transform.position - (playerSocket.transform.position - transform.position), speed * Time.deltaTime);
 
         agent.SetDestination(capturePoint.transform.position - (playerSocket.transform.position - transform.position));
-
         player.transform.position = Vector3.MoveTowards(player.transform.position, playerSocket.transform.position, playerspeed * Time.deltaTime);
     }
 
@@ -260,7 +267,6 @@ public class Corrupted_Script : MonoBehaviour
         chasing = true;
 
         agent.speed = 10;
-
         agent.SetDestination(player.position);
         //transform.LookAt(player.position + transform.position);
     }
@@ -279,36 +285,41 @@ public class Corrupted_Script : MonoBehaviour
     {
         stunTimer = grabBreakoutStun;
         isHoldingPlayer = false;
-
     }
+    #endregion
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "LyreTrigger")
         {
-            Debug.Log("Lyre Collider stunned corrupted"); //Being read but speed is not changing
-
+            Debug.Log("Lyre Collider stunned corrupted");
             StunThisEnemy();
         }
 
         if (other.gameObject.tag == "Player" && stunTimer <= 0)
         {
-            Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
-
-            struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
-
             isHoldingPlayer = true;
+
+            Struggle struggleScript = other.gameObject.GetComponent<Struggle>();
+            struggleScript.StartStruggling(this.gameObject.GetComponent<Corrupted_Script>());
 
             Debug.Log("Corrupted grabbed the player.");
         }
 
+        if(other.gameObject.tag == "Table")
+        {
+            //Destroy(other.gameObject);
+            //other.GetComponent<Rigidbody>().AddForce(0, 3, -3 * thrust, ForceMode.Impulse);
+            enemyRanIntoTable = true;
+        }
     }
 
+    #region Drawn Gizmos
     public void OnDrawGizmosSelected()
     {
         //detection fields for seing and attacking the player
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
 
@@ -326,4 +337,5 @@ public class Corrupted_Script : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(waypoint3.transform.position, waypoint1.transform.position);
     }
+    #endregion
 }
