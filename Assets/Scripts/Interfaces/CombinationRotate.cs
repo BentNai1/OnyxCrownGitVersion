@@ -9,6 +9,9 @@ public class CombinationRotate : MonoBehaviour
     private bool coroutineAllowed;
     private int numShown;
 
+    [HideInInspector]
+    public bool mouseOver = false;
+
     [Header("- Sound")]
     [SerializeField] private AudioSource lockSpeaker;
     [SerializeField] private AudioClip combinationSound;
@@ -18,10 +21,22 @@ public class CombinationRotate : MonoBehaviour
         coroutineAllowed = true;
         numShown = 9;
     }
+
+    private void OnMouseOver()
+    {
+        mouseOver = true;
+    }
+
     //Gets the input of the mouse for each wheel
     private void OnMouseDown()
     {
-        if(coroutineAllowed)
+        CallRotate();
+        mouseOver = true;
+    }
+
+    public void CallRotate()
+    {
+        if (coroutineAllowed)
         {
             StartCoroutine("RotateWheel");
         }

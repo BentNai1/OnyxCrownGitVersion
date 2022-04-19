@@ -6,7 +6,7 @@ public class CombinationLock : MonoBehaviour
 {
     [Header("- Lock Stuff")]
 
-    [SerializeField] public GameObject gate, lockCam, combLock;
+    [SerializeField] public GameObject gate, lockCam, combLock, AbilitySelector;
     [SerializeField] private int[] lockAnswer;
 
     private int[] result;
@@ -24,6 +24,8 @@ public class CombinationLock : MonoBehaviour
         result = new int[] { 9, 9, 9, 9};
         //lockAnswer = new int[] { 1, 1, 1, 1};
         CombinationRotate.Rotated += CheckResults;
+
+        AbilitySelector = GameObject.Find("AbilityWheel");
     }
 
     /**Check Results will check each wheel on a switch function based on the wheel name and put it in the place holder int array "result"
@@ -58,6 +60,20 @@ public class CombinationLock : MonoBehaviour
         }
     }
 
+    //This is for the player to exit the combination lock interface through button press
+    private void Update()
+    {
+        if (playerBusy)
+        {
+            if (Input.GetButtonDown("Cancel"))
+            {
+                lockCam.SetActive(false);
+                playerBusy = false;
+                AbilitySelector.SetActive(true);
+            }
+        }
+    }
+
     /**Detecting the collision of the player with the trigger that is around the lock, which will activate the viewport on the canvas of the lock
      * for the player to interact with**/
     void OnTriggerEnter(Collider other)
@@ -66,15 +82,7 @@ public class CombinationLock : MonoBehaviour
         {
             lockCam.SetActive(true);
             playerBusy = true;
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            lockCam.SetActive(false);
-            playerBusy = false;
+            AbilitySelector.SetActive(false);
         }
     }
 
