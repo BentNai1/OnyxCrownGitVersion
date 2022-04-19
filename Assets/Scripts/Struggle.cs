@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Struggle : MonoBehaviour
 {
     [Header("- Variables for Corrutped")]
-    public GameObject playerSocket;
     public bool isStruggling;
 
     [Header("- Button Mash")]
@@ -45,11 +44,6 @@ public class Struggle : MonoBehaviour
                 pressed = false;
             }
 
-            if(pressed)
-            {
-                buttonHoldTime -= Time.deltaTime;
-            }
-
             if (mash >= 7 || buttonHoldTime <= 0)
             {
                 isStruggling = false;
@@ -57,7 +51,6 @@ public class Struggle : MonoBehaviour
                 Debug.Log("Player finished struggling, can move again");
                 enemyHoldingPlayer.StunThisEnemy();
                 mash = 0;
-                buttonHoldTime = 4;
             }
         }
     }
