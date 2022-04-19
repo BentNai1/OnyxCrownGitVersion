@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 605983435038358424}
+  - component: {fileID: 6955532811263428895}
   m_Layer: 0
   m_Name: Debris
   m_TagString: Untagged
@@ -36,6 +37,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6955532811263428895
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226079474818162978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.026679687, y: 0.0091813635, z: 0.039454956}
+  m_Center: {x: 0.014224242, y: 0.0016163456, z: -0.018283997}
 --- !u!1 &3181011291624486244
 GameObject:
   m_ObjectHideFlags: 0
