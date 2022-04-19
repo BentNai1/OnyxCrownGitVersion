@@ -21,6 +21,8 @@ public class Of_The_Shadows : MonoBehaviour
 
     public float coolDownDuration = 5;
 
+    public AudioSource shadowSound;
+
 
 /*    void update()
     {
@@ -44,6 +46,7 @@ public class Of_The_Shadows : MonoBehaviour
             }
 
             shadowStep();
+            shadowSound.Play();
         }
     }
 
