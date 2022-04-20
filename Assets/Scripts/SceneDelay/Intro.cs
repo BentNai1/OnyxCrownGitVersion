@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Intro : MonoBehaviour
 
 {
 	bool loadingStarted = false;
 	float secondsLeft = 0;
+
 	void Start()
 	{
-		StartCoroutine(DelayLoadLevel(46));
+		StartCoroutine(DelayLoadLevel(107));
 	}
 	IEnumerator DelayLoadLevel(float seconds)
 	{
@@ -21,7 +23,7 @@ public class Intro : MonoBehaviour
 		} 
 
 		while (--secondsLeft > 0);
-			Application.LoadLevel("Level1");
+			Application.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 	void OnGUI()
 	{

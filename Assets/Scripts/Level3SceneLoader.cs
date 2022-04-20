@@ -10,7 +10,7 @@ public class Level3SceneLoader : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("Level3");
+        Application.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
     IEnumerator LoadLevel(int levelIndex)
     {
