@@ -20,6 +20,9 @@ public class AbilitySelector_Script : MonoBehaviour
     private float abilityDuration;
     private float cooldownDuration;
 
+    //Audio
+    public AudioSource switchSound;
+
     void Start()
     {
         Cloak = gameObject.GetComponent<Of_The_Shadows>();
@@ -74,6 +77,8 @@ public class AbilitySelector_Script : MonoBehaviour
 
         //Apply change to UI
         Wheel.GetComponent<AbilityWheel_Script>().UpdateUI(abilityNum);
+
+        switchSound.Play();
     }
 
     private void Activate()
