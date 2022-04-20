@@ -18,8 +18,6 @@ public class Corrupted_Script : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
-    [HideInInspector] public CombinationLock playerLock;
-    [HideInInspector] public NoteAppearance playerNote;
 
 
     [Header("- Pathing")]
@@ -87,8 +85,6 @@ public class Corrupted_Script : MonoBehaviour
         if(player == null) player = GameObject.Find("Player").transform;
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
-        if(playerLock == null) playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
-        if(playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
     }
 
     private void Update()
