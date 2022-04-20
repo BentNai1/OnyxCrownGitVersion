@@ -33,13 +33,13 @@ public class Struggle : MonoBehaviour
         {
 
 
-            if(Input.GetButtonDown("Jump") && !pressed)
+            if(Input.GetButtonDown("Fire3") && !pressed)
             {
                 pressed = true;
                 mash += .5f;
             }
 
-            else if(Input.GetButtonUp("Jump"))
+            else if(Input.GetButtonUp("Fire3"))
             {
                 pressed = false;
             }
