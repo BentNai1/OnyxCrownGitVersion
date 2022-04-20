@@ -12,10 +12,16 @@ public class CombinationLock : MonoBehaviour
     private int[] result;
 
     [HideInInspector] public bool playerBusy = false;
+    [HideInInspector] public PlayerMovement player;
 
     [Header("- Sound")]
     [SerializeField] private AudioSource lockSpeaker;
     [SerializeField] private AudioClip unlockSound;
+
+    void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+    }
 
     void Start()
     {
@@ -67,6 +73,7 @@ public class CombinationLock : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
+                player.isGrabbed = false;
                 lockCam.SetActive(false);
                 playerBusy = false;
                 AbilitySelector.SetActive(true);
@@ -81,6 +88,7 @@ public class CombinationLock : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            player.isGrabbed = true;
             lockCam.SetActive(true);
             playerBusy = true;
             AbilitySelector.SetActive(false);
