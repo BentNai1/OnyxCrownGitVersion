@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer upPrompt;
     public SpriteRenderer downPrompt;
     public P_Animation playerAnimationScript;
+    public static bool playerBusy = false;
 
     [Header("- Movement")]
     public float moveSpeed;

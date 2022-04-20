@@ -70,6 +70,7 @@ public class CombinationLock : MonoBehaviour
                 lockCam.SetActive(false);
                 playerBusy = false;
                 AbilitySelector.SetActive(true);
+                PlayerMovement.playerBusy = false;
             }
         }
     }
@@ -83,6 +84,7 @@ public class CombinationLock : MonoBehaviour
             lockCam.SetActive(true);
             playerBusy = true;
             AbilitySelector.SetActive(false);
+            PlayerMovement.playerBusy = true;
         }
     }
 
