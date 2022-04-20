@@ -62,6 +62,7 @@ public class CombinationLock : MonoBehaviour
             Debug.Log("Gate Opened!");
             lockSpeaker.PlayOneShot(unlockSound);
             gate.SetActive(false);
+            AbilitySelector.SetActive(true);
             Destroy(combLock);
         }
     }
