@@ -88,7 +88,7 @@ public class Corrupted_Script : MonoBehaviour
         playerHide = GameObject.Find("Player").GetComponent<CrouchToHide_Script>();
         agent = GetComponent<NavMeshAgent>();
         if(playerLock == null) playerLock = GameObject.Find("Lock").GetComponent<CombinationLock>();
-        if (playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
+        if(playerNote == null) playerNote = GameObject.Find("Notes").GetComponent<NoteAppearance>();
     }
 
     private void Update()
@@ -123,7 +123,7 @@ public class Corrupted_Script : MonoBehaviour
             if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0)
             {
                 //When player is busy in a lock, go back to patroling 
-                if(playerLock.playerBusy == true && playerNote.playerBusy == true)
+                if(PlayerMovement.playerBusy == true && !chasing)
                 {
                     Patroling();
                 }
