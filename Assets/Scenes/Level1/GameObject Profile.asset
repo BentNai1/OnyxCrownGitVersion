@@ -30,7 +30,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   _posterizeAmount:
     m_OverrideState: 1
-    m_Value: 325.3
+    m_Value: 38
   _isEnabled:
     m_OverrideState: 1
     m_Value: 1
