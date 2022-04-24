@@ -147,7 +147,7 @@ public class MotherBrain : MonoBehaviour
                         UpdateDebug("Down waypoint, " + nextWaypoint.name);
                     }
                 }
-                else if (activeWaypointScript.virtualAltUpTransform != null)
+                else if (activeWaypointScript.altWayPointUp != null)
                 {
                     SetNextPoint(activeWaypointScript.altWayPointUp);
                     UpdateDebug("Up waypoint, " + nextWaypoint.name);
