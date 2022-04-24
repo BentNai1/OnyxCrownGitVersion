@@ -52,8 +52,6 @@ public class MotherMover : MonoBehaviour
         animSoundScript = gameObject.GetComponent<MotherAnimSoundScript>();
 
         lastFramePosition = motherAIAndModel.position;
-
-        Application.targetFrameRate = 10;
     }
 
     //rotate/move towards target
