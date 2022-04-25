@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,12 +15,21 @@ public class PauseMenu : MonoBehaviour
     public GameObject ResumeButton;
     public GameObject SettingsButton;
     public GameObject ControlsButton;
+    [HideInInspector]
     public GameObject AbilityWheel;
     public GameObject MenuButton;
     public GameObject QuitButton;
+
+    public GameObject defaultButton;
+
+    private void Start()
+    {
+        AbilityWheel = GameObject.Find("AbilityWheel");
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Pause"))
         {
             if (GameIsPaused)
             {
@@ -56,6 +66,9 @@ public class PauseMenu : MonoBehaviour
         AbilityWheel.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(defaultButton);
     }
 
     public void LoadMenu()
