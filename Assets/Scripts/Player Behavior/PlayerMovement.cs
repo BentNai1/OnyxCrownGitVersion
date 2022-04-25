@@ -255,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
 
             //..............................................Rotate model
             //only rotate if movement happened
-            if ( xAxisInput  > .01 || mathY > .01 ||  xAxisInput  < -.01 || mathY < -.01)
+            if (xAxisInput > .01 || mathY > .01 || xAxisInput < -.01 || mathY < -.01)
             {
                 modelRotation.SetLookRotation(newLocation);
                 playerModel.rotation = modelRotation;
@@ -295,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
                 float result = Vector3.Dot(forward, toOther);
 
                 //Change player rotation if player backing up on waypoint without fully leaving
-                if (result >= 0.5 &&  xAxisInput  <= -0.1)
+                if (result >= 0.5 && xAxisInput <= -0.1)
                 {
                     WaypointPlayerMovement waypointScript = backwardWaypoint.GetComponent<WaypointPlayerMovement>();
                     waypointScript.GoToBackwardRotation();
@@ -311,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
                 float result = Vector3.Dot(forward, toOther);
 
                 //Change player rotation if player backing up on waypoint without fully leaving
-                if (result <= -0.5 &&  xAxisInput  >= 0.1)
+                if (result <= -0.5 && xAxisInput >= 0.1)
                 {
                     WaypointPlayerMovement waypointScript = forwardWaypoint.GetComponent<WaypointPlayerMovement>();
                     waypointScript.GoToForwardRotation();
@@ -322,7 +322,7 @@ public class PlayerMovement : MonoBehaviour
 
             //..............................................Alt Paths
             #region Alt Paths
-            if(showUpPromptUI && yAxisInput > 0.2)
+            if (showUpPromptUI && yAxisInput > 0.2)
             {
                 currentActiveWaypoint.GoToAltUpRotation();
                 upPrompt.enabled = false;
@@ -335,7 +335,7 @@ public class PlayerMovement : MonoBehaviour
                 lastUsedAngle = inputRotationAngle.RightCamera;
             }
 
-            if(showDownPromptUI && yAxisInput < -0.2)
+            if (showDownPromptUI && yAxisInput < -0.2)
             {
                 currentActiveWaypoint.GoToAltDownRotation();
                 upPrompt.enabled = false;
@@ -348,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
                 lastUsedAngle = inputRotationAngle.LeftCamera;
             }
             #endregion
-        
+
             //..............................................Dash (Depriciated)
             #region Dash (Depreciated)
             /**if (Input.GetButtonDown("Fire3"))
@@ -363,6 +363,7 @@ public class PlayerMovement : MonoBehaviour
             controller.Move(fallVelocity * Time.deltaTime); //frick this line of code in particular ~Nathan Moyer
             #endregion
         }
+        else if (isGrabbed == true) playerAnimationScript.PlayerAnimation(P_Animation.playerAnimationState.playerGrabbed);
     }
 
         /** Jump - Depreciated

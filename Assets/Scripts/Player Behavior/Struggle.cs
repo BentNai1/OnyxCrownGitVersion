@@ -12,7 +12,7 @@ public class Struggle : MonoBehaviour
     public float mashDelay = 1f;
     public float mash;
     public bool pressed;
-    public float buttonHoldTime = 4;
+    public int buttonHoldTime;
 
     [Header("- Scritps")]
     PlayerMovement playerScript2;
@@ -37,17 +37,25 @@ public class Struggle : MonoBehaviour
             {
                 pressed = true;
                 mash += .5f;
+                
             }
 
             else if(Input.GetButtonUp("Fire3"))
             {
+                buttonHoldTime = 0;
                 pressed = false;
             }
 
-            if (mash >= 7 || buttonHoldTime <= 0)
+            if (pressed == true)
+            {
+                buttonHoldTime += 1;
+            }
+
+            if (mash >= 7 || buttonHoldTime >= 125)
             {
                 isStruggling = false;
                 playerScript2.isGrabbed = false;
+                enemyHoldingPlayer.isHoldingPlayer = false;
                 Debug.Log("Player finished struggling, can move again");
                 enemyHoldingPlayer.StunThisEnemy();
                 mash = 0;
