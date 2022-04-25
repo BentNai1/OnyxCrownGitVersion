@@ -538,8 +538,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 526, y: -144}
-  m_SizeDelta: {x: 500, y: 404.2145}
+  m_AnchoredPosition: {x: 544, y: -144}
+  m_SizeDelta: {x: 567.6462, y: 404.2145}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &152287657
 MonoBehaviour:
@@ -588,7 +588,7 @@ MonoBehaviour:
 
 
     "A" (multi-press)
-    Struggle'
+    (or Long Press) to Struggle'
 --- !u!222 &152287658
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3110,7 +3110,9 @@ MonoBehaviour:
 
 
     "SpaceBar" (multi-press)
-    Struggle'
+    (or Long Press) to Struggle
+
+'
 --- !u!222 &613709186
 CanvasRenderer:
   m_ObjectHideFlags: 0
