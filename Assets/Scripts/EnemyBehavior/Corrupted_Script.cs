@@ -14,10 +14,11 @@ public class Corrupted_Script : MonoBehaviour
     private float thrust = 3f;
     public bool enemyRanIntoTable = false;
 
-    [Header("- Scripts")]
+    [Header("- Scripts / Components")]
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Transform player;
     [HideInInspector] public CrouchToHide_Script playerHide;
+    public C_Animation corrAnimationScript;
 
 
     [Header("- Pathing")]
@@ -109,11 +110,15 @@ public class Corrupted_Script : MonoBehaviour
 
         if (isHoldingPlayer == false)
         {
+            corrAnimationScript.CorruptedAnimation(C_Animation.corruptedAnimationState.ungrab);
             //Checking for sight range (and eventually atttack range)
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
             //playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-            if (!playerInSightRange) Patroling();
+            if (!playerInSightRange)
+            {
+                Patroling();
+            }
 
             //only chase player if in range, not hiding, not in lock, and enemy not stunned
             if (playerInSightRange && playerHide.hiding == false && stunTimer <= 0)
@@ -130,8 +135,9 @@ public class Corrupted_Script : MonoBehaviour
         }
 
         //Override movement for when player is grabbed, and enemy look at destination
-        if (isHoldingPlayer == true)
+        else if (isHoldingPlayer == true)
         {
+            corrAnimationScript.CorruptedAnimation(C_Animation.corruptedAnimationState.grab);
             TakePlayerToEgg();
         }
     }
@@ -142,6 +148,7 @@ public class Corrupted_Script : MonoBehaviour
         //setting speed at beggning for when the player is busy in the lock
         //and so the enemy won't be pathing super fast
         agent.speed = 3;
+        corrAnimationScript.CorruptedAnimation(C_Animation.corruptedAnimationState.walk);
 
         //Searches for a new main waypoint, once they reach their current waypoint
         if (!walkPointSet1)
@@ -260,6 +267,8 @@ public class Corrupted_Script : MonoBehaviour
 
     private void ChasePlayer()
     {
+        corrAnimationScript.CorruptedAnimation(C_Animation.corruptedAnimationState.walk);
+
         chasing = true;
 
         agent.speed = 10;

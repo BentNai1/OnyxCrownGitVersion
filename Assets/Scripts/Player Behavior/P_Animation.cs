@@ -7,12 +7,13 @@ public class P_Animation : MonoBehaviour
 {
     private Animator playerAnimator;
 
-    public enum playerAnimationState {idle, walk, crouch, uncrouch };
+    public enum playerAnimationState {idle, walk, crouch, uncrouch, playerGrabbed };
 
     public float uncrouchTimer = 0.1f;
 
     private bool crouchBool;
     private bool walkingBool;
+    private bool isGrabbed;
 
     [SerializeField] private float playerAnimationMultiplier = 1.0f;
 
@@ -37,6 +38,7 @@ public class P_Animation : MonoBehaviour
         {
             playerAnimator.SetBool("isWalking", false);
             walkingBool = false;
+            isGrabbed = false;
             playerAnimator.speed = 1f;
         }
         //walk
@@ -44,6 +46,7 @@ public class P_Animation : MonoBehaviour
         {
             playerAnimator.SetBool("isWalking", true);
             walkingBool = true;
+            isGrabbed = false;
             playerAnimator.speed = animationSpeedFromPlayerSpeed;
         }
 
@@ -59,6 +62,12 @@ public class P_Animation : MonoBehaviour
             playerAnimator.SetBool("isCrouching", false );
             crouchBool = false;
         }
+        //player grabbed
+        if (anim == playerAnimationState.playerGrabbed && !isGrabbed)
+        {
+            playerAnimator.SetBool("isBeingGrabbed", true);
+            isGrabbed = true;
+        }else playerAnimator.SetBool("isBeingGrabbed", false);
     }
 
 
